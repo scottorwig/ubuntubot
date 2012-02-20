@@ -1,3 +1,7 @@
+# this code requires at config file
+# specify the path here
+config_file_path = r'/home/orwig/Dropbox/lincoln_ubuntubot/ubuntubot.cfg'
+
 import ConfigParser
 import datetime
 import MySQLdb
@@ -6,7 +10,7 @@ import string
 import time
 
 config = ConfigParser.ConfigParser()
-config.read(['/home/orwig/Dropbox/lincoln_ubuntubot/ubuntubot.cfg'])
+config.read([config_file_path])
 
 destination_directory = config.get('follett', 'destination_directory')
 file_name_base = 'follett_'

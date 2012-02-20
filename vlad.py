@@ -58,7 +58,6 @@ def log_to_email(log_string, email_body):
 
 ## PROCEDURAL CODE STARTS HERE
 
-# check database connection
 db_host = 'localhost'
 db_user = config.get('powerschoolmirror', 'user')
 db_password = config.get('powerschoolmirror', 'password')
