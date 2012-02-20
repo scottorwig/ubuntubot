@@ -87,7 +87,7 @@ def write_files(MySQLdb, buildingCodes, Patron, datetime):
         # get teachers
         teacherSqlQuery = """SELECT CONCAT('P ',TeacherNumber) AS Barcode, TeacherNumber AS AlternateID, Last_Name, First_Name, Middle_Name, '' AS CardExpirationDate, '' AS GradYear, '' AS Birthdate, Gender, 'F' AS PatronType, "A" AS PatronStatus, '' AS Location1, '' AS Location2, '' AS UserField1, '' AS UserField2, Street AS Address1Line1, '' AS Address1Line2, City, State, Zip, Email_Addr AS Address1Email, School_Phone AS Address1Phone1, Home_Phone AS Address1Phone2 FROM teachers WHERE SchoolID = '""" + building[0] + """' ORDER BY SchoolID"""
         print teacherSqlQuery
-        cursor = db.cursor()
+        cursor = conn.cursor()
         cursor.execute(teacherSqlQuery)
         result = cursor.fetchall()
         
