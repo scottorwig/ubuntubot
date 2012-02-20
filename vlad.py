@@ -7,10 +7,15 @@
 #
 # scottdawson72
 
+# this code requires at config file
+# specify the path here
+config_file_path = r'/home/orwig/Dropbox/lincoln_ubuntubot/ubuntubot.cfg'
+
 import ConfigParser
 import datetime
 import follett
 import gmailer
+import MySQLdb
 import os
 import powerschool
 import re
@@ -20,7 +25,7 @@ import time
 import unittest
 
 config = ConfigParser.ConfigParser()
-config.read(['/home/orwig/Dropbox/lincoln_ubuntubot/ubuntubot.cfg'])
+config.read([config_file_path])
 
 gmail_user = config.get('gmail', 'user')
 gmail_pwd = config.get('gmail', 'password')
