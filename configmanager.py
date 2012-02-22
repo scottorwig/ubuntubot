@@ -17,6 +17,10 @@ def readconfig():
     powerschool_pw_page = config.get('powerschool', 'pw_page')
     powerschool_user_password = config.get('powerschool', 'username_password')
     path_to_host_file = config.get('ps1000', 'path_to_host_file')
+    db_db = config.get('powerschoolmirror','database')
+    db_user = config.get('powerschoolmirror','user')
+    db_passwd = config.get('powerschoolmirror','password')
+    
 
     config_values = {
         'gmail_user': gmail_user,
@@ -27,8 +31,9 @@ def readconfig():
         'powerschool_pw_page': powerschool_pw_page,
         'powerschool_user_password': powerschool_user_password,
         'path_to_host_file': path_to_host_file,
-
-
+        'db_db': db_db,
+        'db_user': db_user,
+        'db_passwd': db_passwd,
     }
 
     return config_values
