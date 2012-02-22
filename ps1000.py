@@ -5,9 +5,9 @@ import time
 import datetime
 
 settings = configmanager.readconfig()
-db_user = settings['user']
-db_passwd = settings['UsingData2Improve']
-db_db = settings ['powerschoolmirror']
+db_user = settings['db_user']
+db_passwd = settings['db_passwd']
+db_db = settings ['db_db']
 
 fullPathToHostFile = r'/home/orwig/etl/HOST.dat'
 
