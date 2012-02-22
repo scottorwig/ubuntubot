@@ -45,7 +45,7 @@ record_delimiter = '|'
 sql_statement_counter = 0
 
 
-full_path_to_host_file = config.get('ps1000', 'host_file_directory')
+full_path_to_host_file = config.get('ps1000', 'path_to_host_file')
 
 whitelist = string.letters + string.digits + ' ' + '/' + '?' + '\\' + '\t' + '.' + '!' + '@' + '#' + '$' + '%' + '&' + '*' + '(' + ')' + '_' + '-' + '=' + '+' + ':' + ';' + '|' + '[' + ']' + '{' + '}' + '<' + '>' + '~' + '^' + '`'
 date_finder = re.compile('([0-9]{1,2}/[0-9]{1,2}/[0-9]{2,4})')
