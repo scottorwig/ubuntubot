@@ -23,7 +23,7 @@ table_directory:
 download_directory: 
 
 [ps1000]
-host_file_directory: 
+path_to_host_file: 
 
 [follett]
 destination_directory: 

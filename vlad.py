@@ -18,6 +18,7 @@ import gmailer
 import MySQLdb
 import os
 import powerschool
+import ps1000
 import re
 import string
 import sys
