@@ -4,6 +4,7 @@ config_file_path = r'/home/orwig/Dropbox/lincoln_ubuntubot/ubuntubot.cfg'
 
 import ConfigParser
 import datetime
+import logging
 import MySQLdb
 import os
 import string

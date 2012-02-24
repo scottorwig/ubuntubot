@@ -1,8 +1,9 @@
 import configmanager
+import datetime
+import logging
 import MySQLdb
 import string
 import time
-import datetime
 
 settings = configmanager.readconfig()
 db_user = settings['db_user']

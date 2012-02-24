@@ -4,11 +4,12 @@ config_file_path = r'/home/orwig/Dropbox/lincoln_ubuntubot/ubuntubot.cfg'
 
 from selenium import selenium
 import ConfigParser
-import unittest
-import time
+import logging
 import os
 import re
 import string
+import time
+import unittest
 
 config = ConfigParser.ConfigParser()
 config.read([config_file_path])
@@ -20,10 +21,6 @@ config_user_password = config.get('powerschool', 'username_password')
 whitelist = string.letters + string.digits + ' ' + '/' + '?' + '\\' + '\t' + '.' + '!' + '@' + '#' + '$' + '%' + '&' + '*' + '(' + ')' + '_' + '-' + '=' + '+' + ':' + ';' + '|' + '[' + ']' + '{' + '}' + '<' + '>' + '~' + '^' + '`'
 date_finder = re.compile('([0-9]{1,2}/[0-9]{1,2}/[0-9]{2,4})')
 
-def log_to_email(log_string, email_body):  
-    print log_string
-    email_body = email_body + '\n' + log_string
-    return email_body
 
 def login(host='localhost', port=4444, browser='*firefox', server_root=config_server_root, pw_page=config_pw_page, username_password=config_user_password, wait=30000):
     # instantiate a browser and log into PowerSchool
@@ -44,7 +41,6 @@ def process_downloaded_table(downloaded_table_full_path, record_delimiter, email
 
     line_counter = 0
     log_string = 'The file {0} appears to have {1} lines.'.format(downloaded_table_full_path, len(raw_line_at_a_time))
-    email_body = log_to_email(log_string, email_body)
     for raw_line in raw_line_at_a_time:
         #print raw_line
         line_removed_line_breaks = raw_line.replace('\n', '')
@@ -62,7 +58,7 @@ def process_downloaded_table(downloaded_table_full_path, record_delimiter, email
 
     downloaded_file_reader.close()
     clean_file_writer.close()
-    return cleaned_file_path, line_counter, email_body
+    return cleaned_file_path, line_counter
 
 def characters_from_whitelist_only(dirty_string):
     clean_string = ''
@@ -93,12 +89,10 @@ def download_table(table_name, fieldDelimiter, recordDelimiter, email_body, ):
     chosenTableNumber = '1'
 
     #if fileNameSplit[1] == '.table':
-
-            #email_body = log_to_email('"{0}" appears to be a table.'.format(tableName))           
+        
 
 
             #buildingsList = []
-            #email_body = log_to_email('Reading the lines in {0}:'.format(tableFullPath))
             #for field in fieldAtATime:
 
             #fieldsReader.close()
@@ -186,4 +180,3 @@ def download_table(table_name, fieldDelimiter, recordDelimiter, email_body, ):
                     #os.renames(pathToRawDownload, pathToRenamedDownload)
                 #except:
                     #print 'Got the error {0}'.format(sys.exc_info()[0])
-    #return email_body

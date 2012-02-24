@@ -15,6 +15,7 @@ import ConfigParser
 import datetime
 import follett
 import gmailer
+import logging
 import MySQLdb
 import os
 import powerschool
@@ -33,6 +34,9 @@ gmail_pwd = config.get('gmail', 'password')
 email_body = ''
 email_attention_flag = ''
 prowl_address = config.get('prowl', 'email')
+log_file = config.get('logging','path')
+
+logging.basicConfig(filename=log_file)
 
 multiple_building = 0
 powerschool_table_directory = config.get('vlad', 'table_directory')
@@ -57,11 +61,6 @@ def characters_from_whitelist_only(dirty_string):
          clean_string += shady_character
    return clean_string
 
-def log_to_email(log_string, email_body):  
-   print log_string
-   email_body = email_body + '\n' + log_string
-   return email_body
-
 ## PROCEDURAL CODE STARTS HERE
 
 db_host = 'localhost'
@@ -76,7 +75,6 @@ cursor = conn.cursor ()
 cursor.execute ("SELECT VERSION()")
 row = cursor.fetchone ()
 log_string = 'Connected to mySQL - server version: {0}'.format(row[0])
-email_body = log_to_email(log_string, email_body)
 cursor.close ()
 conn.close ()
 
@@ -104,7 +102,6 @@ for file_name in os.listdir(powerschool_table_directory):
       filter_value = ''
       
       log_string = 'File {0} appears to be a table descriptor for {1}'.format(file_name,table_name)
-      email_body = log_to_email(log_string,email_body)
       
       for field in field_at_a_time:
          if field[0:14] == '#BUILDINGLIST:':
@@ -147,11 +144,8 @@ for file_name in os.listdir(powerschool_table_directory):
       
       
       log_string = 'Field list is {0}'.format(field_list)
-      email_body = log_to_email(log_string, email_body)
       log_string = 'fields_br_string is {0}'.format(fields_br_string)
-      email_body = log_to_email(log_string, email_body)
       log_string = 'fields_comma_string is {0}'.format(fields_comma_string)
-      email_body = log_to_email(log_string, email_body)
       
       download_file_name = table_name + '.download'
       downloaded_file_path = os.path.join(browser_download_directory, download_file_name)
@@ -160,23 +154,18 @@ for file_name in os.listdir(powerschool_table_directory):
       if not os.path.exists(downloaded_file_path):
          do_next = 'download that sucker'
          log_string = 'Manual download file does not exist at {0}'.format(downloaded_file_path)
-         email_body = log_to_email(log_string, email_body)
          cleaned_table_full_path, record_count = powerschool.download_table()
          email_body = email_body + '\n' + str(download_result)
       else:
          log_string = 'Manual download file exists at {0}'.format(downloaded_file_path)
-         email_body = log_to_email(log_string, email_body)
          log_string = 'Sending file to the module powerschool.py for processing'
-         email_body = log_to_email(log_string, email_body)
-         cleaned_table_full_path, record_count, email_body = powerschool.process_downloaded_table(downloaded_file_path,'|', email_body)
+         cleaned_table_full_path, record_count = powerschool.process_downloaded_table(downloaded_file_path,'|', email_body)
          log_string = 'Cleaned file with {0} records written to "{1}" - processing . . .'.format(record_count, cleaned_table_full_path)
-         email_body = log_to_email(log_string, email_body)
          print 'Waiting 10 seconds for things to settle down'
          time.sleep(10)
 
       log_string = 'About to re-open cleaned file at "{0}"'.format(cleaned_table_full_path)
       print log_string
-      email_body = email_body + '\n' + log_string
       # Re-open the cleaned, combined file that was just created
       # Read each line, splitting it into individual fields
       # and immediately writing this data to the database
@@ -226,13 +215,8 @@ for file_name in os.listdir(powerschool_table_directory):
          #email_body = email_body + '\n' + log_string
 
 
-#email_subject_base = 'vlad report from {0}'.format(date_stamp)
-#email_subject = email_attention_flag + ' ' + email_subject_base
-#gmailer.mail(email_recipients, email_subject, email_body, gmail_user, gmail_pwd)
+
 
 prowl_subject = 'vlad has run'
 prowl_body = 'vlad completed a run at {0}'.format(date_stamp)
 gmailer.mail(prowl_address, prowl_subject, prowl_body, gmail_user, gmail_pwd)
-
-time_stamp = time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.localtime())
-#module_write_ps1000_host_filewrite_host_file(fullPathToHostFile, time_stamp, date_stamp, email_recipients)
