@@ -18,12 +18,15 @@ username_password:
 [prowl]
 email:
 
+[logging]
+path:
+
 [vlad]
-table_directory: 
-download_directory: 
+table_directory:
+download_directory:
 
 [ps1000]
-path_to_host_file: 
+path_to_host_file:
 
 [follett]
-destination_directory: 
+destination_directory:
