@@ -43,7 +43,7 @@ powerschool_table_directory = config.get('vlad', 'table_directory')
 browser_download_directory = config.get('vlad', 'download_directory')
 today = datetime.date.today()
 date_stamp = today.strftime("%A, %B %d %Y")
-powerschool_term_id = 'label=10-11 2010-2011'
+powerschool_term_id = 'label=11-12 2011-2012'
 field_delimeter = '^'
 record_delimiter = '|'
 sql_statement_counter = 0
@@ -74,7 +74,7 @@ conn = MySQLdb.connect (host = db_host,
 cursor = conn.cursor ()
 cursor.execute ("SELECT VERSION()")
 row = cursor.fetchone ()
-log_string = 'Connected to mySQL - server version: {0}'.format(row[0])
+logging.info('Connected to mySQL - server version: {0}'.format(row[0]))
 cursor.close ()
 conn.close ()
 
