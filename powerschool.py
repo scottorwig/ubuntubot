@@ -191,3 +191,5 @@ def download_students():
 
 if __name__ == "__main__":
     dde()
+    print 'About to shut down Selenium server'
+    sel.stop()
