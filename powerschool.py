@@ -17,6 +17,8 @@ config.read([config_file_path])
 config_server_root = config.get('powerschool', 'server_root')
 config_pw_page = config.get('powerschool', 'pw_page')
 config_user_password = config.get('powerschool', 'username_password')
+browser_download_directory = config.get('vlad', 'download_directory')
+browser_partial_download = os.path.join(browser_download_directory,'student.export.text.part')
 
 whitelist = string.letters + string.digits + ' ' + '/' + '?' + '\\' + '\t' + '.' + '!' + '@' + '#' + '$' + '%' + '&' + '*' + '(' + ')' + '_' + '-' + '=' + '+' + ':' + ';' + '|' + '[' + ']' + '{' + '}' + '<' + '>' + '~' + '^' + '`'
 date_finder = re.compile('([0-9]{1,2}/[0-9]{1,2}/[0-9]{2,4})')
@@ -69,7 +71,11 @@ def download_table(table_number, all_records=True, filter_field_name='', filter_
     sel.type("name=custrecdelim", "|")
     sel.click("name=columntitles")
     sel.click("id=btnSubmit")
-    sel.wait_for_page_to_load("30000")
+    
+    
+    while os.path.exists(browser_partial_download):
+        time.sleep(30)
+
 
 def logout_and_close():
     sel.click("id=btnLogout")
