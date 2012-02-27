@@ -21,6 +21,24 @@ config_user_password = config.get('powerschool', 'username_password')
 whitelist = string.letters + string.digits + ' ' + '/' + '?' + '\\' + '\t' + '.' + '!' + '@' + '#' + '$' + '%' + '&' + '*' + '(' + ')' + '_' + '-' + '=' + '+' + ':' + ';' + '|' + '[' + ']' + '{' + '}' + '<' + '>' + '~' + '^' + '`'
 date_finder = re.compile('([0-9]{1,2}/[0-9]{1,2}/[0-9]{2,4})')
 
+def characters_from_whitelist_only(dirty_string):
+    clean_string = ''
+    for character in dirty_string:
+        if character in whitelist:
+            clean_string += character
+    return clean_string
+
+def convert_english_date_to_iso_date(englishDate):
+    year = ''
+    yearFinder = re.compile('[0-9]{1,2}/[0-9]{1,2}/([0-9]{2,4})')
+    monthFinder = re.compile('([0-9]{1,2})/[0-9]{1,2}/[0-9]{2,4}')
+    dayFinder = re.compile('[0-9]{1,2}/([0-9]{1,2})/([0-9]{2,4})')
+    yearMatch = yearFinder.search(englishDate.group())
+    monthMatch = monthFinder.search(englishDate.group())
+    dayMatch = dayFinder.search(englishDate.group())
+    isoString = yearMatch.group(1) + '-' + monthMatch.group(1).zfill(2) + '-' + dayMatch.group(1).zfill(2)
+    return isoString
+
 # instantiate a browser and log into PowerSchool
 sel = selenium('localhost', '4444', '*firefox', config_server_root)
 sel.start()
@@ -31,6 +49,8 @@ sel.wait_for_page_to_load("30000")
 
 def download_table(table_number, all_records=True, filter_field_name='', filter_operator='', filter_value=''):
     sel.click("id=navSetupSystem")
+    sel.wait_for_page_to_load("30000")
+    sel.click("link=Direct Database Export (DDE)")
     sel.wait_for_page_to_load("30000")
 
     if all_records:
@@ -72,23 +92,7 @@ def download_table(table_number, all_records=True, filter_field_name='', filter_
 #     clean_file_writer.close()
 #     return cleaned_file_path, line_counter
 
-def characters_from_whitelist_only(dirty_string):
-    clean_string = ''
-    for character in dirty_string:
-        if character in whitelist:
-            clean_string += character
-    return clean_string
 
-def convert_english_date_to_iso_date(englishDate):
-    year = ''
-    yearFinder = re.compile('[0-9]{1,2}/[0-9]{1,2}/([0-9]{2,4})')
-    monthFinder = re.compile('([0-9]{1,2})/[0-9]{1,2}/[0-9]{2,4}')
-    dayFinder = re.compile('[0-9]{1,2}/([0-9]{1,2})/([0-9]{2,4})')
-    yearMatch = yearFinder.search(englishDate.group())
-    monthMatch = monthFinder.search(englishDate.group())
-    dayMatch = dayFinder.search(englishDate.group())
-    isoString = yearMatch.group(1) + '-' + monthMatch.group(1).zfill(2) + '-' + dayMatch.group(1).zfill(2)
-    return isoString
 
 #def download_table(table_name, fieldDelimiter, recordDelimiter):
     # clear the download directory
