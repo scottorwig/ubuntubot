@@ -60,6 +60,17 @@ def download_table(table_number, all_records=True, filter_field_name='', filter_
         #select according to values
         add_to_this_later = True
 
+    # navigate to download page and initiate the download
+    sel.click("link=Export Records")
+    sel.wait_for_page_to_load("30000")
+    sel.select("name=fielddelim", "label=Other:")
+    sel.type("name=custfielddelim", "^")
+    sel.select("name=recdelim", "label=Other:")
+    sel.type("name=custrecdelim", "|")
+    sel.click("name=columntitles")
+    sel.click("id=btnSubmit")
+    sel.wait_for_page_to_load("30000")
+
 #def select_building(building_number):
 
 
