@@ -71,6 +71,11 @@ def download_table(table_number, all_records=True, filter_field_name='', filter_
     sel.click("id=btnSubmit")
     sel.wait_for_page_to_load("30000")
 
+def logout_and_close():
+    sel.click("id=btnLogout")
+    sel.wait_for_page_to_load("30000")
+    sel.stop()
+
 #def select_building(building_number):
 
 
@@ -214,4 +219,4 @@ def download_students():
 if __name__ == "__main__":
     download_table(1,True)
     print 'About to shut down Selenium server'
-    sel.stop()
+    logout_and_close()
