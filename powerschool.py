@@ -197,6 +197,6 @@ def download_students():
     table_number = 1
 
 if __name__ == "__main__":
-    dde()
+    download_table(1,True)
     print 'About to shut down Selenium server'
     sel.stop()
