@@ -38,6 +38,7 @@ def download_table(table_number, all_records=True, filter_field_name='', filter_
         sel.wait_for_page_to_load("30000")
     else:
         #select according to values
+        add_to_this_later = True
 
 #def select_building(building_number):
 
