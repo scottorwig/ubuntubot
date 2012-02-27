@@ -29,9 +29,15 @@ sel.type("password", config_user_password)
 sel.click("id=btnEnter")
 sel.wait_for_page_to_load("30000")
 
-def dde():
+def download_table(table_number, all_records=True, filter_field_name='', filter_operator='', filter_value=''):
     sel.click("id=navSetupSystem")
     sel.wait_for_page_to_load("30000")
+
+    if all_records:
+        sel.click("name=searchselectall")
+        sel.wait_for_page_to_load("30000")
+    else:
+        #select according to values
 
 #def select_building(building_number):
 
