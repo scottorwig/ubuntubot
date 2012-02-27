@@ -24,8 +24,8 @@ date_finder = re.compile('([0-9]{1,2}/[0-9]{1,2}/[0-9]{2,4})')
 # instantiate a browser and log into PowerSchool
 sel = selenium('localhost', '4444', '*firefox', config_server_root)
 sel.start()
-sel.open(pw_page)
-sel.type("password", username_password)
+sel.open(config_pw_page)
+sel.type("password", config_user_password)
 sel.click("//img[@alt='Enter']")
 sel.wait_for_page_to_load("30000")
 
