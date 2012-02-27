@@ -33,37 +33,37 @@ def dde():
     sel.click("id=navSetupSystem")
     sel.wait_for_page_to_load("30000")
 
-def select_building(building_number):
+#def select_building(building_number):
 
 
-def process_downloaded_table(downloaded_table_full_path, record_delimiter, email_body):
-    downloaded_file_reader = open(downloaded_table_full_path,'r')
-    raw_line_at_a_time = downloaded_file_reader.readlines()
-    directory_name = os.path.dirname(downloaded_table_full_path)
-    cleaned_file_name = 'cleaned_' + os.path.basename(downloaded_table_full_path)
-    cleaned_file_path = os.path.join(directory_name, cleaned_file_name)
-    clean_file_writer = open(cleaned_file_path,'w')
+# def process_downloaded_table(downloaded_table_full_path, record_delimiter, email_body):
+#     downloaded_file_reader = open(downloaded_table_full_path,'r')
+#     raw_line_at_a_time = downloaded_file_reader.readlines()
+#     directory_name = os.path.dirname(downloaded_table_full_path)
+#     cleaned_file_name = 'cleaned_' + os.path.basename(downloaded_table_full_path)
+#     cleaned_file_path = os.path.join(directory_name, cleaned_file_name)
+#     clean_file_writer = open(cleaned_file_path,'w')
 
-    line_counter = 0
-    log_string = 'The file {0} appears to have {1} lines.'.format(downloaded_table_full_path, len(raw_line_at_a_time))
-    for raw_line in raw_line_at_a_time:
-        #print raw_line
-        line_removed_line_breaks = raw_line.replace('\n', '')
-        line_removed_carriage_returns = line_removed_line_breaks.replace('\r', '')
-        line_removed_line_feeds = line_removed_carriage_returns.replace('\n','')
-        line_removed_form_feeds = line_removed_line_feeds.replace('\f', '')
-        line_characters_from_whitelist = characters_from_whitelist_only(line_removed_form_feeds)
-        line_iso_date = date_finder.sub(convert_english_date_to_iso_date,line_characters_from_whitelist)
-        line_blank_dates_converted = line_iso_date.replace('0/0/0','0000-00-00')
-        # replacing |s with \n will put individual records on lines by themselves
-        split_records = line_blank_dates_converted.replace(record_delimiter, '\n')
-        #print split_records
-        clean_file_writer.writelines(split_records)
-        line_counter = line_counter + 1
+#     line_counter = 0
+#     log_string = 'The file {0} appears to have {1} lines.'.format(downloaded_table_full_path, len(raw_line_at_a_time))
+#     for raw_line in raw_line_at_a_time:
+#         #print raw_line
+#         line_removed_line_breaks = raw_line.replace('\n', '')
+#         line_removed_carriage_returns = line_removed_line_breaks.replace('\r', '')
+#         line_removed_line_feeds = line_removed_carriage_returns.replace('\n','')
+#         line_removed_form_feeds = line_removed_line_feeds.replace('\f', '')
+#         line_characters_from_whitelist = characters_from_whitelist_only(line_removed_form_feeds)
+#         line_iso_date = date_finder.sub(convert_english_date_to_iso_date,line_characters_from_whitelist)
+#         line_blank_dates_converted = line_iso_date.replace('0/0/0','0000-00-00')
+#         # replacing |s with \n will put individual records on lines by themselves
+#         split_records = line_blank_dates_converted.replace(record_delimiter, '\n')
+#         #print split_records
+#         clean_file_writer.writelines(split_records)
+#         line_counter = line_counter + 1
 
-    downloaded_file_reader.close()
-    clean_file_writer.close()
-    return cleaned_file_path, line_counter
+#     downloaded_file_reader.close()
+#     clean_file_writer.close()
+#     return cleaned_file_path, line_counter
 
 def characters_from_whitelist_only(dirty_string):
     clean_string = ''
@@ -83,7 +83,7 @@ def convert_english_date_to_iso_date(englishDate):
     isoString = yearMatch.group(1) + '-' + monthMatch.group(1).zfill(2) + '-' + dayMatch.group(1).zfill(2)
     return isoString
 
-def download_table(table_name, fieldDelimiter, recordDelimiter):
+#def download_table(table_name, fieldDelimiter, recordDelimiter):
     # clear the download directory
     # We need to keep track of which table is already selected each time
     # we return to the DDE selection page.
@@ -91,7 +91,7 @@ def download_table(table_name, fieldDelimiter, recordDelimiter):
     # there is no page reload and Selenium will time out waiting for one
     # We'll use this variable to track table state ourselves. PowerSchool defaults to 1 (students)
 
-    chosenTableNumber = '1'
+    #chosenTableNumber = '1'
 
     #if fileNameSplit[1] == '.table':
         
