@@ -56,4 +56,3 @@ def write_host_file():
    print 'Sleeping for 5 seconds after closing file'
    time.sleep(5)
 
-write_host_file()

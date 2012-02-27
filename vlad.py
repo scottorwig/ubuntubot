@@ -215,6 +215,7 @@ for file_name in os.listdir(powerschool_table_directory):
          #email_body = email_body + '\n' + log_string
 
 
+ps1000.write_host_file()
 
 
 prowl_subject = 'vlad has run'
