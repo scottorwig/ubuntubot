@@ -169,7 +169,7 @@ for file_name in os.listdir(powerschool_table_directory):
       # Re-open the cleaned, combined file that was just created
       # Read each line, splitting it into individual fields
       # and immediately writing this data to the database
-      db_connection = MySQLdb.connect (host = "localhost", user = "root", passwd = "UsingData2Improve", db = "powerschoolmirror")
+      db_connection = MySQLdb.connect (host = db_host, user = db_user, passwd = db_password, db = db_name)
       cursor = db_connection.cursor ()
       if delete_and_replace_records:
          delete_statement = 'DELETE FROM ' + table_name

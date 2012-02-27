@@ -21,15 +21,20 @@ config_user_password = config.get('powerschool', 'username_password')
 whitelist = string.letters + string.digits + ' ' + '/' + '?' + '\\' + '\t' + '.' + '!' + '@' + '#' + '$' + '%' + '&' + '*' + '(' + ')' + '_' + '-' + '=' + '+' + ':' + ';' + '|' + '[' + ']' + '{' + '}' + '<' + '>' + '~' + '^' + '`'
 date_finder = re.compile('([0-9]{1,2}/[0-9]{1,2}/[0-9]{2,4})')
 
+# instantiate a browser and log into PowerSchool
+sel = selenium('localhost', '4444', '*firefox', config_server_root)
+sel.start()
+sel.open(pw_page)
+sel.type("password", username_password)
+sel.click("//img[@alt='Enter']")
+sel.wait_for_page_to_load("30000")
 
-def login(host='localhost', port=4444, browser='*firefox', server_root=config_server_root, pw_page=config_pw_page, username_password=config_user_password, wait=30000):
-    # instantiate a browser and log into PowerSchool
-    sel = selenium(host, port, browser, server_root)
-    sel.start()
-    sel.open(pw_page)
-    sel.type("password", username_password)
-    sel.click("//img[@alt='Enter']")
-    sel.wait_for_page_to_load(wait)
+def dde():
+    sel.click("id=navSetupSystem")
+    sel.wait_for_page_to_load("30000")
+
+def select_building(building_number):
+
 
 def process_downloaded_table(downloaded_table_full_path, record_delimiter, email_body):
     downloaded_file_reader = open(downloaded_table_full_path,'r')
@@ -78,7 +83,7 @@ def convert_english_date_to_iso_date(englishDate):
     isoString = yearMatch.group(1) + '-' + monthMatch.group(1).zfill(2) + '-' + dayMatch.group(1).zfill(2)
     return isoString
 
-def download_table(table_name, fieldDelimiter, recordDelimiter, email_body, ):
+def download_table(table_name, fieldDelimiter, recordDelimiter):
     # clear the download directory
     # We need to keep track of which table is already selected each time
     # we return to the DDE selection page.
@@ -180,3 +185,9 @@ def download_table(table_name, fieldDelimiter, recordDelimiter, email_body, ):
                     #os.renames(pathToRawDownload, pathToRenamedDownload)
                 #except:
                     #print 'Got the error {0}'.format(sys.exc_info()[0])
+
+def download_students():
+    table_number = 1
+
+if __name__ == "__main__":
+    dde()
