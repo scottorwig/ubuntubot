@@ -56,4 +56,4 @@ def write_host_file():
    print 'Sleeping for 5 seconds after closing file'
    time.sleep(5)
 
-write_host_file(db_passwd, db_user, MySQLdb, db_db, fullPathToHostFile, time)
+write_host_file()
