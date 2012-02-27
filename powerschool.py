@@ -26,7 +26,7 @@ sel = selenium('localhost', '4444', '*firefox', config_server_root)
 sel.start()
 sel.open(config_pw_page)
 sel.type("password", config_user_password)
-sel.click("//img[@alt='Enter']")
+sel.click("id=btnEnter")
 sel.wait_for_page_to_load("30000")
 
 def dde():
