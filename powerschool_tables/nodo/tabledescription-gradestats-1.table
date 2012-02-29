@@ -1,0 +1,6 @@
+#BUILDINGLIST:Lincoln High School
+student_number
+~(*gpa method="LHS_Cumulative_GPA")
+~(*credit_hours)
+~(*gpa method="LHS_Cumulative S1" term="S1")
+~(*gpa method="LHS_Cumulative S2" term="S2")

@@ -1,0 +1,8 @@
+#FILTER:Att_Date:>:03/15/2010
+#NODELETE
+Att_Date
+Att_Interval
+Att_Taken_Dt
+ID
+PeriodID
+SectionID
