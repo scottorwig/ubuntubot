@@ -34,61 +34,60 @@ marking_periods = [
    ['kmp3','2012-04-01','2012-06-06'],
 ]
 
-# open file with fileWriter object to be used throughout this script
-file_writer = open(path_to_update_file, 'w')
+def write_erc_update_file():
+   file_writer = open(path_to_update_file, 'w')
 
-sql_select_students = """SELECT Student_Number, First_Name, Last_Name, Grade_Level, SchoolID, Home_Room FROM students WHERE SchoolID<>'400' AND SchoolID<>'500' AND SchoolID<>'800' AND SchoolID<>'900' AND Enroll_Status = '0' ORDER BY SchoolID, Home_Room, Last_Name"""
-sql_select_clause = 'SELECT students.Student_Number, COUNT(*) AS Count FROM attendance,attendance_code,students'
-sql_where_clause_generic = """WHERE attendance.StudentID=students.ID AND attendance.Attendance_CodeID=attendance_code.ID AND attendance.SchoolID<>'400' AND attendance.SchoolID<>'500'"""
-sql_where_clause_kindergarten = """AND students.Grade_Level='0'"""
-sql_where_clause_grade = """AND (students.Grade_Level='1' OR students.Grade_Level='2' OR students.Grade_Level='3' OR students.Grade_Level='4' OR students.Grade_Level='5')"""
-sql_attendance_code_clause_absences = """AND (attendance_code.Att_Code='A' OR attendance_code.Att_Code='U' OR attendance_code.Att_Code='I' OR attendance_code.Att_Code='X' OR attendance_code.Att_Code='S')"""
-sql_attendance_code_clause_tardies = """AND attendance_code.Att_Code='T'"""
-sql_group_by_clause = 'GROUP BY attendance.StudentID ORDER BY students.Student_Number'
+   sql_select_students = """SELECT Student_Number, First_Name, Last_Name, Grade_Level, SchoolID, Home_Room FROM students WHERE SchoolID<>'400' AND SchoolID<>'500' AND SchoolID<>'800' AND SchoolID<>'900' AND Enroll_Status = '0' ORDER BY SchoolID, Home_Room, Last_Name"""
+   sql_select_clause = 'SELECT students.Student_Number, COUNT(*) AS Count FROM attendance,attendance_code,students'
+   sql_where_clause_generic = """WHERE attendance.StudentID=students.ID AND attendance.Attendance_CodeID=attendance_code.ID AND attendance.SchoolID<>'400' AND attendance.SchoolID<>'500'"""
+   sql_where_clause_kindergarten = """AND students.Grade_Level='0'"""
+   sql_where_clause_grade = """AND (students.Grade_Level='1' OR students.Grade_Level='2' OR students.Grade_Level='3' OR students.Grade_Level='4' OR students.Grade_Level='5')"""
+   sql_attendance_code_clause_absences = """AND (attendance_code.Att_Code='A' OR attendance_code.Att_Code='U' OR attendance_code.Att_Code='I' OR attendance_code.Att_Code='X' OR attendance_code.Att_Code='S')"""
+   sql_attendance_code_clause_tardies = """AND attendance_code.Att_Code='T'"""
+   sql_group_by_clause = 'GROUP BY attendance.StudentID ORDER BY students.Student_Number'
 
-def query_database(sql_query):
-   log_string = 'Ready to run query: {0}'.format(sql_query)
-   print log_string
-   #email_body = email_body + '\n' + log_string
-   print 'About to create cursor'
-   cursor = db.cursor()
-   print 'About to do execute cursor'
-   cursor.execute(sql_query)
-   print 'About to fetchall() for absences'
-   sql_result = cursor.fetchall()
-   log_string = 'sql_result contains {0} records'.format(len(sql_result))
-   print log_string
-   return sql_result
+   def query_database(sql_query):
+      log_string = 'Ready to run query: {0}'.format(sql_query)
+      print log_string
+      #email_body = email_body + '\n' + log_string
+      print 'About to create cursor'
+      cursor = db.cursor()
+      print 'About to do execute cursor'
+      cursor.execute(sql_query)
+      print 'About to fetchall() for absences'
+      sql_result = cursor.fetchall()
+      log_string = 'sql_result contains {0} records'.format(len(sql_result))
+      print log_string
+      return sql_result
 
-def write_sql_lines(field_to_update, result_set):
-   for record in result_set:
-      lineToWrite  = 'UPDATE reportcards_student SET '
-      lineToWrite  += field_to_update + '="' + str(record[1]) + '"'
-      lineToWrite  += ' WHERE student_number="' + record[0] + '";'
-      file_writer.write(lineToWrite + '\n')
-      print lineToWrite
+   def write_sql_lines(field_to_update, result_set):
+      for record in result_set:
+         lineToWrite  = 'UPDATE reportcards_student SET '
+         lineToWrite  += field_to_update + '="' + str(record[1]) + '"'
+         lineToWrite  += ' WHERE student_number="' + record[0] + '";'
+         file_writer.write(lineToWrite + '\n')
+         print lineToWrite
 
-print 'Update file open for writing at {0}'.format(path_to_update_file)
-file_writer.write('USE reportcards;\n')
+   print 'Update file open for writing at {0}'.format(path_to_update_file)
+   file_writer.write('USE reportcards;\n')
 
-# start section to update actual students in the system
-updated_students = query_database(sql_select_students)
+   # start section to update actual students in the system
+   updated_students = query_database(sql_select_students)
 
-try:
-   count = len(updated_students)
-   log_string = 'Found {0} students to update or insert'.format(count)
-   print log_string
-   file_writer.write('-- ' + log_string + '\n')
-except:
-   log_string = 'Could not calculate the number of students for some reason'
-   print log_string
-   file_writer.write('-- ' + log_string + '\n')   
-for record in updated_students:
-   sqlLine = """INSERT INTO reportcards_student (student_number, name_first, name_last, grade, building, home_room) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}')  ON DUPLICATE KEY UPDATE grade='{6}', building='{7}', home_room='{8}';""".format(record[0], record[1], record[2], record[3], record[4], record[5], record[3], record[4], record[5])
-   file_writer.write(sqlLine + '\n')
+   try:
+      count = len(updated_students)
+      log_string = 'Found {0} students to update or insert'.format(count)
+      print log_string
+      file_writer.write('-- ' + log_string + '\n')
+   except:
+      log_string = 'Could not calculate the number of students for some reason'
+      print log_string
+      file_writer.write('-- ' + log_string + '\n')   
+   for record in updated_students:
+      sqlLine = """INSERT INTO reportcards_student (student_number, name_first, name_last, grade, building, home_room) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}')  ON DUPLICATE KEY UPDATE grade='{6}', building='{7}', home_room='{8}';""".format(record[0], record[1], record[2], record[3], record[4], record[5], record[3], record[4], record[5])
+      file_writer.write(sqlLine + '\n')
 
-null_fixer_code = """
-
+   null_fixer_code = """
 -- NULL values cause errors when creating the RTF report cards
 -- This part of the script will change any NULLs to simple empty strings
 UPDATE reportcards_student SET idint='' WHERE idint IS NULL;
@@ -395,51 +394,54 @@ UPDATE reportcards_student SET comment_marking2='' WHERE comment_marking2 IS NUL
 UPDATE reportcards_student SET comment_marking3='' WHERE comment_marking3 IS NULL;
 UPDATE reportcards_student SET comment_marking4='' WHERE comment_marking4 IS NULL;
 """
-file_writer.write(null_fixer_code)
+   file_writer.write(null_fixer_code)
 
 
-file_writer.write('\n\n-- eliminate existing attendance data in case some have been filled in error\n')
-file_writer.write("""UPDATE reportcards_student SET attendance_mp1_tardies='0';\n""")
-file_writer.write("""UPDATE reportcards_student SET attendance_mp1_absences='0';\n""")
-file_writer.write("""UPDATE reportcards_student SET attendance_mp2_tardies='0';\n""")
-file_writer.write("""UPDATE reportcards_student SET attendance_mp2_absences='0';\n""")
-file_writer.write("""UPDATE reportcards_student SET attendance_mp3_tardies='0';\n""")
-file_writer.write("""UPDATE reportcards_student SET attendance_mp3_absences='0';\n""")
-file_writer.write("""UPDATE reportcards_student SET attendance_mp4_tardies='0';\n""")
-file_writer.write("""UPDATE reportcards_student SET attendance_mp4_absences='0';\n\n""")
+   file_writer.write('\n\n-- eliminate existing attendance data in case some have been filled in error\n')
+   file_writer.write("""UPDATE reportcards_student SET attendance_mp1_tardies='0';\n""")
+   file_writer.write("""UPDATE reportcards_student SET attendance_mp1_absences='0';\n""")
+   file_writer.write("""UPDATE reportcards_student SET attendance_mp2_tardies='0';\n""")
+   file_writer.write("""UPDATE reportcards_student SET attendance_mp2_absences='0';\n""")
+   file_writer.write("""UPDATE reportcards_student SET attendance_mp3_tardies='0';\n""")
+   file_writer.write("""UPDATE reportcards_student SET attendance_mp3_absences='0';\n""")
+   file_writer.write("""UPDATE reportcards_student SET attendance_mp4_tardies='0';\n""")
+   file_writer.write("""UPDATE reportcards_student SET attendance_mp4_absences='0';\n\n""")
 
-for period in marking_periods:
-   absence_field = 'attendance_' + period[0] + '_absences'
-   tardy_field = 'attendance_' + period[0] + '_tardies'
-   log_string = '----- STARTING QUERY PROCES FOR {0} ----- '.format(period[0])
-   print log_string
-   file_writer.write(log_string + '\n')
-   where_clause_date = """AND attendance.Att_Date>'{0}' AND attendance.Att_Date<'{1}'""".format(period[1],period[2])
-   print 'where_clause_date is {0}'.format(where_clause_date)
-   if period[0][0] == 'k':
-      sql_where_clause_grade = sql_where_clause_kindergarten
-      absence_field = 'attendance_' + period[0][1:] + '_absences'
-      tardy_field = 'attendance_' + period[0][1:] + '_tardies'
-   print 'sql_where_clause_grade is {0}'.format(sql_where_clause_grade)
-   absence_query = '{0} {1} {2} {3} {4} {5}'.format(sql_select_clause,sql_where_clause_generic,sql_where_clause_grade,sql_attendance_code_clause_absences,where_clause_date,sql_group_by_clause)
-   tardy_query = '{0} {1} {2} {3} {4} {5}'.format(sql_select_clause,sql_where_clause_generic,sql_where_clause_grade,sql_attendance_code_clause_tardies,where_clause_date,sql_group_by_clause)
-   file_writer.write('-- absence_query=' + absence_query + '\n')
-   file_writer.write('-- tardy_query=' + tardy_query + '\n')
-   # absences    
-   absence_result = query_database(absence_query)
-   log_string = '{0} records in absence_result'.format(len(absence_result))
-   print log_string
-   file_writer.write('-- ' + log_string + '\n')
-   file_writer.write('----- {0} QUERY: {1}/n'.format(absence_field, absence_query))
-   file_writer.write('UPDATING field {0} of {1} records\n'.format(absence_field, len(absence_result)))
-   write_sql_lines(absence_field, absence_result)
-   # tardies
-   tardy_result = query_database(tardy_query)
-   log_string = '{0} records in tardy_result'.format(len(tardy_result))
-   print log_string
-   file_writer.write('-- ' + log_string + '\n')
-   file_writer.write('----- {0} QUERY: {1}/n'.format(tardy_field, absence_query))
-   file_writer.write('UPDATING field {0} of {1} records\n'.format(tardy_field, len(absence_result)))
-   write_sql_lines(tardy_field, tardy_result)
+   for period in marking_periods:
+      absence_field = 'attendance_' + period[0] + '_absences'
+      tardy_field = 'attendance_' + period[0] + '_tardies'
+      log_string = '----- STARTING QUERY PROCES FOR {0} ----- '.format(period[0])
+      print log_string
+      file_writer.write(log_string + '\n')
+      where_clause_date = """AND attendance.Att_Date>'{0}' AND attendance.Att_Date<'{1}'""".format(period[1],period[2])
+      print 'where_clause_date is {0}'.format(where_clause_date)
+      if period[0][0] == 'k':
+         sql_where_clause_grade = sql_where_clause_kindergarten
+         absence_field = 'attendance_' + period[0][1:] + '_absences'
+         tardy_field = 'attendance_' + period[0][1:] + '_tardies'
+      print 'sql_where_clause_grade is {0}'.format(sql_where_clause_grade)
+      absence_query = '{0} {1} {2} {3} {4} {5}'.format(sql_select_clause,sql_where_clause_generic,sql_where_clause_grade,sql_attendance_code_clause_absences,where_clause_date,sql_group_by_clause)
+      tardy_query = '{0} {1} {2} {3} {4} {5}'.format(sql_select_clause,sql_where_clause_generic,sql_where_clause_grade,sql_attendance_code_clause_tardies,where_clause_date,sql_group_by_clause)
+      file_writer.write('-- absence_query=' + absence_query + '\n')
+      file_writer.write('-- tardy_query=' + tardy_query + '\n')
+      # absences    
+      absence_result = query_database(absence_query)
+      log_string = '{0} records in absence_result'.format(len(absence_result))
+      print log_string
+      file_writer.write('-- ' + log_string + '\n')
+      file_writer.write('----- {0} QUERY: {1}/n'.format(absence_field, absence_query))
+      file_writer.write('UPDATING field {0} of {1} records\n'.format(absence_field, len(absence_result)))
+      write_sql_lines(absence_field, absence_result)
+      # tardies
+      tardy_result = query_database(tardy_query)
+      log_string = '{0} records in tardy_result'.format(len(tardy_result))
+      print log_string
+      file_writer.write('-- ' + log_string + '\n')
+      file_writer.write('----- {0} QUERY: {1}/n'.format(tardy_field, absence_query))
+      file_writer.write('UPDATING field {0} of {1} records\n'.format(tardy_field, len(absence_result)))
+      write_sql_lines(tardy_field, tardy_result)
 
-file_writer.close()
+   file_writer.close()
+
+if __name__ == "__main__":
+   write_erc_update_file()
