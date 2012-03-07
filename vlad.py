@@ -13,6 +13,7 @@ config_file_path = r'/home/orwig/Dropbox/lincoln_ubuntubot/ubuntubot.cfg'
 
 import ConfigParser
 import datetime
+import erc
 #import follett
 import gmailer
 import logging
@@ -217,6 +218,7 @@ for file_name in os.listdir(powerschool_table_directory):
 
 
 ps1000.write_host_file()
+erc.write_erc_update_file()
 
 
 prowl_subject = 'vlad has run'
