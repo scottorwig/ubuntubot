@@ -13,7 +13,8 @@ config_file_path = r'/home/orwig/Dropbox/lincoln_ubuntubot/ubuntubot.cfg'
 
 import ConfigParser
 import datetime
-import follett
+import erc
+#import follett
 import gmailer
 import logging
 import MySQLdb
@@ -41,6 +42,7 @@ logging.basicConfig(filename=log_file)
 multiple_building = 0
 powerschool_table_directory = config.get('vlad', 'table_directory')
 browser_download_directory = config.get('vlad', 'download_directory')
+print 'Download directory:{0}'.format(browser_download_directory)
 today = datetime.date.today()
 date_stamp = today.strftime("%A, %B %d %Y")
 powerschool_term_id = 'label=11-12 2011-2012'
@@ -154,11 +156,11 @@ for file_name in os.listdir(powerschool_table_directory):
       if not os.path.exists(downloaded_file_path):
          do_next = 'download that sucker'
          log_string = 'Manual download file does not exist at {0}'.format(downloaded_file_path)
+	 print log_string
          cleaned_table_full_path, record_count = powerschool.download_table()
-         email_body = email_body + '\n' + str(download_result)
       else:
          log_string = 'Manual download file exists at {0}'.format(downloaded_file_path)
-         log_string = 'Sending file to the module powerschool.py for processing'
+         print log_string
          cleaned_table_full_path, record_count = powerschool.process_downloaded_table(downloaded_file_path,'|', email_body)
          log_string = 'Cleaned file with {0} records written to "{1}" - processing . . .'.format(record_count, cleaned_table_full_path)
          print 'Waiting 10 seconds for things to settle down'
@@ -216,6 +218,7 @@ for file_name in os.listdir(powerschool_table_directory):
 
 
 ps1000.write_host_file()
+erc.write_erc_update_file()
 
 
 prowl_subject = 'vlad has run'
