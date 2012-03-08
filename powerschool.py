@@ -226,7 +226,8 @@ def process_downloaded_table(downloaded_table_full_path, record_delimiter, email
 
 def download_table(table_number, table_name, field_list, delete_all=False, buildings='all'):
     field_list_newlines = field_list.replace(',','\n')
-    driver = webdriver.Firefox()
+    profile = webdriver.firefox.firefox_profile.FirefoxProfile(profile_directory='/home/orwig/.mozilla/firefox/sri96odi.SeleniumProfile')
+    driver = webdriver.Firefox(firefox_profile=profile)
     driver.implicitly_wait(30)
     base_url = config_server_root
     url_of_admin_page = base_url + config_pw_page
@@ -241,12 +242,17 @@ def download_table(table_number, table_name, field_list, delete_all=False, build
     driver.find_element_by_link_text("Export Records").click()
     driver.find_element_by_id("tt").clear()
     driver.find_element_by_id("tt").send_keys(field_list_newlines)
-    select = Select(driver.find_element_by_id("fielddelim"))
+    select = Select(driver.find_element_by_name("fielddelim"))
     select.select_by_visible_text("Other:")
     driver.find_element_by_name("custfielddelim").clear()
     driver.find_element_by_name("custfielddelim").send_keys("^")
-    
-    time.sleep(10)
+    select = Select(driver.find_element_by_name("recdelim"))
+    select.select_by_visible_text("Other:")
+    driver.find_element_by_name("custrecdelim").clear()
+    driver.find_element_by_name("custrecdelim").send_keys("|")
+    driver.find_element_by_id("btnSubmit").click()
+    print 'About to wait 60 seconds'
+    time.sleep(60)
     driver.quit()
 
 def download_students():
