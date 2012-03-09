@@ -23,6 +23,7 @@ config_pw_page = config.get('powerschool', 'pw_page')
 config_user_password = config.get('powerschool', 'username_password')
 browser_download_directory = config.get('vlad', 'download_directory')
 browser_partial_download = os.path.join(browser_download_directory,'student.export.text.part')
+browser_completed_download = os.path.join(browser_download_directory,'student.export.text')
 
 whitelist = string.letters + string.digits + ' ' + '/' + '?' + '\\' + '\t' + '.' + '!' + '@' + '#' + '$' + '%' + '&' + '*' + '(' + ')' + '_' + '-' + '=' + '+' + ':' + ';' + '|' + '[' + ']' + '{' + '}' + '<' + '>' + '~' + '^' + '`'
 date_finder = re.compile('([0-9]{1,2}/[0-9]{1,2}/[0-9]{2,4})')
@@ -194,8 +195,15 @@ def download_table(table_number, table_name, field_list, delete_all=False, build
 
     # Clear out partial downloads and anything related to the current table
     for file_name in os.listdir(browser_download_directory):
+        print 'Examining {0}'.format(file_name)
         if (table_name in file_name) or ('part' in file_name):
-            os.remove(file_name)
+            full_path_to_doomed_file = os.path.join(browser_download_directory,file_name)
+            print 'Removing file:{0}'.format(full_path_to_doomed_file)
+            os.remove(full_path_to_doomed_file)
+            if os.path.exists(full_path_to_doomed_file):
+                print '{0} still lives!'.format(full_path_to_doomed_file)
+            else:
+                print 'Removed file:{0}'.format(full_path_to_doomed_file)
 
     profile = webdriver.firefox.firefox_profile.FirefoxProfile(profile_directory='/home/orwig/.mozilla/firefox/sri96odi.SeleniumProfile')
     driver = webdriver.Firefox(firefox_profile=profile)
@@ -226,6 +234,12 @@ def download_table(table_number, table_name, field_list, delete_all=False, build
     while os.path.exists(browser_partial_download):
         print '{0} exists. Waiting.'.format(browser_partial_download)
         time.sleep(30)
+    print '{0} does not exist. Moving on.'.format(browser_partial_download)
+    
+    new_download_name = table_name + '.download'
+    new_download_path = os.path.join(browser_download_directory,new_download_name)
+    os.rename(browser_completed_download,new_download_path)
+    print 'Download renamed to:{0}'.format(new_download_path)
 
     print 'About to wait 60 seconds'
     time.sleep(60)
