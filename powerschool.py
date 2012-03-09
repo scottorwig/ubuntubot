@@ -53,41 +53,6 @@ def convert_english_date_to_iso_date(englishDate):
 #sel.click("id=btnEnter")
 #sel.wait_for_page_to_load("30000")
 
-def download_table(table_number, all_records=True, filter_field_name='', filter_operator='', filter_value=''):
-    sel.click("id=navSetupSystem")
-    sel.wait_for_page_to_load("30000")
-    sel.click("link=Direct Database Export (DDE)")
-    sel.wait_for_page_to_load("30000")
-
-    if all_records:
-        sel.click("name=searchselectall")
-        sel.wait_for_page_to_load("30000")
-    else:
-        #select according to values
-        add_to_this_later = True
-
-    # navigate to download page and initiate the download
-    sel.click("link=Export Records")
-    sel.wait_for_page_to_load("30000")
-    sel.select("name=fielddelim", "label=Other:")
-    sel.type("name=custfielddelim", "^")
-    sel.select("name=recdelim", "label=Other:")
-    sel.type("name=custrecdelim", "|")
-    sel.click("name=columntitles")
-    sel.click("id=btnSubmit")
-    
-    
-    while os.path.exists(browser_partial_download):
-        time.sleep(30)
-
-
-def logout_and_close():
-    sel.click("id=btnLogout")
-    sel.wait_for_page_to_load("30000")
-    sel.stop()
-
-#def select_building(building_number):
-
 
 def process_downloaded_table(downloaded_table_full_path, record_delimiter, email_body):
     downloaded_file_reader = open(downloaded_table_full_path,'r')
@@ -226,6 +191,12 @@ def process_downloaded_table(downloaded_table_full_path, record_delimiter, email
 
 def download_table(table_number, table_name, field_list, delete_all=False, buildings='all'):
     field_list_newlines = field_list.replace(',','\n')
+
+    # Clear out partial downloads and anything related to the current table
+    for file_name in os.listdir(browser_download_directory):
+        if (table_name in file_name) or ('part' in file_name):
+            os.remove(file_name)
+
     profile = webdriver.firefox.firefox_profile.FirefoxProfile(profile_directory='/home/orwig/.mozilla/firefox/sri96odi.SeleniumProfile')
     driver = webdriver.Firefox(firefox_profile=profile)
     driver.implicitly_wait(30)
@@ -251,6 +222,11 @@ def download_table(table_number, table_name, field_list, delete_all=False, build
     driver.find_element_by_name("custrecdelim").clear()
     driver.find_element_by_name("custrecdelim").send_keys("|")
     driver.find_element_by_id("btnSubmit").click()
+
+    while os.path.exists(browser_partial_download):
+        print '{0} exists. Waiting.'.format(browser_partial_download)
+        time.sleep(30)
+
     print 'About to wait 60 seconds'
     time.sleep(60)
     driver.quit()
