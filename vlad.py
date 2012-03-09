@@ -42,7 +42,7 @@ logging.basicConfig(filename=log_file)
 multiple_building = 0
 powerschool_table_directory = config.get('vlad', 'table_directory')
 browser_download_directory = config.get('vlad', 'download_directory')
-print 'Download directory:{0}'.format(browser_download_directory)
+logging.info('Download directory:{0}'.format(browser_download_directory))
 today = datetime.date.today()
 date_stamp = today.strftime("%A, %B %d %Y")
 powerschool_term_id = 'label=11-12 2011-2012'
@@ -103,7 +103,7 @@ for file_name in os.listdir(powerschool_table_directory):
       filter_operator = ''
       filter_value = ''
       
-      log_string = 'File {0} appears to be a table descriptor for {1}'.format(file_name,table_name)
+      logging.info('File {0} appears to be a table descriptor for {1}'.format(file_name,table_name))
       
       for field in field_at_a_time:
          if field[0:14] == '#BUILDINGLIST:':
@@ -145,18 +145,13 @@ for file_name in os.listdir(powerschool_table_directory):
             field_list.append(field_lower_case)
       
       
-      log_string = 'Field list is {0}'.format(field_list)
-      log_string = 'fields_br_string is {0}'.format(fields_br_string)
-      log_string = 'fields_comma_string is {0}'.format(fields_comma_string)
-      
       download_file_name = table_name + '.download'
       downloaded_file_path = os.path.join(browser_download_directory, download_file_name)
       
       # if a manual download is not provided, download one using PowerSchool
       if not os.path.exists(downloaded_file_path):
          do_next = 'download that sucker'
-         log_string = 'Manual download file does not exist at {0}'.format(downloaded_file_path)
-	 print log_string
+         logging.info('Manual download file does not exist at {0}'.format(downloaded_file_path))
          cleaned_table_full_path, record_count = powerschool.download_table()
       else:
          log_string = 'Manual download file exists at {0}'.format(downloaded_file_path)
@@ -166,8 +161,7 @@ for file_name in os.listdir(powerschool_table_directory):
          print 'Waiting 10 seconds for things to settle down'
          time.sleep(10)
 
-      log_string = 'About to re-open cleaned file at "{0}"'.format(cleaned_table_full_path)
-      print log_string
+      logging.info('About to re-open cleaned file at "{0}"'.format(cleaned_table_full_path))
       # Re-open the cleaned, combined file that was just created
       # Read each line, splitting it into individual fields
       # and immediately writing this data to the database
@@ -175,21 +169,16 @@ for file_name in os.listdir(powerschool_table_directory):
       cursor = db_connection.cursor ()
       if delete_and_replace_records:
          delete_statement = 'DELETE FROM ' + table_name
-         log_string = 'Executing delete statement "{0}"'.format(delete_statement)
-         print log_string
-         email_body += email_body + '/' + log_string
+         logging.info('Executing delete statement "{0}"'.format(delete_statement))
          cursor.execute(delete_statement)
       else:
-         print 'Existing records will not be deleted from {0}'.format(table_name)
+         logging.info('Existing records will not be deleted from {0}'.format(table_name))
       try:
-         print 'About to re-open the cleaned data file {0}'.format(cleaned_table_full_path)
+         logging.info('About to re-open the cleaned data file {0}'.format(cleaned_table_full_path))
          cleaned_file_reader = open(cleaned_table_full_path, 'r')
          clean_line_at_a_time = cleaned_file_reader.readlines()
       except:
-         log_string = 'Strange, I can not open the file "{0}"'.format(cleaned_table_full_path)
-         print log_string
-         email_body = email_body + '\n' + log_string
-         email_attn_flag = 'POSSIBLE ERROR -'
+         logging.warning('Strange, I can not open the file "{0}"'.format(cleaned_table_full_path))
       sql_statement_counter = 0
       for clean_line in clean_line_at_a_time:
          data_list = clean_line.split(field_delimeter)
@@ -206,9 +195,7 @@ for file_name in os.listdir(powerschool_table_directory):
       except:
          print 'Error trying to close the cleaned_file_reader'
    
-      log_string = 'Executed {0} SQL statements on table {1}'.format(sql_statement_counter, table_name)
-      print log_string
-      email_body = email_body + '\n' + log_string
+      logging.info('Executed {0} SQL statements on table {1}'.format(sql_statement_counter, table_name))
       
       #if sql_statement_counter < 500:
          #email_attn_flag = 'POSSIBLE ERROR -'
