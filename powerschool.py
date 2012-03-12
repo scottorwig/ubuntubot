@@ -190,7 +190,7 @@ def process_downloaded_table(downloaded_table_full_path, record_delimiter, email
                     #print 'Got the error {0}'.format(sys.exc_info()[0])
 
 
-def download_table(table_number, table_name, field_list, delete_all=False, buildings='all'):
+def download_table(table_number, table_name, building_list, field_list, delete_all=False, buildings='all'):
     field_list_newlines = field_list.replace(',','\n')
 
     # Clear out partial downloads and anything related to the current table
@@ -205,51 +205,72 @@ def download_table(table_number, table_name, field_list, delete_all=False, build
             else:
                 print 'Removed file:{0}'.format(full_path_to_doomed_file)
 
-    profile = webdriver.firefox.firefox_profile.FirefoxProfile(profile_directory='/home/orwig/.mozilla/firefox/sri96odi.SeleniumProfile')
-    driver = webdriver.Firefox(firefox_profile=profile)
-    driver.implicitly_wait(30)
-    base_url = config_server_root
-    url_of_admin_page = base_url + config_pw_page
-    print 'About to get {0}'.format(url_of_admin_page)
-    driver.get(url_of_admin_page)
-    driver.find_element_by_id("fieldPassword").clear()
-    driver.find_element_by_id("fieldPassword").send_keys(config_user_password)
-    driver.find_element_by_id("btnEnter").click()
-    driver.find_element_by_id("navSetupSystem").click()
-    driver.find_element_by_link_text("Direct Database Export (DDE)").click()
-    driver.find_element_by_name("searchselectall").click()
-    driver.find_element_by_link_text("Export Records").click()
-    driver.find_element_by_id("tt").clear()
-    driver.find_element_by_id("tt").send_keys(field_list_newlines)
-    select = Select(driver.find_element_by_name("fielddelim"))
-    select.select_by_visible_text("Other:")
-    driver.find_element_by_name("custfielddelim").clear()
-    driver.find_element_by_name("custfielddelim").send_keys("^")
-    select = Select(driver.find_element_by_name("recdelim"))
-    select.select_by_visible_text("Other:")
-    driver.find_element_by_name("custrecdelim").clear()
-    driver.find_element_by_name("custrecdelim").send_keys("|")
-    driver.find_element_by_id("btnSubmit").click()
+    for building_name in building_list:
+        profile = webdriver.firefox.firefox_profile.FirefoxProfile(profile_directory='/home/orwig/.mozilla/firefox/sri96odi.SeleniumProfile')
+        driver = webdriver.Firefox(firefox_profile=profile)
+        driver.implicitly_wait(30)
+        base_url = config_server_root
+        url_of_admin_page = base_url + config_pw_page
+        print 'About to get {0}'.format(url_of_admin_page)
+        driver.get(url_of_admin_page)
+        driver.find_element_by_id("fieldPassword").clear()
+        driver.find_element_by_id("fieldPassword").send_keys(config_user_password)
+        driver.find_element_by_id("btnEnter").click()
+        select = Select(driver.find_element_by_id("schoolContext"))
+        select.select_by_visible_text(building_name)
+        driver.find_element_by_id("navSetupSystem").click()
+        driver.find_element_by_link_text("Direct Database Export (DDE)").click()
+        driver.find_element_by_name("searchselectall").click()
+        driver.find_element_by_link_text("Export Records").click()
+        driver.find_element_by_id("tt").clear()
+        driver.find_element_by_id("tt").send_keys(field_list_newlines)
+        select = Select(driver.find_element_by_name("fielddelim"))
+        select.select_by_visible_text("Other:")
+        driver.find_element_by_name("custfielddelim").clear()
+        driver.find_element_by_name("custfielddelim").send_keys("^")
+        select = Select(driver.find_element_by_name("recdelim"))
+        select.select_by_visible_text("Other:")
+        driver.find_element_by_name("custrecdelim").clear()
+        driver.find_element_by_name("custrecdelim").send_keys("|")
+        driver.find_element_by_id("btnSubmit").click()
 
-    while os.path.exists(browser_partial_download):
-        print '{0} exists. Waiting.'.format(browser_partial_download)
-        time.sleep(30)
-    print '{0} does not exist. Moving on.'.format(browser_partial_download)
-    
-    new_download_name = table_name + '.download'
-    new_download_path = os.path.join(browser_download_directory,new_download_name)
-    os.rename(browser_completed_download,new_download_path)
-    print 'Download renamed to:{0}'.format(new_download_path)
+        while os.path.exists(browser_partial_download):
+            print '{0} exists. Waiting.'.format(browser_partial_download)
+            time.sleep(30)
+        print '{0} does not exist. Moving on.'.format(browser_partial_download)
+        
+        new_download_name = table_name + '.download'
+        new_download_path = os.path.join(browser_download_directory,new_download_name)
+        os.rename(browser_completed_download,new_download_path)
+        print 'Download renamed to:{0}'.format(new_download_path)
 
-    print 'About to wait 60 seconds'
-    time.sleep(60)
-    driver.quit()
+        print 'About to wait 60 seconds'
+        time.sleep(60)
+        driver.quit()
 
 def download_students():
-    table_number = 1
+    table_number = '1'
     table_name = 'students'
+    building_list = ['District Office']
     field_list = 'Apartment_Number,Applic_Response_Recvd_Date,Applic_Submitted_Date,area,ATE_skill_cert,Building,BusNumberDropoff,BusNumberPickup,Bus_Route,Bus_Stop,CampusID,City,ClassOf,cnt1_city,cnt1_cphone,cnt1_custody,cnt1_email,cnt1_employer,cnt1_fname,cnt1_hphone,cnt1_lname,cnt1_recvmail,cnt1_rel,cnt1_state,cnt1_street,Cnt1_WPhone,cnt1_zip,cnt2_city,cnt2_cphone,cnt2_custody,cnt2_email,cnt2_employer,cnt2_fname,cnt2_hphone,cnt2_lname,cnt2_recvmail,cnt2_rel,cnt2_state,cnt2_street,Cnt2_WPhone,cnt2_zip,Cumulative_GPA,Cumulative_Pct,CustomRank_GPA,dateOfEntryIntoUSA,DistrictEntryDate,DistrictEntryGradeLevel,DistrictOfResidence,DOB,ecnt1_city,ecnt1_custody,ecnt1_email,ecnt1_fname,ecnt1_hphone,ecnt1_lname,ecnt1_recvmail,ecnt1_state,ecnt1_street,ecnt1_WPhone,ecnt1_zip,ecnt2_city,ecnt2_cphone,ecnt2_custody,ecnt2_email,ecnt2_fname,ecnt2_hphone,ecnt2_lname,ecnt2_recvmail,ecnt2_rel,ecnt2_state,ecnt2_street,ecnt2_WPhone,ecnt2_zip,eecnt1_cphone,eecnt1_rel,Emerg_1_Ptype,Emerg_1_Rel,Emerg_2_Ptype,Emerg_2_Rel,Emerg_3_Phone,Emerg_3_Ptype,Emerg_3_Rel,Emerg_Contact_1,Emerg_Contact_2,Emerg_Contact_3,Emerg_Phone_1,Emerg_Phone_2,EnrollmentCode,EnrollmentType,Enrollment_SchoolID,Enrollment_Transfer_Date_Pend,Enrollment_Transfer_Info,Enroll_Status,EntryCode,EntryDate,ESL_placement,Ethnicity,Exclude_fr_rank,ExitCode,ExitComment,ExitDate,eye_data,Family_Ident,Father,fatherdayphone,Father_Employer,Father_home_phone,Father_StudentCont_guid,FedEthnicity,FedRaceDecline,Fee_Exemption_Status,First_Name,FTEID,Gender,Geocode,Grade_Level,GradReqSet,GradReqSetID,Graduated_Rank,Graduated_SchoolID,Graduated_SchoolName,graduation_year,guardian,guardiandayphone,GuardianEmail,GuardianFax,guardianship,Guardian_FN,Guardian_LN,Guardian_MN,Guardian_StudentCont_guid,hearing_data,height_data,homeless,homeless_code,Home_Phone,Home_Room,House,ID,ILDP,include_time_share,IsSpecialEdEligible,LastFirst,LastMeal,Last_Name,LDAPEnabled,LEP_exit_date,LEP_status,Locker_Combination,Locker_Number,Log,Lot_Number,LPAC_date,LunchStatus,Lunch_ID,Mailing_City,Mailing_Geocode,Mailing_State,Mailing_Street,Mailing_Zip,meis_attendance,meis_fte_in_gen_ed,MembershipShare,Middle_Name,MI_ECDaysPerWeek,MI_ECDaysPerWeek2,MI_ECDeliveryMethod,MI_ECDeliveryMethod2,MI_ECHoursPerDay,MI_ECHoursPerDay2,MI_ECProgramEndDate,MI_ECProgramEndDate2,MI_ECProgramStartDate,MI_ECProgramStartDate2,MI_EI_EligibilityCode,MI_EI_ExitCode,MI_EI_ExitDate,MI_EI_IFSPDate,MI_EI_PartBEligible,MI_EI_PrimarySetting,MI_EI_Service1,MI_EI_Service2,MI_EI_Service3,MI_EI_Service4,MI_ethnAfr,MI_ethnAsi,MI_ethnInd,MI_ethnLat,MI_ethnPac,MI_ethnWhi,MI_Father_Cust_No,MI_FiscalEntityCode,MI_FiscalEntityTypeCode,MI_LEP_CountryOrigin,MI_LEP_Enrollment,MI_LEP_ExitCode,MI_LEP_ExitDate,MI_LEP_LocFundPgm,MI_LEP_PrimaryLanguage,MI_LEP_Pupil_LimEng,MI_LEP_Refugee_ImpPgm,MI_LEP_Title3,MI_LEP_Title3_ImmEd,MI_LunchStatAppFlag,MI_Mother_Cust_No,MI_MultipleBirth,MI_Resident_County_Code,MI_SCMOperISDESANum,MI_Setting,MI_SpEd_AdditionalDisability,MI_SpEd_ExitCode,MI_SpEd_ExitDate,MI_SpEd_FTE52,MI_SpEd_FTE53,MI_SpEd_Hours,MI_SpEd_IEPAnotherDistrict,MI_SpEd_IEPDate,MI_SpEd_IEPDays,MI_SpEd_ParenConsEval,MI_SpEd_PrgmServiceCode1,MI_SpEd_PrgmServiceCode2,MI_SpEd_PrgmServiceCode3,MI_SpEd_PrimaryDisability,MI_SpEd_PrimaryEdSetting,MI_SpEd_ResofIIEP,MI_SpEd_SupportServices1,MI_SpEd_SupportServices2,MI_SpEd_SupportServices3,MI_SpEd_SupportServices4,MI_SpEd_SupportServices5,MI_SRSD_10_30_DayRule,MI_SRSD_AdminUnit,MI_SRSD_BirthCity,MI_SRSD_Early_Middle_College,MI_SRSD_PrgmElig_504,MI_SRSD_PrgmElig_EarlyIntervention,MI_SRSD_PrgmElig_LEP,MI_SRSD_PrgmElig_SpEd,MI_SRSD_PrgmElig_Title1,MI_SRSD_StudentUIC,MI_SRSD_StudResLEANum,MI_SRSD_StudResMembership,MI_StdntExplus_ExpelDate,MI_StdntExplus_ExpelFollowup,MI_StdntExplus_ExpelLength,MI_StdntExplus_IncidentDate,MI_StdntExplus_IncidentLocation,MI_StdntExplus_IncidentPrimaryVictim,MI_StdntExplus_IncidentTime,MI_Unaccompanied_Youth,monitor_date,Mother,motherdayphone,Mother_Employer,Mother_home_phone,Mother_StudentCont_guid,Name_Suffix,Next_School,parttimestudent,Person_ID,Phone_ID,PhotoFlag,PL_Language,PO_Box,prevstudentid,SAT,Sched_LoadLock,Sched_LockStudentSchedule,Sched_NextYearBuilding,Sched_NextYearBus,Sched_NextYearGrade,Sched_NextYearHomeRoom,Sched_NextYearHouse,Sched_NextYearTeam,Sched_Priority,Sched_Scheduled,Sched_YearOfGraduation,SchoolEntryDate,SchoolEntryGradeLevel,SchoolID,SDataRN,secondarylanguage,Simple_GPA,Simple_PCT,singleparenthshldflag,Sports_LHS,SSN,State,State_EnrollFlag,State_ExcludeFromReporting,State_StudentNumber,Street,StudentPers_guid,StudentPict_guid,StudentSchlEnrl_guid,Student_AllowWebAccess,student_email,Student_Number,Student_Web_ID,Student_Web_Password,SummerSchoolID,SummerSchoolNote,TeacherGroupID,Team,Track,Tracker,TransferComment,TuitionPayer,Var1,Var2,varicella,Volleyball_7gr_girls,Web_ID,Web_Password,weight_data,Withdrawal_Reason_Code,WM_Address,WM_CreateDate,WM_CreateTime,WM_Password,WM_Status,WM_StatusDate,WM_TA_Date,WM_TA_Flag,WM_Tier,Zip'
     download_table(1, 'students', field_list)
+
+def download_graduation_requirements():
+    table_number = '37'
+    table_name = 'GradReq'
+    building_list = ['Lincoln High School']
+    field_list = 'AppliesTo,AppliesToData,AppliesToDataLi,AppliesToDisp,Classification,CountInReqTots,CourseDesig,CourseGroup,CourseListCheck,CourseListHTML,CourseListOrder,CourseListT,CourseSource,CreditType,Description,EntryBoxHeight,EntryBoxWidth,FieldComparator,FieldMatchValue,FieldName,FirstItem,Grade_Level,GradReqSetID,How2DispCourses,ID,ItemType,ListBoxHeight,MaxNoOfCourses,MinimumMessage,MinNoOfCourses,MultiTerm,Name,OverallCrHrs,ReqCrHrs,ReqForGrad,ReqTerms,RequestType,SchedPriority,SchoolID,SortOrder,SubjectArea,Subtype,Type'
+    download_table(table_number,table_name,building_list,field_list)
+
+def download_graduation_requirements_sets():
+    table_number = '57'
+    table_name = 'GradReqSets'
+    building_list = ['Lincoln High School']
+    field_list = 'GradReqSetID,Name,SchoolID'
+    download_table(table_number,table_name,building_list,field_list)
+
+
+
 
 if __name__ == "__main__":
     download_students()
