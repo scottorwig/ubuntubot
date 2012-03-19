@@ -1,2 +1,3 @@
 *.pyc
-ubuntubot.cfg
+*.cfg
+*.pyc
