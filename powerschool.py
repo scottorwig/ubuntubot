@@ -217,21 +217,17 @@ def download_table(table_number, table_name, field_list, building_list=['Distric
         driver.find_element_by_id("fieldPassword").clear()
         driver.find_element_by_id("fieldPassword").send_keys(config_user_password)
         driver.find_element_by_id("btnEnter").click()
-<<<<<<< HEAD
         # Main page
+        print 'About to choose school:{0}'.format(building_name)
         driver.find_element_by_id("schoolContext").click()
         select = Select(driver.find_element_by_name("Schoolid"))
-=======
-        print 'About to choose school:{0}'.format(building_name)
-        select = Select(driver.find_element_by_id("schoolContext"))
->>>>>>> 3960954ac8521bd740602936c718266319301af5
         select.select_by_visible_text(building_name)
         driver.find_element_by_id("navSetupSystem").click()
         driver.find_element_by_link_text("Direct Database Export (DDE)").click()
-        table_choice_string = table_name + '&nbsp(' + table_number + ')'
-        print 'About to choose table:{0}'.format(table_choice_string)
+        #table_choice_string = table_name + '&nbsp(' + table_number + ')'
+        print 'About to choose table:{0}'.format(table_number)
         select = Select(driver.find_element_by_name("filenum"))
-        select.select_by_visible_text(table_choice_string)
+        select.select_by_value(table_number)
         driver.find_element_by_name("searchselectall").click()
         driver.find_element_by_link_text("Export Records").click()
         driver.find_element_by_id("tt").clear()
