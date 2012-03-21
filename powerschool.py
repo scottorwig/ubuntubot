@@ -201,6 +201,15 @@ def download_students():
     process_downloaded_table(table_name)
     update_powerschool_mirror(table_name,field_list)
 
+def download_teachers():
+    table_number = '5'
+    table_name = 'teachers'
+    building_list = ['District Office']
+    field_list = 'Access, AdminLDAPEnabled, AllowLoginEnd, AllowLoginStart, Balance1, Balance2, Balance3, Balance4, CanChangeSchool, City, Classpua, DefaultStudScrn, dob, Email_Addr, Ethnicity, FedEthnicity, FedRaceDecline, First_Name, gender, GradebookType, HomePage, Homeroom, Home_Phone, ID, IPAddrRestrict, LastFirst, LastMeal, Last_Name, LoginID, Lunch_ID, Maximum_Load, Middle_Name, MI_ethnAfr, MI_ethnAsi, MI_ethnInd, MI_ethnLat, MI_ethnPac, MI_ethnWhi, MI_REP_PIC, NameAsImported, NoOfCurClasses, NumLogins, Password, PeriodsAvail, Photo, PowerGradePW, PreferredName, PSAccess, REPDtTermEmp, REPEmpStat, REPHighDeg, Sched_ActivityStatusCode, Sched_BuildingCode, Sched_Classroom, Sched_Department, Sched_Gender, Sched_Homeroom, Sched_HouseCode, Sched_IsTeacherFree, Sched_Lunch, Sched_MaximumConsecutive, Sched_MaximumCourses, Sched_MaximumDuty, Sched_MaximumFree, Sched_MaxPers, Sched_MaxPreps, Sched_PrimarySchoolCode, Sched_Scheduled, Sched_Substitute, Sched_TeacherMoreOneSchool, Sched_Team, Sched_TotalCourses, Sched_UseBuilding, Sched_UseHouse, SchoolID, School_Phone, SIF_StatePrid, SSN, StaffPers_guid, StaffStatus, State, Status, Street, supportContact, TeacherLDAPEnabled, TeacherLoginID, TeacherLoginIP, TeacherLoginPW, TeacherNumber, Title, WM_Address, WM_Alias, WM_CreateDate, WM_CreateTime, WM_Exclude, WM_Password, WM_Status, WM_StatusDate, WM_TA_Date, WM_TA_Flag, WM_Tier, Zip'
+    download_table(table_number, table_name, field_list, building_list)
+    process_downloaded_table(table_name)
+    update_powerschool_mirror(table_name,field_list)
+
 def download_graduation_requirements():
     table_number = '37'
     table_name = 'GradReq'
@@ -221,5 +230,6 @@ def download_graduation_requirements_sets():
 
 if __name__ == "__main__":
     download_students()
+    download_teachers()
     download_graduation_requirements()
     download_graduation_requirements_sets()
