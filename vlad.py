@@ -50,6 +50,8 @@ field_delimeter = '^'
 record_delimiter = '|'
 sql_statement_counter = 0
 
+prowl_body = ''
+
 
 full_path_to_host_file = config.get('ps1000', 'path_to_host_file')
 
@@ -80,11 +82,15 @@ def characters_from_whitelist_only(dirty_string):
 # cursor.close ()
 # conn.close ()
 
+#prowl_body = prowl_body + '\n' + powerschool.update_students()
+prowl_body = prowl_body + '\n' + powerschool.update_teachers()
+prowl_body = prowl_body + '\n' + powerschool.update_graduation_requirements()
+prowl_body = prowl_body + '\n' + powerschool.update_graduation_requirements_sets()
 
 ps1000.write_host_file()
 erc.write_erc_update_file()
 
 
 prowl_subject = 'vlad has run'
-prowl_body = 'vlad completed a run at {0}'.format(date_stamp)
+prowl_body = prowl_body + '\nvlad completed a run at {0}'.format(date_stamp)
 gmailer.mail(prowl_address, prowl_subject, prowl_body, gmail_user, gmail_pwd)
