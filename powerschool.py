@@ -212,7 +212,7 @@ def download_teachers():
 
 def download_graduation_requirements():
     table_number = '37'
-    table_name = 'GradReq'
+    table_name = 'gradreq'
     building_list = ['Lincoln High School']
     field_list = 'AppliesTo,AppliesToData,AppliesToDataLi,AppliesToDisp,Classification,CountInReqTots,CourseDesig,CourseGroup,CourseListCheck,CourseListHTML,CourseListOrder,CourseListT,CourseSource,CreditType,Description,EntryBoxHeight,EntryBoxWidth,FieldComparator,FieldMatchValue,FieldName,FirstItem,Grade_Level,GradReqSetID,How2DispCourses,ID,ItemType,ListBoxHeight,MaxNoOfCourses,MinimumMessage,MinNoOfCourses,MultiTerm,Name,OverallCrHrs,ReqCrHrs,ReqForGrad,ReqTerms,RequestType,SchedPriority,SchoolID,SortOrder,SubjectArea,Subtype,Type'
     download_table(table_number, table_name, field_list, building_list)
