@@ -82,7 +82,7 @@ def characters_from_whitelist_only(dirty_string):
 # cursor.close ()
 # conn.close ()
 
-#prowl_body = prowl_body + '\n' + powerschool.update_students()
+prowl_body = prowl_body + '\n' + powerschool.update_students()
 prowl_body = prowl_body + '\n' + powerschool.update_teachers()
 prowl_body = prowl_body + '\n' + powerschool.update_graduation_requirements()
 prowl_body = prowl_body + '\n' + powerschool.update_graduation_requirements_sets()

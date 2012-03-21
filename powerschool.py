@@ -135,7 +135,7 @@ def process_downloaded_table(table_name):
     downloaded_file_reader = open(downloaded_table_full_path,'r')
     raw_line_at_a_time = downloaded_file_reader.readlines()
     directory_name = os.path.dirname(downloaded_table_full_path)
-    cleaned_file_name = 'cleaned_' + os.path.basename(downloaded_table_full_path)
+    cleaned_file_name = table_name + '.clean_data'
     cleaned_file_path = os.path.join(directory_name, cleaned_file_name)
     clean_file_writer = open(cleaned_file_path,'w')
     report_string = '{0} opened for processing'.format(downloaded_table_full_path)
