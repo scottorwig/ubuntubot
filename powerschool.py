@@ -221,7 +221,7 @@ def download_graduation_requirements():
 
 def download_graduation_requirements_sets():
     table_number = '57'
-    table_name = 'GradReqSets'
+    table_name = 'gradreqsets'
     building_list = ['Lincoln High School']
     field_list = 'GradReqSetID,Name,SchoolID'
     download_table(table_number, table_name, field_list, building_list)
