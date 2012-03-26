@@ -56,7 +56,7 @@ def convert_english_date_to_iso_date(englishDate):
     isoString = yearMatch.group(1) + '-' + monthMatch.group(1).zfill(2) + '-' + dayMatch.group(1).zfill(2)
     return isoString
 
-def download_table(table_number, table_name, field_list, building_list=['District Office'], delete_all=False, buildings='all'):
+def download_table(table_number, table_name, field_list, building_list=['District Office'], search_criteria=''):
     report_string = 'Downloading table number {0}, {1} from {2} building(s)'.format(table_number, table_name, len(building_list))
     field_list_newlines = field_list.replace(',','\n')
 
@@ -96,7 +96,22 @@ def download_table(table_number, table_name, field_list, building_list=['Distric
         print 'About to choose table:{0}'.format(table_number)
         select = Select(driver.find_element_by_name("filenum"))
         select.select_by_value(table_number)
-        driver.find_element_by_name("searchselectall").click()
+        if search_criteria:
+            print 'This download has the search criteria {0}'.format(search_criteria)
+            fieldnum_1 = search_criteria[0]
+            comparator1 = search_criteria[1]
+            value = search_criteria[2]
+            select = Select(driver.find_element_by_name("fieldnum_1"))
+            select.select_by_visible_text(fieldnum_1)
+            select = Select(driver.find_element_by_name("comparator1"))
+            select.select_by_visible_text(comparator1)
+            driver.find_element_by_name("value").clear()
+            driver.find_element_by_name("value").send_keys(value)
+            print 'Pausing 10 seconds'
+            time.sleep(10)
+            driver.find_element_by_name("search").click()
+        else:
+            driver.find_element_by_name("searchselectall").click()
         driver.find_element_by_link_text("Export Records").click()
         driver.find_element_by_id("tt").clear()
         driver.find_element_by_id("tt").send_keys(field_list_newlines)
@@ -199,6 +214,17 @@ def update_powerschool_mirror(table_name, field_list, delete_and_replace=True):
     print 'Executed {0} SQL statements on table {1}'.format(sql_statement_counter, table_name)
     report_string = '\nExecuted {0} SQL statements on table {1}'.format(sql_statement_counter, table_name)
     return report_string
+
+def update_attendance():
+    table_number = '157'
+    table_name = 'attendance'
+    building_list = ['Model Elementary School']
+    search_criteria = ['Att_Date','>','03/01/2012']
+    field_list = 'ADA_Value_Code, ADA_Value_Time, ADM_Value, Attendance_CodeID, Att_Comment, Att_Date, Att_Flags, Att_Interval, Att_Mode_Code, Calendar_DayID, CCID, ID, Lock_Reporting_YN, Lock_Teacher_YN, Parent_AttendanceID, PeriodID, ProgramID, Prog_Crse_Type, SchoolID, StudentID, Total_Minutes, Transaction_Type, YearID'
+    return_message = download_table(table_number, table_name, field_list, building_list,search_criteria)
+    return_message = return_message + '\n' + process_downloaded_table(table_name)
+    return_message = return_message + '\n' + update_powerschool_mirror(table_name,field_list,False)
+    return return_message
 
 def update_students():
     return_message = ''

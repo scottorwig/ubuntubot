@@ -39,7 +39,6 @@ log_file = config.get('logging','path')
 
 logging.basicConfig(filename=log_file)
 
-multiple_building = 0
 powerschool_table_directory = config.get('vlad', 'table_directory')
 browser_download_directory = config.get('vlad', 'download_directory')
 logging.info('Download directory:{0}'.format(browser_download_directory))
@@ -65,23 +64,9 @@ def characters_from_whitelist_only(dirty_string):
          clean_string += shady_character
    return clean_string
 
-## PROCEDURAL CODE STARTS HERE
 
-# db_host = 'localhost'
-# db_user = config.get('powerschoolmirror', 'user')
-# db_password = config.get('powerschoolmirror', 'password')
-# db_name = config.get('powerschoolmirror', 'database')
-# conn = MySQLdb.connect (host = db_host,
-#                         user = db_user,
-#                         passwd = db_password,
-#                         db = db_name)
-# cursor = conn.cursor ()
-# cursor.execute ("SELECT VERSION()")
-# row = cursor.fetchone ()
-# logging.info('Connected to mySQL - server version: {0}'.format(row[0]))
-# cursor.close ()
-# conn.close ()
 
+prowl_body = prowl_body + '\n' + powerschool.update_attendance()
 prowl_body = prowl_body + '\n' + powerschool.update_students()
 prowl_body = prowl_body + '\n' + powerschool.update_teachers()
 prowl_body = prowl_body + '\n' + powerschool.update_graduation_requirements()
