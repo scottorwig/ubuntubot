@@ -218,9 +218,30 @@ def update_powerschool_mirror(table_name, field_list, delete_and_replace=True):
 def update_attendance():
     table_number = '157'
     table_name = 'attendance'
-    building_list = ['Model Elementary School']
-    search_criteria = ['Att_Date','>','03/01/2012']
+    building_list = ['Lincoln Early Childhood Center','Redner Elementary','Brick Elementary','Lincoln Middle School','Lincoln High School','Lincoln Multi Age','Childs Elementary','Model Elementary School']
+    search_criteria = ['Att_Date','>','03/20/2012']
     field_list = 'ADA_Value_Code, ADA_Value_Time, ADM_Value, Attendance_CodeID, Att_Comment, Att_Date, Att_Flags, Att_Interval, Att_Mode_Code, Calendar_DayID, CCID, ID, Lock_Reporting_YN, Lock_Teacher_YN, Parent_AttendanceID, PeriodID, ProgramID, Prog_Crse_Type, SchoolID, StudentID, Total_Minutes, Transaction_Type, YearID'
+    return_message = download_table(table_number, table_name, field_list, building_list,search_criteria)
+    return_message = return_message + '\n' + process_downloaded_table(table_name)
+    return_message = return_message + '\n' + update_powerschool_mirror(table_name,field_list,False)
+    return return_message
+
+def update_attendance_taken():
+    table_number = '172'
+    table_name = 'attendance_taken'
+    building_list = ['Lincoln Early Childhood Center','Redner Elementary','Brick Elementary','Lincoln Middle School','Lincoln High School','Lincoln Multi Age','Childs Elementary','Model Elementary School']
+    search_criteria = ['Att_Date','>','09/01/2011']
+    field_list = 'Att_Date,Att_Interval,Att_Taken_Dt,ID,PeriodID,SectionID'
+    return_message = download_table(table_number, table_name, field_list, building_list,search_criteria)
+    return_message = return_message + '\n' + process_downloaded_table(table_name)
+    return_message = return_message + '\n' + update_powerschool_mirror(table_name,field_list,False)
+    return return_message
+
+def update_courses():
+    table_number = '2'
+    table_name = 'courses'
+    building_list = ['District Office']
+    field_list = 'Add_to_GPA,alt_course_number,Code,Corequisites,Course_Name,Course_Number,Credit_Hours,CreditType,CrHrWeight,Custom,Exclude_ADA,ExcludeFromClassRank,ExcludeFromGPA,ExcludeFromHonorRoll,GPA_AddedValue,GradeScaleID,ID,MaxClassSize,MI_Course_ID,MI_Course_Type,MI_Subject_Area_Code,MI_TSDL_Exclude,Multiterm,PowerLink,PowerLinkSpan,Prerequisites,ProgramID,RegAvailable,RegCourseGroup,RegGradeLevels,RegTeachers,Sched_BalancePriority,Sched_BalanceTerms,Sched_BlockStart,Sched_CloseSectionAfterMax,Sched_ConcurrentFlag,Sched_ConsecutivePeriods,Sched_ConsecutiveTerms,Sched_CoursePackage,Sched_CoursePkgContents,Sched_CourseSubjectAreaCode,Sched_Department,Sched_Do_Not_Print,Sched_ExtraDayScheduleTypeCode,Sched_Facilities,Sched_Frequency,Sched_FullCatalogDescription,Sched_GlobalSubstitution1,Sched_GlobalSubstitution2,Sched_GlobalSubstitution3,Sched_LabFlag,Sched_LabFrequency,Sched_LabPeriodsPerMeeting,Sched_LengthInNumberOfTerms,Sched_LoadPriority,Sched_LoadType,Sched_LunchCourse,Sched_MaximumDaysPerCycle,Sched_MaximumEnrollment,Sched_MaximumPeriodsPerDay,Sched_MinimumDaysPerCycle,Sched_MinimumPeriodsPerDay,Sched_MultipleRooms,Sched_PeriodsPerCycle,Sched_PeriodsPerMeeting,Sched_RepeatsAllowed,Sched_Scheduled,Sched_ScheduleTypeCode,Sched_SectionsOffered,Sched_SubstitutionAllowed,Sched_TeacherCount,Sched_UsePreEstablishedTeams,Sched_UseSectionTypes,Sched_ValidDayCombinations,Sched_ValidExtraDayCombinations,Sched_ValidStartPeriods,Sched_Year,SchoolGroup,SchoolID,SectionsToOffer,Status,TargetClassSize,TermsOffered,Vocational'
     return_message = download_table(table_number, table_name, field_list, building_list,search_criteria)
     return_message = return_message + '\n' + process_downloaded_table(table_name)
     return_message = return_message + '\n' + update_powerschool_mirror(table_name,field_list,False)
