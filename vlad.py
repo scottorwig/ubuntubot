@@ -73,7 +73,6 @@ prowl_body = prowl_body + '\n' + powerschool.update_attendance()
 prowl_body = prowl_body + '\n' + powerschool.update_attendance_taken()
 prowl_body = prowl_body + '\n' + powerschool.update_courses()
 prowl_body = prowl_body + '\n' + powerschool.update_graduation_requirements()
-# no grad sets yet prowl_body = prowl_body + '\n' + powerschool.update_graduation_requirements_sets()
 
 ps1000.write_host_file()
 erc.write_erc_update_file()
