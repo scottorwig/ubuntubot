@@ -294,7 +294,7 @@ def update_log():
     table_name = 'log'
     building_list = ['District Office']
     field_list = 'Category,Consequence,Custom,Discipline_ActionDate,Discipline_ActionTaken,Discipline_ActionTakenDetail,Discipline_ActionTakenEndDate,Discipline_AdministratorID,Discipline_AlcoholRelatedFlag,Discipline_DrugRelatedFlag,Discipline_DrugTypeDetail,Discipline_DurationActual,Discipline_DurationAssigned,Discipline_DurationChangeSource,Discipline_DurationNotes,Discipline_FelonyFlag,Discipline_GangRelatedFlag,Discipline_HateCrimeFlag,Discipline_HearingOfficerFlag,Discipline_IncidentContext,Discipline_IncidentDate,Discipline_IncidentLocation,Discipline_IncidentLocDetail,Discipline_IncidentType,Discipline_IncidentTypeCategory,Discipline_IncidentTypeDetail,Discipline_LikelyInjuryFlag,Discipline_MoneyLossValue,Discipline_Offender,Discipline_PoliceInvolvedFlag,Discipline_Reporter,Discipline_ReporterID,Discipline_SchoolRulesVioFlag,Discipline_Sequence,Discipline_VictimType,Discipline_WeaponRelatedFlag,Discipline_WeaponType,Discipline_WeaponTypeNotes,Entry,Entry_Author,Entry_Date,Entry_Time,ID,LogTypeID,SchoolID,StudentID,Student_Number,Subject,Subtype,TeacherID'
-    return_message = download_table(table_number, table_name, field_list, building_list,search_criteria)
+    return_message = download_table(table_number, table_name, field_list, building_list)
     return_message = return_message + '\n' + process_downloaded_table(table_name)
     return_message = return_message + '\n' + update_powerschool_mirror(table_name,field_list)
     return return_message
@@ -304,7 +304,7 @@ def update_period():
     table_name = 'period'
     building_list = ['District Office']
     field_list = 'Abbreviation,ID,Name,Period_Number,SchoolID,Sort_Order,Year_ID'
-    return_message = download_table(table_number, table_name, field_list, building_list,search_criteria)
+    return_message = download_table(table_number, table_name, field_list, building_list)
     return_message = return_message + '\n' + process_downloaded_table(table_name)
     return_message = return_message + '\n' + update_powerschool_mirror(table_name,field_list)
     return return_message
@@ -314,7 +314,7 @@ def update_sections():
     table_name = 'sections'
     building_list = ['District Office']
     field_list = 'Attendance,Attendance_Type_Code,Att_Mode_Code,Bitmap,BlockPeriods_Obsolete,BuildID,CampusID,CCRNArray,Comment,Course_Number,Custom,Days_Obsolete,Dependent_Secs,DistUniqueID,ExcludeFromClassRank,ExcludeFromGPA,ExcludeFromHonorRoll,ExcludeFromStoredGrades,Exclude_ADA,Exclude_State_Rpt_YN,Expression,FastPerList,GradeProfile,GradeScaleID,Grade_Level,House,ID,Instruction_Lang,LastAttUpdate,Log,MaxCut,MaxEnrollment,Max_Load_Status,NoOfTerms,No_of_students,Original_Expression,Parent_Section_ID,Period_Obsolete,PGFlags,PGVersion,ProgramID,Room,RosterModSer,ScheduleSectionID,SchoolID,SectionInfo_guid,Section_Number,Section_Type,SortOrder,Teacher,TeacherDescr,Team,TermID,TrackTeacherAtt,WhereTaught,WhereTaughtDistrict'
-    return_message = download_table(table_number, table_name, field_list, building_list,search_criteria)
+    return_message = download_table(table_number, table_name, field_list, building_list)
     return_message = return_message + '\n' + process_downloaded_table(table_name)
     return_message = return_message + '\n' + update_powerschool_mirror(table_name,field_list)
     return return_message
