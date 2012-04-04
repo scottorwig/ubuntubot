@@ -163,7 +163,10 @@ def process_downloaded_table(table_name):
         line_removed_carriage_returns = line_removed_line_breaks.replace('\r', '')
         line_removed_line_feeds = line_removed_carriage_returns.replace('\n','')
         line_removed_form_feeds = line_removed_line_feeds.replace('\f', '')
-        line_characters_from_whitelist = characters_from_whitelist_only(line_removed_form_feeds)
+        line_removed_slash_b = line_removed_form_feeds.replace('\b','')
+        line_removed_slash_t = line_removed_slash_b.replace('\t','')
+        line_removed_slash_apastrophe = line_removed_slash_t.replace("\'",'')
+        line_characters_from_whitelist = characters_from_whitelist_only(line_removed_slash_apastrophe)
         line_iso_date = date_finder.sub(convert_english_date_to_iso_date,line_characters_from_whitelist)
         line_blank_dates_converted = line_iso_date.replace('0/0/0','0000-00-00')
         # replacing |s with \n will put individual records on lines by themselves
