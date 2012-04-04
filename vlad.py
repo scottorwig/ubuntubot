@@ -64,16 +64,20 @@ def characters_from_whitelist_only(dirty_string):
          clean_string += shady_character
    return clean_string
 
-
-
-#prowl_body = prowl_body + '\n' + powerschool.update_attendance()
-prowl_body = prowl_body + '\n' + powerschool.update_students()
-prowl_body = prowl_body + '\n' + powerschool.update_teachers()
+prowl_body = prowl_body + '\n' + powerschool.update_aggstats()
 prowl_body = prowl_body + '\n' + powerschool.update_attendance()
 prowl_body = prowl_body + '\n' + powerschool.update_attendance_taken()
+prowl_body = prowl_body + '\n' + powerschool.update_cc()
 prowl_body = prowl_body + '\n' + powerschool.update_courses()
 prowl_body = prowl_body + '\n' + powerschool.update_graduation_requirements()
-prowl_body = prowl_body + '\n' + powerschool.update_graduation_requirements_sets()
+prowl_body = prowl_body + '\n' + powerschool.update_log()
+prowl_body = prowl_body + '\n' + powerschool.update_period()
+prowl_body = prowl_body + '\n' + powerschool.update_sections()
+prowl_body = prowl_body + '\n' + powerschool.update_students()
+prowl_body = prowl_body + '\n' + powerschool.update_teachers()
+
+
+
 
 ps1000.write_host_file()
 erc.write_erc_update_file()
