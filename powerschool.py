@@ -35,7 +35,7 @@ browser_download_directory = config.get('vlad', 'download_directory')
 browser_partial_download = os.path.join(browser_download_directory,'student.export.text.part')
 browser_completed_download = os.path.join(browser_download_directory,'student.export.text')
 
-whitelist = string.letters + string.digits + ' ' + '/' + '?' + '\\' + '\t' + '.' + '!' + '@' + '#' + '$' + '%' + '&' + '*' + '(' + ')' + '_' + '-' + '=' + '+' + ':' + ';' + '|' + '[' + ']' + '{' + '}' + '<' + '>' + '~' + '^' + '`'
+whitelist = string.letters + string.digits + ' ' + '/' + '?' + '.' + '!' + '@' + '#' + '$' + '%' + '&' + '*' + '(' + ')' + '_' + '-' + '=' + '+' + ':' + ';' + '|' + '[' + ']' + '{' + '}' + '<' + '>' + '~' + '^' + '`'
 date_finder = re.compile('([0-9]{1,2}/[0-9]{1,2}/[0-9]{2,4})')
 
 def characters_from_whitelist_only(dirty_string):
@@ -316,7 +316,7 @@ def update_sections():
     table_number = '3'
     table_name = 'sections'
     building_list = ['District Office']
-    field_list = 'Attendance,Attendance_Type_Code,Att_Mode_Code,Bitmap,BlockPeriods_Obsolete,BuildID,CampusID,CCRNArray,Comment,Course_Number,Custom,Days_Obsolete,Dependent_Secs,DistUniqueID,ExcludeFromClassRank,ExcludeFromGPA,ExcludeFromHonorRoll,ExcludeFromStoredGrades,Exclude_ADA,Exclude_State_Rpt_YN,Expression,FastPerList,GradeProfile,GradeScaleID,Grade_Level,House,ID,Instruction_Lang,LastAttUpdate,Log,MaxCut,MaxEnrollment,Max_Load_Status,NoOfTerms,No_of_students,Original_Expression,Parent_Section_ID,Period_Obsolete,PGFlags,PGVersion,ProgramID,Room,RosterModSer,ScheduleSectionID,SchoolID,SectionInfo_guid,Section_Number,Section_Type,SortOrder,Teacher,TeacherDescr,Team,TermID,TrackTeacherAtt,WhereTaught,WhereTaughtDistrict'
+    field_list = 'Att_Mode_Code,Attendance,Attendance_Type_Code,Bitmap,BlockPeriods_Obsolete,BuildID,CampusID,CCRNArray,Comment,Course_Number,Custom,Days_Obsolete,Dependent_Secs,DistUniqueID,Exclude_ADA,Exclude_State_Rpt_YN,ExcludeFromClassRank,ExcludeFromGPA,ExcludeFromHonorRoll,ExcludeFromStoredGrades,Expression,FastPerList,Grade_Level,GradeProfile,GradeScaleID,House,ID,Instruction_Lang,LastAttUpdate,Log,Max_Load_Status,MaxCut,MaxEnrollment,No_of_students,NoOfTerms,Original_Expression,Parent_Section_ID,Period_Obsolete,PGFlags,PGVersion,ProgramID,Room,RosterModSer,ScheduleSectionID,SchoolID,Section_Number,Section_Type,SectionInfo_guid,SortOrder,Teacher,TeacherDescr,Team,TermID,TrackTeacherAtt,WhereTaught,WhereTaughtDistrict'
     return_message = download_table(table_number, table_name, field_list, building_list)
     return_message = return_message + '\n' + process_downloaded_table(table_name)
     return_message = return_message + '\n' + update_powerschool_mirror(table_name,field_list)
