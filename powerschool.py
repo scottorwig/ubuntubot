@@ -35,7 +35,7 @@ browser_download_directory = config.get('vlad', 'download_directory')
 browser_partial_download = os.path.join(browser_download_directory,'student.export.text.part')
 browser_completed_download = os.path.join(browser_download_directory,'student.export.text')
 
-whitelist = string.letters + string.digits + ' ' + '/' + '?' + '\\' + '\t' + '.' + '!' + '@' + '#' + '$' + '%' + '&' + '*' + '(' + ')' + '_' + '-' + '=' + '+' + ':' + ';' + '|' + '[' + ']' + '{' + '}' + '<' + '>' + '~' + '^' + '`'
+whitelist = string.letters + string.digits + ' ' + '/' + '?' + '.' + '!' + '@' + '#' + '$' + '%' + '&' + '*' + '(' + ')' + '_' + '-' + '=' + '+' + ':' + ';' + '|' + '[' + ']' + '{' + '}' + '<' + '>' + '~' + '^' + '`'
 date_finder = re.compile('([0-9]{1,2}/[0-9]{1,2}/[0-9]{2,4})')
 
 def characters_from_whitelist_only(dirty_string):
@@ -163,7 +163,10 @@ def process_downloaded_table(table_name):
         line_removed_carriage_returns = line_removed_line_breaks.replace('\r', '')
         line_removed_line_feeds = line_removed_carriage_returns.replace('\n','')
         line_removed_form_feeds = line_removed_line_feeds.replace('\f', '')
-        line_characters_from_whitelist = characters_from_whitelist_only(line_removed_form_feeds)
+        line_removed_slash_b = line_removed_form_feeds.replace('\b','')
+        line_removed_slash_t = line_removed_slash_b.replace('\t','')
+        line_removed_slash_apastrophe = line_removed_slash_t.replace("\'",'')
+        line_characters_from_whitelist = characters_from_whitelist_only(line_removed_slash_apastrophe)
         line_iso_date = date_finder.sub(convert_english_date_to_iso_date,line_characters_from_whitelist)
         line_blank_dates_converted = line_iso_date.replace('0/0/0','0000-00-00')
         # replacing |s with \n will put individual records on lines by themselves
@@ -294,7 +297,7 @@ def update_log():
     table_name = 'log'
     building_list = ['District Office']
     field_list = 'Category,Consequence,Custom,Discipline_ActionDate,Discipline_ActionTaken,Discipline_ActionTakenDetail,Discipline_ActionTakenEndDate,Discipline_AdministratorID,Discipline_AlcoholRelatedFlag,Discipline_DrugRelatedFlag,Discipline_DrugTypeDetail,Discipline_DurationActual,Discipline_DurationAssigned,Discipline_DurationChangeSource,Discipline_DurationNotes,Discipline_FelonyFlag,Discipline_GangRelatedFlag,Discipline_HateCrimeFlag,Discipline_HearingOfficerFlag,Discipline_IncidentContext,Discipline_IncidentDate,Discipline_IncidentLocation,Discipline_IncidentLocDetail,Discipline_IncidentType,Discipline_IncidentTypeCategory,Discipline_IncidentTypeDetail,Discipline_LikelyInjuryFlag,Discipline_MoneyLossValue,Discipline_Offender,Discipline_PoliceInvolvedFlag,Discipline_Reporter,Discipline_ReporterID,Discipline_SchoolRulesVioFlag,Discipline_Sequence,Discipline_VictimType,Discipline_WeaponRelatedFlag,Discipline_WeaponType,Discipline_WeaponTypeNotes,Entry,Entry_Author,Entry_Date,Entry_Time,ID,LogTypeID,SchoolID,StudentID,Student_Number,Subject,Subtype,TeacherID'
-    return_message = download_table(table_number, table_name, field_list, building_list,search_criteria)
+    return_message = download_table(table_number, table_name, field_list, building_list)
     return_message = return_message + '\n' + process_downloaded_table(table_name)
     return_message = return_message + '\n' + update_powerschool_mirror(table_name,field_list)
     return return_message
@@ -304,7 +307,7 @@ def update_period():
     table_name = 'period'
     building_list = ['District Office']
     field_list = 'Abbreviation,ID,Name,Period_Number,SchoolID,Sort_Order,Year_ID'
-    return_message = download_table(table_number, table_name, field_list, building_list,search_criteria)
+    return_message = download_table(table_number, table_name, field_list, building_list)
     return_message = return_message + '\n' + process_downloaded_table(table_name)
     return_message = return_message + '\n' + update_powerschool_mirror(table_name,field_list)
     return return_message
@@ -313,8 +316,8 @@ def update_sections():
     table_number = '3'
     table_name = 'sections'
     building_list = ['District Office']
-    field_list = 'Attendance,Attendance_Type_Code,Att_Mode_Code,Bitmap,BlockPeriods_Obsolete,BuildID,CampusID,CCRNArray,Comment,Course_Number,Custom,Days_Obsolete,Dependent_Secs,DistUniqueID,ExcludeFromClassRank,ExcludeFromGPA,ExcludeFromHonorRoll,ExcludeFromStoredGrades,Exclude_ADA,Exclude_State_Rpt_YN,Expression,FastPerList,GradeProfile,GradeScaleID,Grade_Level,House,ID,Instruction_Lang,LastAttUpdate,Log,MaxCut,MaxEnrollment,Max_Load_Status,NoOfTerms,No_of_students,Original_Expression,Parent_Section_ID,Period_Obsolete,PGFlags,PGVersion,ProgramID,Room,RosterModSer,ScheduleSectionID,SchoolID,SectionInfo_guid,Section_Number,Section_Type,SortOrder,Teacher,TeacherDescr,Team,TermID,TrackTeacherAtt,WhereTaught,WhereTaughtDistrict'
-    return_message = download_table(table_number, table_name, field_list, building_list,search_criteria)
+    field_list = 'Att_Mode_Code,Attendance,Attendance_Type_Code,Bitmap,BlockPeriods_Obsolete,BuildID,CampusID,CCRNArray,Comment,Course_Number,Custom,Days_Obsolete,Dependent_Secs,DistUniqueID,Exclude_ADA,Exclude_State_Rpt_YN,ExcludeFromClassRank,ExcludeFromGPA,ExcludeFromHonorRoll,ExcludeFromStoredGrades,Expression,FastPerList,Grade_Level,GradeProfile,GradeScaleID,House,ID,Instruction_Lang,LastAttUpdate,Log,Max_Load_Status,MaxCut,MaxEnrollment,No_of_students,NoOfTerms,Original_Expression,Parent_Section_ID,Period_Obsolete,PGFlags,PGVersion,ProgramID,Room,RosterModSer,ScheduleSectionID,SchoolID,Section_Number,Section_Type,SectionInfo_guid,SortOrder,Teacher,TeacherDescr,Team,TermID,TrackTeacherAtt,WhereTaught,WhereTaughtDistrict'
+    return_message = download_table(table_number, table_name, field_list, building_list)
     return_message = return_message + '\n' + process_downloaded_table(table_name)
     return_message = return_message + '\n' + update_powerschool_mirror(table_name,field_list)
     return return_message
