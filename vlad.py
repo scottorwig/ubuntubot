@@ -39,15 +39,6 @@ email_attention_flag = ''
 prowl_address = config.get('prowl', 'email')
 log_file = config.get('logging','path')
 
-db_host = 'localhost'
-db_user = config.get('powerschoolmirror', 'user')
-db_password = config.get('powerschoolmirror', 'password')
-db_name = config.get('powerschoolmirror', 'database')
-conn = MySQLdb.connect (host = db_host,
-                        user = db_user,
-                        passwd = db_password,
-                        db = db_name)
-cursor = conn.cursor ()
 
 logging.basicConfig(filename=log_file)
 
@@ -85,13 +76,25 @@ prowl_body = prowl_body + '\n' + powerschool.update_graduation_requirements()
 prowl_body = prowl_body + '\n' + powerschool.update_log()
 prowl_body = prowl_body + '\n' + powerschool.update_period()
 prowl_body = prowl_body + '\n' + powerschool.update_sections()
-prowl_body = prowl_body + '\n' + powerschool.update_students()
-prowl_body = prowl_body + '\n' + powerschool.update_teachers()
+prowl_body, inserted_students = prowl_body + '\n' + powerschool.update_students()
+prowl_body, inserted_teachers = prowl_body + '\n' + powerschool.update_teachers()
 
 ps1000.write_host_file()
 erc.write_erc_update_file()
 
-
 prowl_subject = 'vlad has run'
 prowl_body = prowl_body + '\nvlad completed a run at {0}'.format(date_stamp)
 gmailer.mail(prowl_address, prowl_subject, prowl_body, gmail_user, gmail_pwd)
+
+db_host = 'localhost'
+db_user = config.get('powerschoolmirror', 'user')
+db_password = config.get('powerschoolmirror', 'password')
+db_name = config.get('powerschoolmirror', 'database')
+conn = MySQLdb.connect (host = db_host,
+                        user = db_user,
+                        passwd = db_password,
+                        db = db_name)
+cursor = conn.cursor ()
+end_time = datetime.datetime.now()
+sql_string = 'INSERT INTO meta_update (time_start, time_end, inserted_students, inserted_teachers) VALUES ({0},{1},{2},{3})'.format(start_time, end_time, inserted_students, inserted_teachers)
+cursor.execute(sql_string)
