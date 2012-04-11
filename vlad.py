@@ -27,6 +27,8 @@ import sys
 import time
 import unittest
 
+start_time = datetime.datetime.now()
+
 config = ConfigParser.ConfigParser()
 config.read([config_file_path])
 
@@ -36,6 +38,16 @@ email_body = ''
 email_attention_flag = ''
 prowl_address = config.get('prowl', 'email')
 log_file = config.get('logging','path')
+
+db_host = 'localhost'
+db_user = config.get('powerschoolmirror', 'user')
+db_password = config.get('powerschoolmirror', 'password')
+db_name = config.get('powerschoolmirror', 'database')
+conn = MySQLdb.connect (host = db_host,
+                        user = db_user,
+                        passwd = db_password,
+                        db = db_name)
+cursor = conn.cursor ()
 
 logging.basicConfig(filename=log_file)
 
