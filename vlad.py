@@ -67,17 +67,17 @@ def characters_from_whitelist_only(dirty_string):
          clean_string += shady_character
    return clean_string
 
-prowl_body = prowl_body + '\n' + powerschool.update_aggstats()
+#prowl_body = prowl_body + '\n' + powerschool.update_aggstats()
 prowl_body = prowl_body + '\n' + powerschool.update_attendance()
-prowl_body = prowl_body + '\n' + powerschool.update_attendance_taken()
-prowl_body = prowl_body + '\n' + powerschool.update_cc()
-prowl_body = prowl_body + '\n' + powerschool.update_courses()
-prowl_body = prowl_body + '\n' + powerschool.update_graduation_requirements()
-prowl_body = prowl_body + '\n' + powerschool.update_log()
-prowl_body = prowl_body + '\n' + powerschool.update_period()
-prowl_body = prowl_body + '\n' + powerschool.update_sections()
-prowl_body, inserted_students = prowl_body + '\n' + powerschool.update_students()
-prowl_body, inserted_teachers = prowl_body + '\n' + powerschool.update_teachers()
+#prowl_body = prowl_body + '\n' + powerschool.update_attendance_taken()
+#prowl_body = prowl_body + '\n' + powerschool.update_cc()
+#prowl_body = prowl_body + '\n' + powerschool.update_courses()
+#prowl_body = prowl_body + '\n' + powerschool.update_graduation_requirements()
+#prowl_body = prowl_body + '\n' + powerschool.update_log()
+#prowl_body = prowl_body + '\n' + powerschool.update_period()
+#prowl_body = prowl_body + '\n' + powerschool.update_sections()
+inserted_students = powerschool.update_students()
+inserted_teachers = powerschool.update_teachers()
 
 ps1000.write_host_file()
 erc.write_erc_update_file()
@@ -96,5 +96,7 @@ conn = MySQLdb.connect (host = db_host,
                         db = db_name)
 cursor = conn.cursor ()
 end_time = datetime.datetime.now()
-sql_string = 'INSERT INTO meta_update (time_start, time_end, inserted_students, inserted_teachers) VALUES ({0},{1},{2},{3})'.format(start_time, end_time, inserted_students, inserted_teachers)
+sql_string = "INSERT INTO meta_update (time_start, time_end, inserted_students, inserted_teachers) VALUES ('{0}','{1}','{2}','{3}')".format(start_time, end_time, inserted_students, inserted_teachers)
+print 'About to execute sql_string:'
+print sql_string
 cursor.execute(sql_string)
