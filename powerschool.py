@@ -14,6 +14,7 @@ import os
 import re
 import string
 import time
+import tools
 import unittest
 
 config = ConfigParser.ConfigParser()
@@ -58,14 +59,13 @@ def convert_english_date_to_iso_date(englishDate):
 
 def download_table(table_number, table_name, field_list, building_list=['District Office'], search_criteria=''):
     report_string = 'Downloading table number {0}, {1} from {2} building(s)'.format(table_number, table_name, len(building_list))
+    print report_string
     field_list_newlines = field_list.replace(',','\n')
 
     # Clear out partial downloads and anything related to the current table
     for file_name in os.listdir(browser_download_directory):
-        print 'Examining {0}'.format(file_name)
         if (table_name in file_name) or ('part' in file_name):
             full_path_to_doomed_file = os.path.join(browser_download_directory,file_name)
-            print 'Removing file:{0}'.format(full_path_to_doomed_file)
             os.remove(full_path_to_doomed_file)
             if os.path.exists(full_path_to_doomed_file):
                 print '{0} still lives!'.format(full_path_to_doomed_file)
@@ -156,21 +156,10 @@ def process_downloaded_table(table_name):
     report_string = '{0} opened for processing'.format(downloaded_table_full_path)
 
     line_counter = 0
-    log_string = 'The file {0} appears to have {1} lines.'.format(downloaded_table_full_path, len(raw_line_at_a_time))
     for raw_line in raw_line_at_a_time:
-        #print raw_line
-        line_removed_line_breaks = raw_line.replace('\n', '')
-        line_removed_carriage_returns = line_removed_line_breaks.replace('\r', '')
-        line_removed_line_feeds = line_removed_carriage_returns.replace('\n','')
-        line_removed_form_feeds = line_removed_line_feeds.replace('\f', '')
-        line_removed_slash_b = line_removed_form_feeds.replace('\b','')
-        line_removed_slash_t = line_removed_slash_b.replace('\t','')
-        line_removed_slash_apastrophe = line_removed_slash_t.replace("\'",'')
-        line_characters_from_whitelist = characters_from_whitelist_only(line_removed_slash_apastrophe)
-        line_iso_date = date_finder.sub(convert_english_date_to_iso_date,line_characters_from_whitelist)
-        line_blank_dates_converted = line_iso_date.replace('0/0/0','0000-00-00')
+        cleaned_line = tools.clean_string_for_sql(raw_line)
         # replacing |s with \n will put individual records on lines by themselves
-        split_records = line_blank_dates_converted.replace('|', '\n')
+        split_records = cleaned_line.replace('|', '\n')
         #print split_records
         clean_file_writer.writelines(split_records)
         line_counter = line_counter + 1
