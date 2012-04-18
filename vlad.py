@@ -69,7 +69,7 @@ def characters_from_whitelist_only(dirty_string):
    return clean_string
 
 #prowl_body = prowl_body + '\n' + powerschool.update_aggstats()
-prowl_body = prowl_body + '\n' + powerschool.update_attendance()
+#prowl_body = prowl_body + '\n' + powerschool.update_attendance()
 #prowl_body = prowl_body + '\n' + powerschool.update_attendance_taken()
 #prowl_body = prowl_body + '\n' + powerschool.update_cc()
 #prowl_body = prowl_body + '\n' + powerschool.update_courses()
