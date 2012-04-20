@@ -940,6 +940,7 @@ CREATE TABLE `meta_update` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `time_start` datetime DEFAULT NULL,
   `time_end` datetime DEFAULT NULL,
+  `inserted_attendance` int(11) DEFAULT NULL,
   `inserted_students` int(11) DEFAULT NULL,
   `inserted_teachers` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
