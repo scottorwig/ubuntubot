@@ -227,7 +227,7 @@ def update_attendance():
     return_message = download_table(table_number, table_name, field_list, building_list,search_criteria)
     return_message = return_message + '\n' + process_downloaded_table(table_name)
     counter = update_powerschool_mirror(table_name,field_list,False)
-    return return_message
+    return counter
 
 def update_attendance_taken():
     table_number = '172'
@@ -238,7 +238,7 @@ def update_attendance_taken():
     return_message = download_table(table_number, table_name, field_list, building_list,search_criteria)
     return_message = return_message + '\n' + process_downloaded_table(table_name)
     counter = update_powerschool_mirror(table_name,field_list,False)
-    return return_message
+    return counter
 
 def update_cc():
     table_number = '4'
