@@ -216,7 +216,7 @@ def update_aggstats():
     return_message = download_table(table_number, table_name, field_list, building_list)
     return_message = return_message + '\n' + process_downloaded_table(table_name)
     counter = update_powerschool_mirror(table_name,field_list)
-    return return_message
+    return counter
 
 def update_attendance():
     table_number = '157'
@@ -249,7 +249,7 @@ def update_cc():
     return_message = download_table(table_number, table_name, field_list, building_list,search_criteria)
     return_message = return_message + '\n' + process_downloaded_table(table_name)
     counter = update_powerschool_mirror(table_name,field_list,False)
-    return return_message
+    return counter
 
 def update_courses():
     table_number = '2'
@@ -259,7 +259,7 @@ def update_courses():
     return_message = download_table(table_number, table_name, field_list, building_list)
     return_message = return_message + '\n' + process_downloaded_table(table_name)
     counter = update_powerschool_mirror(table_name,field_list)
-    return return_message
+    return counter
 
 def update_graduation_requirements():
     table_number = '37'
@@ -269,7 +269,7 @@ def update_graduation_requirements():
     return_message = download_table(table_number, table_name, field_list, building_list)
     return_message = return_message + '\n' + process_downloaded_table(table_name)
     counter = update_powerschool_mirror(table_name,field_list)
-    return return_message
+    return counter
 
 def update_graduation_requirements_sets():
     table_number = '57'
@@ -279,7 +279,7 @@ def update_graduation_requirements_sets():
     return_message = download_table(table_number, table_name, field_list, building_list)
     return_message = return_message + '\n' + process_downloaded_table(table_name)
     counter = update_powerschool_mirror(table_name,field_list)
-    return return_message
+    return counter
 
 def update_log():
     table_number = '8'
@@ -289,7 +289,7 @@ def update_log():
     return_message = download_table(table_number, table_name, field_list, building_list)
     return_message = return_message + '\n' + process_downloaded_table(table_name)
     counter = update_powerschool_mirror(table_name,field_list)
-    return return_message
+    return counter
 
 def update_period():
     table_number = '138'
@@ -299,7 +299,7 @@ def update_period():
     return_message = download_table(table_number, table_name, field_list, building_list)
     return_message = return_message + '\n' + process_downloaded_table(table_name)
     counter = update_powerschool_mirror(table_name,field_list)
-    return return_message
+    return counter
 
 def update_sections():
     table_number = '3'
@@ -309,7 +309,7 @@ def update_sections():
     return_message = download_table(table_number, table_name, field_list, building_list)
     return_message = return_message + '\n' + process_downloaded_table(table_name)
     counter = update_powerschool_mirror(table_name,field_list)
-    return return_message
+    return counter
 
 def update_students():
     return_message = ''

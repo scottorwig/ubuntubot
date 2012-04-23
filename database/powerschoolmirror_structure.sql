@@ -1,5 +1,5 @@
 /*
-SQLyog Community v9.51 
+SQLyog Community v9.20 
 MySQL - 5.1.61-0ubuntu0.11.04.1 : Database - powerschoolmirror
 *********************************************************************
 */
@@ -17,6 +17,8 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/`powerschoolmirror` /*!40100 DEFAULT CHA
 USE `powerschoolmirror`;
 
 /*Table structure for table `aggstats` */
+
+DROP TABLE IF EXISTS `aggstats`;
 
 CREATE TABLE `aggstats` (
   `AdminPVs` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -48,6 +50,8 @@ CREATE TABLE `aggstats` (
 
 /*Table structure for table `att_code_code_entity` */
 
+DROP TABLE IF EXISTS `att_code_code_entity`;
+
 CREATE TABLE `att_code_code_entity` (
   `Attendance_CodeID` int(11) DEFAULT NULL,
   `Code_EntityID` int(11) DEFAULT NULL,
@@ -55,6 +59,8 @@ CREATE TABLE `att_code_code_entity` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `attendance` */
+
+DROP TABLE IF EXISTS `attendance`;
 
 CREATE TABLE `attendance` (
   `ADA_Value_Code` varchar(10) COLLATE latin1_general_ci DEFAULT '',
@@ -90,6 +96,8 @@ CREATE TABLE `attendance` (
 
 /*Table structure for table `attendance_code` */
 
+DROP TABLE IF EXISTS `attendance_code`;
+
 CREATE TABLE `attendance_code` (
   `Alternate_Code` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
   `Assignment_Filter_YN` tinyint(4) DEFAULT '0',
@@ -113,6 +121,8 @@ CREATE TABLE `attendance_code` (
 
 /*Table structure for table `attendance_conversion` */
 
+DROP TABLE IF EXISTS `attendance_conversion`;
+
 CREATE TABLE `attendance_conversion` (
   `ID` int(11) DEFAULT NULL,
   `Name` varchar(100) COLLATE latin1_general_ci DEFAULT NULL,
@@ -121,6 +131,8 @@ CREATE TABLE `attendance_conversion` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `attendance_conversion_items` */
+
+DROP TABLE IF EXISTS `attendance_conversion_items`;
 
 CREATE TABLE `attendance_conversion_items` (
   `Attendance_Conversion_ID` int(11) DEFAULT NULL,
@@ -135,6 +147,8 @@ CREATE TABLE `attendance_conversion_items` (
 
 /*Table structure for table `attendance_taken` */
 
+DROP TABLE IF EXISTS `attendance_taken`;
+
 CREATE TABLE `attendance_taken` (
   `Att_Date` date DEFAULT NULL,
   `Att_Interval` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -145,6 +159,8 @@ CREATE TABLE `attendance_taken` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `awsched_constraint` */
+
+DROP TABLE IF EXISTS `awsched_constraint`;
 
 CREATE TABLE `awsched_constraint` (
   `Bitmap` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -170,6 +186,8 @@ CREATE TABLE `awsched_constraint` (
 
 /*Table structure for table `awsched_preference` */
 
+DROP TABLE IF EXISTS `awsched_preference`;
+
 CREATE TABLE `awsched_preference` (
   `DPCycle` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
   `ID` int(11) DEFAULT NULL,
@@ -191,6 +209,8 @@ CREATE TABLE `awsched_preference` (
 
 /*Table structure for table `batches` */
 
+DROP TABLE IF EXISTS `batches`;
+
 CREATE TABLE `batches` (
   `BatchType` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
   `Cash` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -206,6 +226,8 @@ CREATE TABLE `batches` (
 
 /*Table structure for table `bell_schedule` */
 
+DROP TABLE IF EXISTS `bell_schedule`;
+
 CREATE TABLE `bell_schedule` (
   `Attendance_Conversion_ID` int(11) DEFAULT NULL,
   `ID` int(11) DEFAULT NULL,
@@ -215,6 +237,8 @@ CREATE TABLE `bell_schedule` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `bell_schedule_items` */
+
+DROP TABLE IF EXISTS `bell_schedule_items`;
 
 CREATE TABLE `bell_schedule_items` (
   `ADA_Code` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -232,6 +256,8 @@ CREATE TABLE `bell_schedule_items` (
 
 /*Table structure for table `bulletinitems` */
 
+DROP TABLE IF EXISTS `bulletinitems`;
+
 CREATE TABLE `bulletinitems` (
   `Audience` varchar(100) COLLATE latin1_general_ci DEFAULT NULL,
   `Body` varchar(3000) COLLATE latin1_general_ci DEFAULT NULL,
@@ -244,6 +270,8 @@ CREATE TABLE `bulletinitems` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `calendar_day` */
+
+DROP TABLE IF EXISTS `calendar_day`;
 
 CREATE TABLE `calendar_day` (
   `A` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -267,6 +295,8 @@ CREATE TABLE `calendar_day` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `cc` */
+
+DROP TABLE IF EXISTS `cc`;
 
 CREATE TABLE `cc` (
   `AB_Course_Cmp_Ext_Crd` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -309,6 +339,8 @@ CREATE TABLE `cc` (
 
 /*Table structure for table `classrank` */
 
+DROP TABLE IF EXISTS `classrank`;
+
 CREATE TABLE `classrank` (
   `DateRanked` date DEFAULT NULL,
   `GPA` double DEFAULT NULL,
@@ -328,6 +360,8 @@ CREATE TABLE `classrank` (
 
 /*Table structure for table `code_entity` */
 
+DROP TABLE IF EXISTS `code_entity`;
+
 CREATE TABLE `code_entity` (
   `CE_Code` varchar(20) COLLATE latin1_general_ci DEFAULT NULL,
   `CE_Entity` varchar(30) COLLATE latin1_general_ci DEFAULT NULL,
@@ -345,6 +379,8 @@ CREATE TABLE `code_entity` (
 
 /*Table structure for table `course_relationship` */
 
+DROP TABLE IF EXISTS `course_relationship`;
+
 CREATE TABLE `course_relationship` (
   `Course_Number1` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
   `Course_Number2` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -356,6 +392,8 @@ CREATE TABLE `course_relationship` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `courses` */
+
+DROP TABLE IF EXISTS `courses`;
 
 CREATE TABLE `courses` (
   `Add_to_GPA` tinyint(1) DEFAULT NULL,
@@ -446,6 +484,8 @@ CREATE TABLE `courses` (
 
 /*Table structure for table `customtext` */
 
+DROP TABLE IF EXISTS `customtext`;
+
 CREATE TABLE `customtext` (
   `FieldNo` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
   `ID` int(11) DEFAULT NULL,
@@ -455,6 +495,8 @@ CREATE TABLE `customtext` (
 
 /*Table structure for table `customvarchars` */
 
+DROP TABLE IF EXISTS `customvarchars`;
+
 CREATE TABLE `customvarchars` (
   `FieldNo` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
   `ID` int(11) DEFAULT NULL,
@@ -463,6 +505,8 @@ CREATE TABLE `customvarchars` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `cycle_day` */
+
+DROP TABLE IF EXISTS `cycle_day`;
 
 CREATE TABLE `cycle_day` (
   `Abbreviation` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -477,6 +521,8 @@ CREATE TABLE `cycle_day` (
 
 /*Table structure for table `db_version` */
 
+DROP TABLE IF EXISTS `db_version`;
+
 CREATE TABLE `db_version` (
   `CreatedBy` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
   `CreatedDT` datetime DEFAULT NULL,
@@ -487,6 +533,8 @@ CREATE TABLE `db_version` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `dblog` */
+
+DROP TABLE IF EXISTS `dblog`;
 
 CREATE TABLE `dblog` (
   `Code` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -502,6 +550,8 @@ CREATE TABLE `dblog` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `derivedperiodinfo` */
+
+DROP TABLE IF EXISTS `derivedperiodinfo`;
 
 CREATE TABLE `derivedperiodinfo` (
   `ID` int(11) NOT NULL,
@@ -579,6 +629,8 @@ CREATE TABLE `derivedperiodinfo` (
 
 /*Table structure for table `facility` */
 
+DROP TABLE IF EXISTS `facility`;
+
 CREATE TABLE `facility` (
   `Description` varchar(1000) COLLATE latin1_general_ci DEFAULT NULL,
   `ID` int(11) DEFAULT NULL,
@@ -587,6 +639,8 @@ CREATE TABLE `facility` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `fee` */
+
+DROP TABLE IF EXISTS `fee`;
 
 CREATE TABLE `fee` (
   `Adjustment` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -624,6 +678,8 @@ CREATE TABLE `fee` (
 
 /*Table structure for table `fee_balance` */
 
+DROP TABLE IF EXISTS `fee_balance`;
+
 CREATE TABLE `fee_balance` (
   `Balance` double DEFAULT NULL,
   `Credit` double DEFAULT NULL,
@@ -636,6 +692,8 @@ CREATE TABLE `fee_balance` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `fee_transaction` */
+
+DROP TABLE IF EXISTS `fee_transaction`;
 
 CREATE TABLE `fee_transaction` (
   `Amount` double DEFAULT NULL,
@@ -664,6 +722,8 @@ CREATE TABLE `fee_transaction` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `fieldstable` */
+
+DROP TABLE IF EXISTS `fieldstable`;
 
 CREATE TABLE `fieldstable` (
   `ColNo` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -696,6 +756,8 @@ CREATE TABLE `fieldstable` (
 
 /*Table structure for table `fte` */
 
+DROP TABLE IF EXISTS `fte`;
+
 CREATE TABLE `fte` (
   `Description` varchar(2000) COLLATE latin1_general_ci DEFAULT NULL,
   `Dflt_Att_Mode_Code` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -708,6 +770,8 @@ CREATE TABLE `fte` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `gen` */
+
+DROP TABLE IF EXISTS `gen`;
 
 CREATE TABLE `gen` (
   `Cat` varchar(300) COLLATE latin1_general_ci DEFAULT NULL,
@@ -740,6 +804,8 @@ CREATE TABLE `gen` (
 
 /*Table structure for table `gradescaleitem` */
 
+DROP TABLE IF EXISTS `gradescaleitem`;
+
 CREATE TABLE `gradescaleitem` (
   `AddedValue` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
   `Alt_Grade_Points` int(11) DEFAULT NULL,
@@ -762,6 +828,8 @@ CREATE TABLE `gradescaleitem` (
 
 /*Table structure for table `gradestats` */
 
+DROP TABLE IF EXISTS `gradestats`;
+
 CREATE TABLE `gradestats` (
   `Student_Number` varchar(50) COLLATE latin1_general_ci NOT NULL,
   `~(*gpa method="LHS_Cumulative_GPA")` varchar(30) COLLATE latin1_general_ci DEFAULT NULL,
@@ -772,6 +840,8 @@ CREATE TABLE `gradestats` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `gradreq` */
+
+DROP TABLE IF EXISTS `gradreq`;
 
 CREATE TABLE `gradreq` (
   `AppliesTo` varchar(20) COLLATE latin1_general_ci DEFAULT '',
@@ -822,6 +892,8 @@ CREATE TABLE `gradreq` (
 
 /*Table structure for table `gradreqsets` */
 
+DROP TABLE IF EXISTS `gradreqsets`;
+
 CREATE TABLE `gradreqsets` (
   `GradReqSetID` int(11) DEFAULT NULL,
   `Name` varchar(100) COLLATE latin1_general_ci DEFAULT '',
@@ -829,6 +901,8 @@ CREATE TABLE `gradreqsets` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `honorroll` */
+
+DROP TABLE IF EXISTS `honorroll`;
 
 CREATE TABLE `honorroll` (
   `DateStored` date DEFAULT NULL,
@@ -847,6 +921,8 @@ CREATE TABLE `honorroll` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `log` */
+
+DROP TABLE IF EXISTS `log`;
 
 CREATE TABLE `log` (
   `Category` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -910,6 +986,8 @@ CREATE TABLE `log` (
 
 /*Table structure for table `logins` */
 
+DROP TABLE IF EXISTS `logins`;
+
 CREATE TABLE `logins` (
   `Hits` int(11) DEFAULT NULL,
   `ID` int(11) DEFAULT NULL,
@@ -936,17 +1014,29 @@ CREATE TABLE `logins` (
 
 /*Table structure for table `meta_update` */
 
+DROP TABLE IF EXISTS `meta_update`;
+
 CREATE TABLE `meta_update` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `time_start` datetime DEFAULT NULL,
   `time_end` datetime DEFAULT NULL,
+  `inserted_aggstats` int(11) DEFAULT NULL,
   `inserted_attendance` int(11) DEFAULT NULL,
+  `inserted_attendance_taken` int(11) DEFAULT NULL,
+  `inserted_cc` int(11) DEFAULT NULL,
+  `inserted_courses` int(11) DEFAULT NULL,
+  `inserted_graduation_requirements` int(11) DEFAULT NULL,
+  `inserted_log` int(11) DEFAULT NULL,
+  `inserted_period` int(11) DEFAULT NULL,
+  `inserted_sections` int(11) DEFAULT NULL,
   `inserted_students` int(11) DEFAULT NULL,
   `inserted_teachers` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `mimetypes` */
+
+DROP TABLE IF EXISTS `mimetypes`;
 
 CREATE TABLE `mimetypes` (
   `Mime` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -954,6 +1044,8 @@ CREATE TABLE `mimetypes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `pages` */
+
+DROP TABLE IF EXISTS `pages`;
 
 CREATE TABLE `pages` (
   `PagesDirectory` varchar(100) COLLATE latin1_general_ci DEFAULT NULL,
@@ -968,6 +1060,8 @@ CREATE TABLE `pages` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `period` */
+
+DROP TABLE IF EXISTS `period`;
 
 CREATE TABLE `period` (
   `Abbreviation` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -984,11 +1078,15 @@ CREATE TABLE `period` (
 
 /*Table structure for table `person` */
 
+DROP TABLE IF EXISTS `person`;
+
 CREATE TABLE `person` (
   `ID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `pgassignments` */
+
+DROP TABLE IF EXISTS `pgassignments`;
 
 CREATE TABLE `pgassignments` (
   `Abbreviation` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -1012,6 +1110,8 @@ CREATE TABLE `pgassignments` (
 
 /*Table structure for table `pgcategories` */
 
+DROP TABLE IF EXISTS `pgcategories`;
+
 CREATE TABLE `pgcategories` (
   `Abbreviation` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
   `DefaultPtsPoss` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -1024,6 +1124,8 @@ CREATE TABLE `pgcategories` (
 
 /*Table structure for table `pgcommentbank` */
 
+DROP TABLE IF EXISTS `pgcommentbank`;
+
 CREATE TABLE `pgcommentbank` (
   `Category` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
   `Code` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -1034,6 +1136,8 @@ CREATE TABLE `pgcommentbank` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `pgfinalgrades` */
+
+DROP TABLE IF EXISTS `pgfinalgrades`;
 
 CREATE TABLE `pgfinalgrades` (
   `Citizenship` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -1056,6 +1160,8 @@ CREATE TABLE `pgfinalgrades` (
 
 /*Table structure for table `pgnotification` */
 
+DROP TABLE IF EXISTS `pgnotification`;
+
 CREATE TABLE `pgnotification` (
   `Category` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
   `ID` int(11) DEFAULT NULL,
@@ -1068,6 +1174,8 @@ CREATE TABLE `pgnotification` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `phonelog` */
+
+DROP TABLE IF EXISTS `phonelog`;
 
 CREATE TABLE `phonelog` (
   `PhoneLogDate` date DEFAULT NULL,
@@ -1084,6 +1192,8 @@ CREATE TABLE `phonelog` (
 
 /*Table structure for table `prefs` */
 
+DROP TABLE IF EXISTS `prefs`;
+
 CREATE TABLE `prefs` (
   `ID` int(11) DEFAULT NULL,
   `Name` varchar(100) COLLATE latin1_general_ci DEFAULT NULL,
@@ -1094,6 +1204,8 @@ CREATE TABLE `prefs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `reenrollments` */
+
+DROP TABLE IF EXISTS `reenrollments`;
 
 CREATE TABLE `reenrollments` (
   `Custom` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -1122,6 +1234,8 @@ CREATE TABLE `reenrollments` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `registreq` */
+
+DROP TABLE IF EXISTS `registreq`;
 
 CREATE TABLE `registreq` (
   `AppliesTo` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -1171,6 +1285,8 @@ CREATE TABLE `registreq` (
 
 /*Table structure for table `relationship` */
 
+DROP TABLE IF EXISTS `relationship`;
+
 CREATE TABLE `relationship` (
   `ID` int(11) DEFAULT NULL,
   `Person_ID` int(11) DEFAULT NULL,
@@ -1179,6 +1295,8 @@ CREATE TABLE `relationship` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `repobatchsetups` */
+
+DROP TABLE IF EXISTS `repobatchsetups`;
 
 CREATE TABLE `repobatchsetups` (
   `RepoBatchSetupsChecksum` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -1222,6 +1340,8 @@ CREATE TABLE `repobatchsetups` (
 
 /*Table structure for table `repolookuptables` */
 
+DROP TABLE IF EXISTS `repolookuptables`;
+
 CREATE TABLE `repolookuptables` (
   `Internal_ID` int(11) DEFAULT NULL,
   `ReportSetupID` int(11) DEFAULT NULL,
@@ -1229,6 +1349,8 @@ CREATE TABLE `repolookuptables` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `repolookuptablescontentsitems` */
+
+DROP TABLE IF EXISTS `repolookuptablescontentsitems`;
 
 CREATE TABLE `repolookuptablescontentsitems` (
   `Field_Index` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -1239,6 +1361,8 @@ CREATE TABLE `repolookuptablescontentsitems` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `repolookuptablesdefitems` */
+
+DROP TABLE IF EXISTS `repolookuptablesdefitems`;
 
 CREATE TABLE `repolookuptablesdefitems` (
   `Description` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -1251,6 +1375,8 @@ CREATE TABLE `repolookuptablesdefitems` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `reports` */
+
+DROP TABLE IF EXISTS `reports`;
 
 CREATE TABLE `reports` (
   `Body` varchar(2000) COLLATE latin1_general_ci DEFAULT NULL,
@@ -1270,6 +1396,8 @@ CREATE TABLE `reports` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `reposetups` */
+
+DROP TABLE IF EXISTS `reposetups`;
 
 CREATE TABLE `reposetups` (
   `columns_display_headers` varchar(30) COLLATE latin1_general_ci DEFAULT NULL,
@@ -1398,6 +1526,8 @@ CREATE TABLE `reposetups` (
 
 /*Table structure for table `room` */
 
+DROP TABLE IF EXISTS `room`;
+
 CREATE TABLE `room` (
   `Building` varchar(100) COLLATE latin1_general_ci DEFAULT NULL,
   `Department` varchar(100) COLLATE latin1_general_ci DEFAULT NULL,
@@ -1412,6 +1542,8 @@ CREATE TABLE `room` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `schedulecc` */
+
+DROP TABLE IF EXISTS `schedulecc`;
 
 CREATE TABLE `schedulecc` (
   `Bitmap` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -1434,6 +1566,8 @@ CREATE TABLE `schedulecc` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `schedulecoursecatalogs` */
+
+DROP TABLE IF EXISTS `schedulecoursecatalogs`;
 
 CREATE TABLE `schedulecoursecatalogs` (
   `Add_to_GPA` tinyint(1) DEFAULT NULL,
@@ -1523,6 +1657,8 @@ CREATE TABLE `schedulecoursecatalogs` (
 
 /*Table structure for table `scheduledepartments` */
 
+DROP TABLE IF EXISTS `scheduledepartments`;
+
 CREATE TABLE `scheduledepartments` (
   `Description` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
   `ID` int(11) DEFAULT NULL,
@@ -1530,6 +1666,8 @@ CREATE TABLE `scheduledepartments` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `scheduleperiods` */
+
+DROP TABLE IF EXISTS `scheduleperiods`;
 
 CREATE TABLE `scheduleperiods` (
   `Abbr` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -1553,6 +1691,8 @@ CREATE TABLE `scheduleperiods` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `schedulerequests` */
+
+DROP TABLE IF EXISTS `schedulerequests`;
 
 CREATE TABLE `schedulerequests` (
   `AlternateCourseNumber1` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -1578,6 +1718,8 @@ CREATE TABLE `schedulerequests` (
 
 /*Table structure for table `schedulerooms` */
 
+DROP TABLE IF EXISTS `schedulerooms`;
+
 CREATE TABLE `schedulerooms` (
   `Building` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
   `Department` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -1598,6 +1740,8 @@ CREATE TABLE `schedulerooms` (
 
 /*Table structure for table `schedulesectionmeeting` */
 
+DROP TABLE IF EXISTS `schedulesectionmeeting`;
+
 CREATE TABLE `schedulesectionmeeting` (
   `BuildID` int(11) DEFAULT NULL,
   `Dayschedulesectionmeeting` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -1607,6 +1751,8 @@ CREATE TABLE `schedulesectionmeeting` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `schedulesections` */
+
+DROP TABLE IF EXISTS `schedulesections`;
 
 CREATE TABLE `schedulesections` (
   `Bitmap` varchar(200) COLLATE latin1_general_ci DEFAULT NULL,
@@ -1647,6 +1793,8 @@ CREATE TABLE `schedulesections` (
 
 /*Table structure for table `scheduleteacherassignments` */
 
+DROP TABLE IF EXISTS `scheduleteacherassignments`;
+
 CREATE TABLE `scheduleteacherassignments` (
   `BuildID` int(11) DEFAULT NULL,
   `CatalogID` int(11) DEFAULT NULL,
@@ -1660,6 +1808,8 @@ CREATE TABLE `scheduleteacherassignments` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `scheduleterms` */
+
+DROP TABLE IF EXISTS `scheduleterms`;
 
 CREATE TABLE `scheduleterms` (
   `Abbreviation` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -1680,6 +1830,8 @@ CREATE TABLE `scheduleterms` (
 
 /*Table structure for table `school_course` */
 
+DROP TABLE IF EXISTS `school_course`;
+
 CREATE TABLE `school_course` (
   `Alt_Course_Number` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
   `Att_Mode_Code` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -1697,6 +1849,8 @@ CREATE TABLE `school_course` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `schools` */
+
+DROP TABLE IF EXISTS `schools`;
 
 CREATE TABLE `schools` (
   `Abbreviation` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -1746,6 +1900,8 @@ CREATE TABLE `schools` (
 
 /*Table structure for table `section_meeting` */
 
+DROP TABLE IF EXISTS `section_meeting`;
+
 CREATE TABLE `section_meeting` (
   `Cycle_Day_Letter` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
   `ID` int(11) DEFAULT NULL,
@@ -1757,6 +1913,8 @@ CREATE TABLE `section_meeting` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `sections` */
+
+DROP TABLE IF EXISTS `sections`;
 
 CREATE TABLE `sections` (
   `Att_Mode_Code` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -1819,6 +1977,8 @@ CREATE TABLE `sections` (
 
 /*Table structure for table `sectionscores` */
 
+DROP TABLE IF EXISTS `sectionscores`;
+
 CREATE TABLE `sectionscores` (
   `Assignment` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
   `CommentSectionScores` varchar(300) COLLATE latin1_general_ci DEFAULT NULL,
@@ -1834,6 +1994,8 @@ CREATE TABLE `sectionscores` (
 
 /*Table structure for table `sectionscoresassignments` */
 
+DROP TABLE IF EXISTS `sectionscoresassignments`;
+
 CREATE TABLE `sectionscoresassignments` (
   `Assignment` varchar(100) COLLATE latin1_general_ci DEFAULT NULL,
   `Comment_Value` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -1846,6 +2008,8 @@ CREATE TABLE `sectionscoresassignments` (
 
 /*Table structure for table `sectionscoresid` */
 
+DROP TABLE IF EXISTS `sectionscoresid`;
+
 CREATE TABLE `sectionscoresid` (
   `ID` int(11) DEFAULT NULL,
   `SectionID` int(11) DEFAULT NULL,
@@ -1853,6 +2017,8 @@ CREATE TABLE `sectionscoresid` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `selections` */
+
+DROP TABLE IF EXISTS `selections`;
 
 CREATE TABLE `selections` (
   `BlobIDs` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -1865,6 +2031,8 @@ CREATE TABLE `selections` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `server_config` */
+
+DROP TABLE IF EXISTS `server_config`;
 
 CREATE TABLE `server_config` (
   `Config_GroupID` int(11) DEFAULT NULL,
@@ -1880,6 +2048,8 @@ CREATE TABLE `server_config` (
 
 /*Table structure for table `server_instance` */
 
+DROP TABLE IF EXISTS `server_instance`;
+
 CREATE TABLE `server_instance` (
   `Description` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
   `Host_IP` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -1892,6 +2062,8 @@ CREATE TABLE `server_instance` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `spenrollments` */
+
+DROP TABLE IF EXISTS `spenrollments`;
 
 CREATE TABLE `spenrollments` (
   `Code1` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -1909,6 +2081,8 @@ CREATE TABLE `spenrollments` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `storedgrades` */
+
+DROP TABLE IF EXISTS `storedgrades`;
 
 CREATE TABLE `storedgrades` (
   `None` varchar(100) COLLATE latin1_general_ci DEFAULT NULL,
@@ -1956,6 +2130,8 @@ CREATE TABLE `storedgrades` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `students` */
+
+DROP TABLE IF EXISTS `students`;
 
 CREATE TABLE `students` (
   `ACT_composite` varchar(50) COLLATE latin1_general_ci NOT NULL DEFAULT '',
@@ -2455,6 +2631,8 @@ CREATE TABLE `students` (
 
 /*Table structure for table `studenttest` */
 
+DROP TABLE IF EXISTS `studenttest`;
+
 CREATE TABLE `studenttest` (
   `Grade_Level` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
   `ID` int(11) DEFAULT NULL,
@@ -2466,6 +2644,8 @@ CREATE TABLE `studenttest` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `teachers` */
+
+DROP TABLE IF EXISTS `teachers`;
 
 CREATE TABLE `teachers` (
   `Access` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -2581,6 +2761,8 @@ CREATE TABLE `teachers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `terms` */
+
+DROP TABLE IF EXISTS `terms`;
 
 CREATE TABLE `terms` (
   `Abbreviation` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
