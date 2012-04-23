@@ -73,19 +73,20 @@ inserted_aggstats = powerschool.update_aggstats()
 inserted_attendance = powerschool.update_attendance()
 inserted_attendance_taken = powerschool.update_attendance_taken()
 inserted_cc = powerschool.update_cc()
-inserted_courses powerschool.update_courses()
+inserted_courses = powerschool.update_courses()
 inserted_graduation_requirements = powerschool.update_graduation_requirements()
 inserted_log = powerschool.update_log()
 inserted_period = powerschool.update_period()
-inserted_sections powerschool.update_sections()
+inserted_sections = powerschool.update_sections()
 inserted_students = powerschool.update_students()
 inserted_teachers = powerschool.update_teachers()
 
 ps1000.write_host_file()
 erc.write_erc_update_file()
 
+end_time = datetime.datetime.now()
 prowl_subject = 'vlad has run'
-prowl_body = prowl_body + '\nvlad completed a run at {0}'.format(date_stamp)
+prowl_body = prowl_body + '\nvlad completed a run at {0}'.format(end_time)
 gmailer.mail(prowl_address, prowl_subject, prowl_body, gmail_user, gmail_pwd)
 
 db_host = 'localhost'
@@ -98,7 +99,7 @@ conn = MySQLdb.connect (host = db_host,
                         db = db_name)
 cursor = conn.cursor ()
 end_time = datetime.datetime.now()
-sql_string = "INSERT INTO meta_update (time_start, time_end, inserted_aggstats, inserted_attendance, inserted_attendance_taken, inserted_cc, inserted_courses, inserted_graduation_requirements, inserted_log, inserted_period, inserted_sections, inserted_students, inserted_teachers) VALUES ('{0}','{1}','{2}','{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}')".format(start_time, end_time, inserted_aggstats, inserted_attendance, inserted_attendance_taken, inserted_cc, inserted_courses, inserted_graduation_requirements, inserted_log, inserted_period, inserted_sections, inserted_students, inserted_teachers)
+sql_string = "INSERT INTO meta_update (time_start, time_end, inserted_aggstats, inserted_attendance, inserted_attendance_taken, inserted_cc, inserted_courses, inserted_graduation_requirements, inserted_log, inserted_period, inserted_sections, inserted_students, inserted_teachers) VALUES ('{0}','{1}','{2}','{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}')".format(start_time, end_time, inserted_aggstats, inserted_attendance, inserted_attendance_taken, inserted_cc, inserted_courses, inserted_graduation_requirements, inserted_log, inserted_period, inserted_sections, inserted_students, inserted_teachers)
 print 'About to execute sql_string:'
 print sql_string
 cursor.execute(sql_string)
