@@ -941,10 +941,11 @@ CREATE TABLE `meta_update` (
   `time_start` datetime DEFAULT NULL,
   `time_end` datetime DEFAULT NULL,
   `inserted_attendance` int(11) DEFAULT NULL,
+  `inserted_attendance_taken` int(11) DEFAULT NULL,
   `inserted_students` int(11) DEFAULT NULL,
   `inserted_teachers` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `mimetypes` */
 
