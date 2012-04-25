@@ -1,6 +1,6 @@
 /*
 SQLyog Community v9.20 
-MySQL - 5.1.61-0ubuntu0.11.04.1 : Database - powerschoolmirror
+MySQL - 5.1.62-0ubuntu0.11.04.1 : Database - powerschoolmirror
 *********************************************************************
 */
 
@@ -1022,6 +1022,7 @@ CREATE TABLE `meta_update` (
   `time_end` datetime DEFAULT NULL,
   `inserted_aggstats` int(11) DEFAULT NULL,
   `inserted_attendance` int(11) DEFAULT NULL,
+  `inserted_attendance_code` int(11) DEFAULT NULL,
   `inserted_attendance_taken` int(11) DEFAULT NULL,
   `inserted_cc` int(11) DEFAULT NULL,
   `inserted_courses` int(11) DEFAULT NULL,
@@ -1032,7 +1033,7 @@ CREATE TABLE `meta_update` (
   `inserted_students` int(11) DEFAULT NULL,
   `inserted_teachers` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `mimetypes` */
 

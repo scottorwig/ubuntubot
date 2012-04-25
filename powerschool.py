@@ -229,6 +229,16 @@ def update_attendance():
     counter = update_powerschool_mirror(table_name,field_list,False)
     return counter
 
+def update_attendance_code():
+    table_number = '156'
+    table_name = 'attendance_code'
+    building_list = ['District Office']
+    field_list = 'Alternate_Code,Assignment_Filter_YN,Att_Code,AttendanceCodeInfo_guid,Calculate_ADA_YN,Calculate_ADM_YN,Course_Credit_Points,Description,ID,Presence_Status_CD,SchoolID,SortOrder,Unused1,YearID'
+    return_message = download_table(table_number, table_name, field_list, building_list)
+    return_message = return_message + '\n' + process_downloaded_table(table_name)
+    counter = update_powerschool_mirror(table_name,field_list,False)
+    return counter
+
 def update_attendance_taken():
     table_number = '172'
     table_name = 'attendance_taken'
