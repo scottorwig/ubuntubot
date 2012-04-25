@@ -7,11 +7,8 @@
 #
 # scottdawson72
 
-# this code requires at config file
-# specify the path here
-config_file_path = r'/home/orwig/Dropbox/lincoln_ubuntubot/ubuntubot.cfg'
 
-import ConfigParser
+import configmanager
 import datetime
 import erc
 #import follett
@@ -30,22 +27,18 @@ import unittest
 
 start_time = datetime.datetime.now()
 
-config = ConfigParser.ConfigParser()
-config.read([config_file_path])
+configuration_values = configmanager.readconfig()
 
-gmail_user = config.get('gmail', 'user')
-gmail_pwd = config.get('gmail', 'password')
+gmail_user = configuration_values['gmail_user']
+gmail_pwd = configuration_values['gmail_pwd']
 email_body = ''
-email_attention_flag = ''
-prowl_address = config.get('prowl', 'email')
-log_file = config.get('logging','path')
-
+email_attention_flag = False
+prowl_address = configuration_values['prowl_address']
+log_file = configuration_values['log_path']
+follett_destination_directory = configuration_values['follett_destination_directory']
 
 logging.basicConfig(filename=log_file)
 
-powerschool_table_directory = config.get('vlad', 'table_directory')
-browser_download_directory = config.get('vlad', 'download_directory')
-logging.info('Download directory:{0}'.format(browser_download_directory))
 today = datetime.date.today()
 date_stamp = today.strftime("%A, %B %d %Y")
 powerschool_term_id = 'label=11-12 2011-2012'
@@ -56,7 +49,7 @@ sql_statement_counter = 0
 prowl_body = ''
 
 
-full_path_to_host_file = config.get('ps1000', 'path_to_host_file')
+full_path_to_host_file = configuration_values['path_to_host_file']
 
 whitelist = string.letters + string.digits + ' ' + '/' + '?' + '\\' + '\t' + '.' + '!' + '@' + '#' + '$' + '%' + '&' + '*' + '(' + ')' + '_' + '-' + '=' + '+' + ':' + ';' + '|' + '[' + ']' + '{' + '}' + '<' + '>' + '~' + '^' + '`'
 date_finder = re.compile('([0-9]{1,2}/[0-9]{1,2}/[0-9]{2,4})')
@@ -93,9 +86,9 @@ prowl_body = prowl_body + '\nElapsed time:{0}'.format(elapsed_time)
 gmailer.mail(prowl_address, prowl_subject, prowl_body, gmail_user, gmail_pwd)
 
 db_host = 'localhost'
-db_user = config.get('powerschoolmirror', 'user')
-db_password = config.get('powerschoolmirror', 'password')
-db_name = config.get('powerschoolmirror', 'database')
+db_user = configuration_values['db_user']
+db_password = configuration_values['db_passwd']
+db_name = configuration_values['db_db']
 conn = MySQLdb.connect (host = db_host,
                         user = db_user,
                         passwd = db_password,

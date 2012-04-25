@@ -7,7 +7,7 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
-import ConfigParser
+import configmanager
 import logging
 import MySQLdb
 import os
@@ -17,22 +17,26 @@ import time
 import tools
 import unittest
 
-config = ConfigParser.ConfigParser()
-config.read([config_file_path])
+configuration_values = configmanager.readconfig()
+
+powerschool_server_root = configuration_values['powerschool_server_root']
+powerschool_pw_page = configuration_values['powerschool_pw_page']
+powerschool_user_password = configuration_values['powerschool_user_password']
+
 db_host = 'localhost'
-db_user = config.get('powerschoolmirror', 'user')
-db_password = config.get('powerschoolmirror', 'password')
-db_name = config.get('powerschoolmirror', 'database')
+db_user = configuration_values['db_user']
+db_password = configuration_values['db_passwd']
+db_name = configuration_values['db_db']
 conn = MySQLdb.connect (host = db_host,
                         user = db_user,
                         passwd = db_password,
                         db = db_name)
 cursor = conn.cursor ()
 
-config_server_root = config.get('powerschool', 'server_root')
-config_pw_page = config.get('powerschool', 'pw_page')
-config_user_password = config.get('powerschool', 'username_password')
-browser_download_directory = config.get('vlad', 'download_directory')
+config_server_root = configuration_values['powerschool_server_root']
+config_pw_page = configuration_values['powerschool_pw_page']
+config_user_password = configuration_values['powerschool_user_password']
+browser_download_directory = configuration_values['browser_download_directory']
 browser_partial_download = os.path.join(browser_download_directory,'student.export.text.part')
 browser_completed_download = os.path.join(browser_download_directory,'student.export.text')
 
@@ -212,7 +216,7 @@ def update_aggstats():
     table_number = '46'
     table_name = 'aggstats'
     building_list = ['District Office']
-    field_list = 'AdminPVs,Date,Enrollment,Hits,ID,NumSchools,PageViews,ParentHits,ParentLogins,ParentPVs,PG3Hits,PGIHits,PortalPVs,ReportQueueJobs,Server,ServerName,Server_InstanceID,StudentHits,StudentLogins,StudentPVs,TeacherPVs,Time,TotalPVs,TotLogins,Type'
+    field_list = 'AdminPVs, Date, Enrollment, Hits, ID, NumSchools, PageViews, ParentHits, ParentLogins, ParentPVs, PG3Hits, PGIHits, PortalPVs, ReportQueueJobs, Server, ServerName, Server_InstanceID, StudentHits, StudentLogins, StudentPVs, TeacherPVs, Time, TotalPVs, TotLogins, Type'
     return_message = download_table(table_number, table_name, field_list, building_list)
     return_message = return_message + '\n' + process_downloaded_table(table_name)
     counter = update_powerschool_mirror(table_name,field_list)
