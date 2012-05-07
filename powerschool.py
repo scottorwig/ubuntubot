@@ -37,7 +37,7 @@ config_server_root = configuration_values['powerschool_server_root']
 config_pw_page = configuration_values['powerschool_pw_page']
 config_user_password = configuration_values['powerschool_user_password']
 browser_download_directory = configuration_values['browser_download_directory']
-browser_partial_download = os.path.join(browser_download_directory,'student.export.text.part')
+browser_partial_download = os.path.join(browser_download_directory,'student.export.text.crdownload')
 browser_completed_download = os.path.join(browser_download_directory,'student.export.text')
 
 whitelist = string.letters + string.digits + ' ' + '/' + '?' + '.' + '!' + '@' + '#' + '$' + '%' + '&' + '*' + '(' + ')' + '_' + '-' + '=' + '+' + ':' + ';' + '|' + '[' + ']' + '{' + '}' + '<' + '>' + '~' + '^' + '`'
@@ -77,8 +77,8 @@ def download_table(table_number, table_name, field_list, building_list=['Distric
                 print 'Removed file:{0}'.format(full_path_to_doomed_file)
 
     for building_name in building_list:
-        profile = webdriver.firefox.firefox_profile.FirefoxProfile(profile_directory='/home/orwig/.mozilla/firefox/sri96odi.SeleniumProfile')
-        driver = webdriver.Firefox(firefox_profile=profile)
+        #profile = webdriver.firefox.firefox_profile.FirefoxProfile(profile_directory='/home/orwig/selenium_code/firefox_profile')
+        driver = webdriver.Chrome('/home/orwig/selenium_code/chromedriver') 
         driver.implicitly_wait(30)
         base_url = config_server_root
         url_of_admin_page = base_url + config_pw_page
@@ -94,17 +94,24 @@ def download_table(table_number, table_name, field_list, building_list=['Distric
         driver.find_element_by_id("schoolContext").click()
         select = Select(driver.find_element_by_name("Schoolid"))
         select.select_by_visible_text(building_name)
+	print 'Pausing 10 seconds'
+        time.sleep(10)
         driver.find_element_by_id("navSetupSystem").click()
+	print 'Pausing 10 seconds'
+        time.sleep(10)
         driver.find_element_by_link_text("Direct Database Export (DDE)").click()
         #table_choice_string = table_name + '&nbsp(' + table_number + ')'
         print 'About to choose table:{0}'.format(table_number)
         select = Select(driver.find_element_by_name("filenum"))
         select.select_by_value(table_number)
+	print 'Table {0} selected'.format(table_number)
         if search_criteria:
             print 'This download has the search criteria {0}'.format(search_criteria)
             fieldnum_1 = search_criteria[0]
             comparator1 = search_criteria[1]
             value = search_criteria[2]
+	    print 'About to wait 15 seconds'
+            time.sleep(15)
             select = Select(driver.find_element_by_name("fieldnum_1"))
             select.select_by_visible_text(fieldnum_1)
             select = Select(driver.find_element_by_name("comparator1"))
@@ -115,8 +122,13 @@ def download_table(table_number, table_name, field_list, building_list=['Distric
             time.sleep(10)
             driver.find_element_by_name("search").click()
         else:
-            driver.find_element_by_name("searchselectall").click()
-        driver.find_element_by_link_text("Export Records").click()
+            print 'This download has no search criteria'
+	    print 'About to wait 15 seconds'
+            time.sleep(15)
+	    print 'About to find element by name searchselectall'
+	    driver.find_element_by_name("searchselectall").click()
+	print 'About to click Export Records'        
+	driver.find_element_by_link_text("Export Records").click()
         driver.find_element_by_id("tt").clear()
         driver.find_element_by_id("tt").send_keys(field_list_newlines)
         select = Select(driver.find_element_by_name("fielddelim"))
@@ -128,14 +140,20 @@ def download_table(table_number, table_name, field_list, building_list=['Distric
         driver.find_element_by_name("custrecdelim").clear()
         driver.find_element_by_name("custrecdelim").send_keys("|")
         driver.find_element_by_id("btnSubmit").click()
+	print 'About to wait 15 seconds for sluggish download starts'
+        time.sleep(15)
 
         while os.path.exists(browser_partial_download):
             print '{0} exists. Waiting.'.format(browser_partial_download)
             time.sleep(30)
         print '{0} does not exist. Moving on.'.format(browser_partial_download)
         
+	print 'About to wait 15 seconds for the file system to settle'
+        time.sleep(15)
         new_download_name = table_name + '.download'
         new_download_path = os.path.join(browser_download_directory,new_download_name)
+	print 'Will rename: {0}'.format(browser_completed_download)
+	print 'To: {0}'.format(new_download_path)
         os.rename(browser_completed_download,new_download_path)
         print 'Download renamed to:{0}'.format(new_download_path)
         report_string = report_string + '\nDownload renamed to:{0}'.format(new_download_path)
