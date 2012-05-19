@@ -1033,7 +1033,7 @@ CREATE TABLE `meta_update` (
   `inserted_students` int(11) DEFAULT NULL,
   `inserted_teachers` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `mimetypes` */
 
@@ -2086,18 +2086,17 @@ CREATE TABLE `spenrollments` (
 DROP TABLE IF EXISTS `storedgrades`;
 
 CREATE TABLE `storedgrades` (
-  `None` varchar(100) COLLATE latin1_general_ci DEFAULT NULL,
+  `AB_Course_Cmp_Ext_Crd` varchar(20) COLLATE latin1_general_ci DEFAULT NULL,
+  `AB_Course_Cmp_Fun_Flg` varchar(20) COLLATE latin1_general_ci DEFAULT NULL,
+  `AB_Course_Cmp_Fun_Sch` varchar(20) COLLATE latin1_general_ci DEFAULT NULL,
+  `AB_Course_Cmp_Met_Cd` varchar(20) COLLATE latin1_general_ci DEFAULT NULL,
+  `AB_Course_Cmp_Sta_Cd` varchar(20) COLLATE latin1_general_ci DEFAULT NULL,
+  `AB_Course_Eva_Pro_Cd` varchar(20) COLLATE latin1_general_ci DEFAULT NULL,
+  `AB_Dipl_Exam_Mark` varchar(20) COLLATE latin1_general_ci DEFAULT NULL,
+  `AB_Final_Mark` varchar(20) COLLATE latin1_general_ci DEFAULT NULL,
+  `AB_Lng_Cd` varchar(20) COLLATE latin1_general_ci DEFAULT NULL,
+  `AB_Pri_Del_Met_Cd` varchar(20) COLLATE latin1_general_ci DEFAULT NULL,
   `Absences` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
-  `AB_Course_Cmp_Ext_Crd` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
-  `AB_Course_Cmp_Fun_Flg` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
-  `AB_Course_Cmp_Fun_Sch` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
-  `AB_Course_Cmp_Met_Cd` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
-  `AB_Course_Cmp_Sta_Cd` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
-  `AB_Course_Eva_Pro_Cd` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
-  `AB_Dipl_Exam_Mark` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
-  `AB_Final_Mark` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
-  `AB_Lng_Cd` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
-  `AB_Pri_Del_Met_Cd` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
   `Behavior` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
   `Comment` longtext COLLATE latin1_general_ci,
   `Course_Equiv` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
@@ -2115,8 +2114,10 @@ CREATE TABLE `storedgrades` (
   `GPA_Custom2` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
   `GPA_Points` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
   `Grade` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
+  `Grade_Level` varchar(20) COLLATE latin1_general_ci DEFAULT NULL,
   `GradeScale_Name` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
-  `Grade_Level` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
+  `IsEarnedCrHrsFromGB` varchar(20) COLLATE latin1_general_ci DEFAULT NULL,
+  `IsPotentialCrHrsFromGB` varchar(20) COLLATE latin1_general_ci DEFAULT NULL,
   `Log` longtext COLLATE latin1_general_ci,
   `Percent` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
   `PotentialCrHrs` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
