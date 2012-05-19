@@ -1030,6 +1030,7 @@ CREATE TABLE `meta_update` (
   `inserted_log` int(11) DEFAULT NULL,
   `inserted_period` int(11) DEFAULT NULL,
   `inserted_sections` int(11) DEFAULT NULL,
+  `inserted_stored_grades` int(11) DEFAULT NULL,
   `inserted_students` int(11) DEFAULT NULL,
   `inserted_teachers` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
