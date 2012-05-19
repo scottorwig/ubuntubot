@@ -198,10 +198,10 @@ def update_powerschool_mirror(table_name, field_list, delete_and_replace=True):
     cursor = db_connection.cursor ()
     if delete_and_replace:
         delete_statement = 'DELETE FROM ' + table_name
-        print 'Executing delete statement "{0}"'.format(delete_statement)
+        print 'executing delete statement "{0}"'.format(delete_statement)
         cursor.execute(delete_statement)
     else:
-        print 'Existing records will not be deleted from {0}'.format(table_name)
+        print 'existing records will not be deleted from {0}'.format(table_name)
     try:
         print 're-opening the data file {0}'.format(cleaned_file_path)
         cleaned_file_reader = open(cleaned_file_path, 'r')
@@ -347,11 +347,11 @@ def update_stored_grades():
     table_number = '31'
     table_name = 'storedgrades'
     building_list = ['District Office']
-    search_criteria = ['DateStored','>','09/01/2011']
+    search_criteria = ['DateStored','>','09/01/2010']
     field_list = 'AB_Course_Cmp_Ext_Crd,AB_Course_Cmp_Fun_Flg,AB_Course_Cmp_Fun_Sch,AB_Course_Cmp_Met_Cd,AB_Course_Cmp_Sta_Cd,AB_Course_Eva_Pro_Cd,AB_Dipl_Exam_Mark,AB_Final_Mark,AB_Lng_Cd,AB_Pri_Del_Met_Cd,Absences,Behavior,Comment,Course_Equiv,Course_Name,Course_Number,Credit_Type,Custom,DateStored,EarnedCrHrs,ExcludeFromClassRank,ExcludeFromGPA,ExcludeFromHonorRoll,GPA_AddedValue,GPA_Custom1,GPA_Custom2,GPA_Points,Grade,Grade_Level,GradeScale_Name,IsEarnedCrHrsFromGB,IsPotentialCrHrsFromGB,Log,Percent,PotentialCrHrs,SchoolID,SchoolName,SectionID,StoreCode,StudentID,Tardies,Teacher_Name,TermID'
     return_message = download_table(table_number, table_name, field_list, building_list,search_criteria)
     return_message = return_message + '\n' + process_downloaded_table(table_name)
-    counter = update_powerschool_mirror(table_name,field_list)
+    counter = update_powerschool_mirror(table_name,field_list,False)
     return counter
 
 def update_students():

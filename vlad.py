@@ -95,7 +95,7 @@ conn = MySQLdb.connect (host = db_host,
                         passwd = db_password,
                         db = db_name)
 cursor = conn.cursor ()
-sql_string = "INSERT INTO meta_update (time_start, time_end, inserted_aggstats, inserted_attendance, inserted_attendance_code, inserted_attendance_taken, inserted_cc, inserted_courses, inserted_graduation_requirements, inserted_log, inserted_period, inserted_sections, inserted_stored_grades, inserted_students, inserted_teachers) VALUES ('{0}','{1}','{2}','{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}', '{13}, {14}')".format(start_time, end_time, inserted_aggstats, inserted_attendance, inserted_attendance_code, inserted_attendance_taken, inserted_cc, inserted_courses, inserted_graduation_requirements, inserted_log, inserted_period, inserted_sections, inserted_stored_grades, inserted_students, inserted_teachers)
+sql_string = "INSERT INTO meta_update (time_start, time_end, inserted_aggstats, inserted_attendance, inserted_attendance_code, inserted_attendance_taken, inserted_cc, inserted_courses, inserted_graduation_requirements, inserted_log, inserted_period, inserted_sections, inserted_stored_grades, inserted_students, inserted_teachers) VALUES ('{0}','{1}','{2}','{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}', '{13}', '{14}')".format(start_time, end_time, inserted_aggstats, inserted_attendance, inserted_attendance_code, inserted_attendance_taken, inserted_cc, inserted_courses, inserted_graduation_requirements, inserted_log, inserted_period, inserted_sections, inserted_stored_grades, inserted_students, inserted_teachers)
 print 'Executing sql_string:'
 print sql_string
 cursor.execute(sql_string)
