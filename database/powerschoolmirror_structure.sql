@@ -1032,9 +1032,10 @@ CREATE TABLE `meta_update` (
   `inserted_sections` int(11) DEFAULT NULL,
   `inserted_stored_grades` int(11) DEFAULT NULL,
   `inserted_students` int(11) DEFAULT NULL,
+  `inserted_students_calculated` int(11) DEFAULT NULL,
   `inserted_teachers` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `mimetypes` */
 
@@ -2631,6 +2632,26 @@ CREATE TABLE `students` (
   KEY `NewIndex3` (`Grade_Level`),
   KEY `NewIndex4` (`Student_Number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+/*Table structure for table `students_calculated` */
+
+DROP TABLE IF EXISTS `students_calculated`;
+
+CREATE TABLE `students_calculated` (
+  `student_id` varchar(20) COLLATE latin1_general_ci NOT NULL,
+  `student_number` varchar(20) COLLATE latin1_general_ci DEFAULT NULL,
+  `gpa_simple` decimal(5,2) DEFAULT NULL,
+  `gpa_weighted` decimal(5,2) DEFAULT NULL,
+  `gpa_s1` decimal(5,2) DEFAULT NULL,
+  `gpa_s2` decimal(5,2) DEFAULT NULL,
+  `gpa_2007` decimal(5,2) DEFAULT NULL,
+  `gpa_2008` decimal(5,2) DEFAULT NULL,
+  `gpa_2009` decimal(5,2) DEFAULT NULL,
+  `gpa_2010` decimal(5,2) DEFAULT NULL,
+  `gpa_2011` decimal(5,2) DEFAULT NULL,
+  `gpa_2012` decimal(5,2) DEFAULT NULL,
+  PRIMARY KEY (`student_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `studenttest` */
 

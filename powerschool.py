@@ -139,7 +139,7 @@ def download_table(table_number, table_name, field_list, building_list=['Distric
         select.select_by_visible_text("Other:")
         driver.find_element_by_name("custrecdelim").clear()
         driver.find_element_by_name("custrecdelim").send_keys("|")
-	print 'downloading table '{0}'.format(table_name)
+	print 'downloading table "{0}"'.format(table_name)
         driver.find_element_by_id("btnSubmit").click()
 	print 'pausing 15 seconds for sluggish download starts'
         time.sleep(15)
@@ -165,6 +165,130 @@ def download_table(table_number, table_name, field_list, building_list=['Distric
         print 'pausing another 15 seconds for everything to settle'
         time.sleep(15)
         return report_string
+
+def download_students_calculated():
+    calculated_field_list = 'Id\nStudent Number\n*gpa Method=simple\n*gpa Method=weighted\n*gpa Term=s1\n*gpa Term=s2\n*gpa Term=1700\n*gpa Term=1800\n*gpa Term=1900\n*gpa Term=2000\n*gpa Term=2100'
+    # Clear out partial downloads and other files that might interfere
+    for file_name in os.listdir(browser_download_directory):
+        if ('student' in file_name) or ('calculated' in file_name) or ('part' in file_name):
+            full_path_to_doomed_file = os.path.join(browser_download_directory,file_name)
+            os.remove(full_path_to_doomed_file)
+            if os.path.exists(full_path_to_doomed_file):
+                print '{0} still lives!'.format(full_path_to_doomed_file)
+            else:
+                print 'Removed file:{0}'.format(full_path_to_doomed_file)
+
+    driver = webdriver.Chrome('/home/orwig/selenium_code/chromedriver') 
+    driver.implicitly_wait(30)
+    base_url = config_server_root
+    url_of_admin_page = base_url + config_pw_page
+    print 'Getting {0}'.format(url_of_admin_page)
+    driver.get(url_of_admin_page)
+    # Login page
+    driver.find_element_by_id("fieldPassword").clear()
+    driver.find_element_by_id("fieldPassword").send_keys(config_user_password)
+    driver.find_element_by_id("btnEnter").click()
+    # Main page
+    print 'choosing school:{0}'.format('District Office')
+    driver.find_element_by_id("schoolContext").click()
+    select = Select(driver.find_element_by_name("Schoolid"))
+    select.select_by_visible_text('District Office')
+    print 'pausing 10 seconds'
+    time.sleep(10)
+    driver.find_element_by_id("navSetupSystem").click()
+    print 'pausing 10 seconds'
+    time.sleep(10)
+    driver.find_element_by_link_text("Direct Database Export (DDE)").click()
+    print 'choosing table:{0}'.format('1')
+    select = Select(driver.find_element_by_name("filenum"))
+    select.select_by_value('1')
+    print 'table {0} selected'.format('1')
+    print 'pausing 15 seconds'
+    time.sleep(15)
+    print 'finding element by name searchselectall'
+    driver.find_element_by_name("searchselectall").click()
+    print 'clicking Export Records'        
+    driver.find_element_by_link_text("Export Records").click()
+    driver.find_element_by_id("tt").clear()
+    driver.find_element_by_id("tt").send_keys(calculated_field_list)
+    select = Select(driver.find_element_by_name("fielddelim"))
+    select.select_by_visible_text("Other:")
+    driver.find_element_by_name("custfielddelim").clear()
+    driver.find_element_by_name("custfielddelim").send_keys("^")
+    select = Select(driver.find_element_by_name("recdelim"))
+    select.select_by_visible_text("Other:")
+    driver.find_element_by_name("custrecdelim").clear()
+    driver.find_element_by_name("custrecdelim").send_keys("|")
+    print 'downloading table "{0}"'.format(table_name)
+    driver.find_element_by_id("btnSubmit").click()
+    print 'pausing 15 seconds for sluggish download starts'
+    time.sleep(15)
+    while os.path.exists(browser_partial_download):
+        print '{0} exists. Waiting.'.format(browser_partial_download)
+        time.sleep(30)
+    print '{0} does not exist. Moving on.'.format(browser_partial_download)
+        
+    print 'pausing 15 seconds for the file system to settle'
+    time.sleep(15)
+    new_download_path = os.path.join(browser_download_directory,'students_calculated.download')
+    print 'will rename: {0}'.format(browser_completed_download)
+    print 'to: {0}'.format(new_download_path)
+    os.rename(browser_completed_download,new_download_path)
+    print 'download renamed to:{0}'.format(new_download_path)
+    print 'pausing 10 seconds'
+    time.sleep(10)
+    print 'quitting web driver'
+    driver.quit()
+    print 'pausing another 15 seconds for everything to settle'
+    time.sleep(15)
+    downloaded_file_reader = open(new_download_path,'r')
+    raw_line_at_a_time = downloaded_file_reader.readlines()
+    directory_name = os.path.dirname(downloaded_table_full_path)
+    cleaned_file_name = table_name + '.clean_data'
+    cleaned_file_path = os.path.join(directory_name, cleaned_file_name)
+    clean_file_writer = open(cleaned_file_path,'w')
+    report_string = '{0} opened for processing'.format(downloaded_table_full_path)
+    line_counter = 0
+    for raw_line in raw_line_at_a_time:
+        cleaned_line = tools.clean_string_for_sql(raw_line)
+        # replacing |s with \n will put individual records on lines by themselves
+        split_records = cleaned_line.replace('|', '\n')
+        #print split_records
+        clean_file_writer.writelines(split_records)
+        line_counter = line_counter + 1
+    downloaded_file_reader.close()
+    clean_file_writer.close()
+    db_connection = MySQLdb.connect (host = db_host, user = db_user, passwd = db_password, db = db_name)
+    cursor = db_connection.cursor ()
+    delete_statement = 'DELETE FROM students_calculated'
+    print 'executing delete statement "{0}"'.format(delete_statement)
+    cursor.execute(delete_statement)
+    try:
+        print 're-opening the data file {0}'.format(cleaned_file_path)
+        cleaned_file_reader = open(cleaned_file_path, 'r')
+        clean_line_at_a_time = cleaned_file_reader.readlines()
+    except:
+        print 'Strange, I can not open the file "{0}"'.format(cleaned_file_path)
+        clean_line_at_a_time = ''
+    sql_statement_counter = 0
+    for clean_line in clean_line_at_a_time:
+        data_list = clean_line.split('^')
+        sql_data_string = "('" + "','".join(data_list) + "')"
+        sql_string = 'INSERT INTO students_calculated (student_id,student_number,gpa_simple,gpa_weighted,gpa_s1,gpa_s2,gpa_2007,gpa_2008,gpa_2009,gpa_2010,gpa_2011,gpa_2012) VALUES ' + sql_data_string
+        print sql_string
+        cursor = db_connection.cursor ()
+        cursor.execute(sql_string)
+        db_connection.commit()
+        sql_statement_counter = sql_statement_counter + 1
+    try:
+        cleaned_file_reader.close()
+        db_connection.close()
+    except:
+        print 'Error trying to close the cleaned_file_reader and/or close the connection'
+   
+    print 'Executed {0} SQL statements on table students_calculated'
+    return sql_statement_counter
+    
 
 def process_downloaded_table(table_name):
     table_file_name = table_name + '.download'
