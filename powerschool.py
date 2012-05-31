@@ -167,7 +167,7 @@ def download_table(table_number, table_name, field_list, building_list=['Distric
         return report_string
 
 def download_students_calculated():
-    calculated_field_list = 'Id\nStudent Number\n*gpa Method=simple\n*gpa Method=weighted\n*gpa Term=s1\n*gpa Term=s2\n*gpa Term=1700\n*gpa Term=1800\n*gpa Term=1900\n*gpa Term=2000\n*gpa Term=2100'
+    calculated_field_list = 'Id\nStudent_Number\n*gpa Method=simple\n*gpa Method=weighted\n*gpa Term=s1\n*gpa Term=s2\n*gpa Term=1700\n*gpa Term=1800\n*gpa Term=1900\n*gpa Term=2000\n*gpa Term=2100'
     # Clear out partial downloads and other files that might interfere
     for file_name in os.listdir(browser_download_directory):
         if ('student' in file_name) or ('calculated' in file_name) or ('part' in file_name):
@@ -219,10 +219,13 @@ def download_students_calculated():
     select.select_by_visible_text("Other:")
     driver.find_element_by_name("custrecdelim").clear()
     driver.find_element_by_name("custrecdelim").send_keys("|")
-    print 'downloading table "{0}"'.format(table_name)
-    driver.find_element_by_id("btnSubmit").click()
-    print 'pausing 15 seconds for sluggish download starts'
+    driver.find_element_by_name("columntitles").click()
+    print 'pausing 15 more seconds'
     time.sleep(15)
+    print 'downloading calculated values from the students table'
+    driver.find_element_by_id("btnSubmit").click()
+    print 'pausing 30 seconds for sluggish download starts'
+    time.sleep(30)
     while os.path.exists(browser_partial_download):
         print '{0} exists. Waiting.'.format(browser_partial_download)
         time.sleep(30)
@@ -243,11 +246,11 @@ def download_students_calculated():
     time.sleep(15)
     downloaded_file_reader = open(new_download_path,'r')
     raw_line_at_a_time = downloaded_file_reader.readlines()
-    directory_name = os.path.dirname(downloaded_table_full_path)
-    cleaned_file_name = table_name + '.clean_data'
+    directory_name = os.path.dirname(new_download_path)
+    cleaned_file_name = 'students_calculated.clean_data'
     cleaned_file_path = os.path.join(directory_name, cleaned_file_name)
     clean_file_writer = open(cleaned_file_path,'w')
-    report_string = '{0} opened for processing'.format(downloaded_table_full_path)
+    report_string = '{0} opened for processing'.format(new_download_path)
     line_counter = 0
     for raw_line in raw_line_at_a_time:
         cleaned_line = tools.clean_string_for_sql(raw_line)
@@ -274,7 +277,7 @@ def download_students_calculated():
     for clean_line in clean_line_at_a_time:
         data_list = clean_line.split('^')
         sql_data_string = "('" + "','".join(data_list) + "')"
-        sql_string = 'INSERT INTO students_calculated (student_id,student_number,gpa_simple,gpa_weighted,gpa_s1,gpa_s2,gpa_2007,gpa_2008,gpa_2009,gpa_2010,gpa_2011,gpa_2012) VALUES ' + sql_data_string
+        sql_string = 'INSERT INTO students_calculated (student_id,student_number,gpa_simple,gpa_weighted,gpa_s1,gpa_s2,gpa_2007,gpa_2008,gpa_2009,gpa_2010,gpa_2011) VALUES ' + sql_data_string
         print sql_string
         cursor = db_connection.cursor ()
         cursor.execute(sql_string)

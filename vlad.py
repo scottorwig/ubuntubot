@@ -61,6 +61,22 @@ def characters_from_whitelist_only(dirty_string):
          clean_string += shady_character
    return clean_string
 
+# set default values to prevent errors when tables are commented out
+inserted_students_calculated = powerschool.download_students_calculated()
+inserted_aggstats = 0
+inserted_attendance = 0
+inserted_attendance_code = 0
+inserted_attendance_taken = 0
+inserted_cc = 0
+inserted_courses = 0
+inserted_graduation_requirements = 0
+inserted_log = 0
+inserted_period = 0
+inserted_sections = 0
+inserted_stored_grades = 0
+inserted_students = 0
+inserted_teachers = 0
+
 prowl_body = 'Session started at {0}'.format(start_time)
 inserted_students_calculated = powerschool.download_students_calculated()
 inserted_aggstats = powerschool.update_aggstats()
