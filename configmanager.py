@@ -1,6 +1,6 @@
 # this code requires at config file with the format specified in the README file
 # specify the path here
-config_file_path = r'/home/orwig/ubuntubot/ubuntubot.cfg'
+config_file_path = r'ubuntubot.cfg'
 
 import ConfigParser
 
