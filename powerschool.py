@@ -94,23 +94,23 @@ def download_table(table_number, table_name, field_list, building_list=['Distric
         driver.find_element_by_id("schoolContext").click()
         select = Select(driver.find_element_by_name("Schoolid"))
         select.select_by_visible_text(building_name)
-	print 'pausing 10 seconds'
+        print 'pausing 10 seconds'
         time.sleep(10)
         driver.find_element_by_id("navSetupSystem").click()
-	print 'pausing 10 seconds'
+        print 'pausing 10 seconds'
         time.sleep(10)
         driver.find_element_by_link_text("Direct Database Export (DDE)").click()
         #table_choice_string = table_name + '&nbsp(' + table_number + ')'
         print 'choosing table:{0}'.format(table_number)
         select = Select(driver.find_element_by_name("filenum"))
         select.select_by_value(table_number)
-	print 'table {0} selected'.format(table_number)
+        print 'table {0} selected'.format(table_number)
         if search_criteria:
             print 'this download has the search criteria {0}'.format(search_criteria)
             fieldnum_1 = search_criteria[0]
             comparator1 = search_criteria[1]
             value = search_criteria[2]
-	    print 'pausing 15 seconds'
+            print 'pausing 15 seconds'
             time.sleep(15)
             select = Select(driver.find_element_by_name("fieldnum_1"))
             select.select_by_visible_text(fieldnum_1)
@@ -123,12 +123,12 @@ def download_table(table_number, table_name, field_list, building_list=['Distric
             driver.find_element_by_name("search").click()
         else:
             print 'this download has no search criteria'
-	    print 'pausing 15 seconds'
+            print 'pausing 15 seconds'
             time.sleep(15)
-	    print 'finding element by name searchselectall'
-	    driver.find_element_by_name("searchselectall").click()
-	print 'clicking Export Records'        
-	driver.find_element_by_link_text("Export Records").click()
+            print 'finding element by name searchselectall'
+            driver.find_element_by_name("searchselectall").click()
+        print 'clicking Export Records'        
+        driver.find_element_by_link_text("Export Records").click()
         driver.find_element_by_id("tt").clear()
         driver.find_element_by_id("tt").send_keys(field_list_newlines)
         select = Select(driver.find_element_by_name("fielddelim"))
@@ -139,21 +139,21 @@ def download_table(table_number, table_name, field_list, building_list=['Distric
         select.select_by_visible_text("Other:")
         driver.find_element_by_name("custrecdelim").clear()
         driver.find_element_by_name("custrecdelim").send_keys("|")
-	print 'downloading table "{0}"'.format(table_name)
+        print 'downloading table "{0}"'.format(table_name)
         driver.find_element_by_id("btnSubmit").click()
-	print 'pausing 15 seconds for sluggish download starts'
+        print 'pausing 15 seconds for sluggish download starts'
         time.sleep(15)
         while os.path.exists(browser_partial_download):
             print '{0} exists. Waiting.'.format(browser_partial_download)
             time.sleep(30)
         print '{0} does not exist. Moving on.'.format(browser_partial_download)
-        
-	print 'pausing 15 seconds for the file system to settle'
+
+        print 'pausing 15 seconds for the file system to settle'
         time.sleep(15)
         new_download_name = table_name + '.download'
         new_download_path = os.path.join(browser_download_directory,new_download_name)
-	print 'will rename: {0}'.format(browser_completed_download)
-	print 'to: {0}'.format(new_download_path)
+        print 'will rename: {0}'.format(browser_completed_download)
+        print 'to: {0}'.format(new_download_path)
         os.rename(browser_completed_download,new_download_path)
         print 'download renamed to:{0}'.format(new_download_path)
         report_string = report_string + '\ndownload renamed to:{0}'.format(new_download_path)
@@ -230,7 +230,7 @@ def download_students_calculated():
         print '{0} exists. Waiting.'.format(browser_partial_download)
         time.sleep(30)
     print '{0} does not exist. Moving on.'.format(browser_partial_download)
-        
+
     print 'pausing 15 seconds for the file system to settle'
     time.sleep(15)
     new_download_path = os.path.join(browser_download_directory,'students_calculated.download')
@@ -288,10 +288,10 @@ def download_students_calculated():
         db_connection.close()
     except:
         print 'Error trying to close the cleaned_file_reader and/or close the connection'
-   
+
     print 'Executed {0} SQL statements on table students_calculated'
     return sql_statement_counter
-    
+
 
 def process_downloaded_table(table_name):
     table_file_name = table_name + '.download'
@@ -351,7 +351,7 @@ def insert_into_powerschool_mirror(table_name, field_list, delete_and_replace=Tr
         db_connection.close()
     except:
         print 'Error trying to close the cleaned_file_reader and/or close the connection'
-   
+
     print 'Executed {0} SQL statements on table {1}'.format(sql_statement_counter, table_name)
     report_string = '\nExecuted {0} SQL statements on table {1}'.format(sql_statement_counter, table_name)
     return sql_statement_counter
