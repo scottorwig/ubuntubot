@@ -28,7 +28,7 @@ def write_new_k():
                         passwd = db_password,
                         db = db_name)
     
-    kindergarten_sql = """SELECT Mailing_Street, Student_Number, Home_Phone AS FamilyID, gender, last_name, first_name, middle_name, Home_Phone, DOB, Mailing_City, Mailing_State, Mailing_Zip, Next_School, 'K' AS Grade FROM students WHERE Sched_NextYearGrade='0' AND Enroll_Status='-1' ORDER BY last_name, first_name"""
+    kindergarten_sql = """SELECT Mailing_Street, Student_Number, Home_Phone AS FamilyID, gender, last_name, first_name, middle_name, Home_Phone, DOB, Mailing_City, Mailing_State, Mailing_Zip, Next_School, 'K1' AS Grade FROM students WHERE Sched_NextYearGrade='0' AND Enroll_Status='-1' ORDER BY Next_School, last_name, first_name"""
     print kindergarten_sql
     cursor = conn.cursor()
     cursor.execute(kindergarten_sql)
@@ -39,7 +39,7 @@ def write_new_k():
     line_counter = 0
     for student in result:
 	print student
-	address_split = student[0].split(' ',2)
+	address_split = student[0].split(' ',1)
 	line_to_write = student[1] #student number
 	line_to_write += ',' + student[2] #family id
 	line_to_write += ',' + student[3] #gender
