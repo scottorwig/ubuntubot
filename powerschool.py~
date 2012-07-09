@@ -77,7 +77,8 @@ def download_table(table_number, table_name, field_list, building_list=['Distric
                 print 'Removed file:{0}'.format(full_path_to_doomed_file)
 
     for building_name in building_list:
-        driver = webdriver.Chrome('/home/scott/chromedriver') 
+        #profile = webdriver.firefox.firefox_profile.FirefoxProfile(profile_directory='/home/orwig/selenium_code/firefox_profile')
+        driver = webdriver.Chrome('/home/orwig/selenium_code/chromedriver') 
         driver.implicitly_wait(30)
         base_url = config_server_root
         url_of_admin_page = base_url + config_pw_page
