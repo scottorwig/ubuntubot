@@ -11,7 +11,7 @@ db_passwd = settings['db_passwd']
 db_db = settings ['db_db']
 
 
-destination_directory = r'/home/orwig/etl'
+destination_directory = r'/home/scott/etl'
 update_file_name = 'erc_update.sql'
 path_to_update_file = os.path.join(destination_directory,update_file_name)
 
