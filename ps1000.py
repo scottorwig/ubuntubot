@@ -10,7 +10,7 @@ db_user = settings['db_user']
 db_passwd = settings['db_passwd']
 db_db = settings ['db_db']
 
-fullPathToHostFile = r'/home/orwig/etl/HOST.dat'
+fullPathToHostFile = r'/home/scott/etl/HOST.dat'
 
 today = datetime.date.today()
 dateStamp = today.strftime("%A, %B %d %Y")

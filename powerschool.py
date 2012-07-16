@@ -177,7 +177,7 @@ def download_students_calculated():
             else:
                 print 'Removed file:{0}'.format(full_path_to_doomed_file)
 
-    driver = webdriver.Chrome('/home/orwig/selenium_code/chromedriver') 
+    driver = webdriver.Chrome('/home/scott/chromedriver') 
     driver.implicitly_wait(30)
     base_url = config_server_root
     url_of_admin_page = base_url + config_pw_page
