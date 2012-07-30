@@ -337,7 +337,8 @@ def insert_into_powerschool_mirror(table_name, field_list, delete_and_replace=Tr
         clean_line_at_a_time = ''
     sql_statement_counter = 0
     for clean_line in clean_line_at_a_time:
-        data_list = clean_line.split('^')
+        clean_line_no_line_feed = clean_line.replace('\n', '') # /n seems to be read in from file, getting included in the last field
+        data_list = clean_line_no_line_feed.split('^')
         sql_data_string = "('" + "','".join(data_list) + "')"
         sql_string = 'REPLACE INTO ' + table_name + '(' + field_list + ') VALUES ' + sql_data_string
         print sql_string
@@ -454,6 +455,56 @@ def update_period():
     table_name = 'period'
     building_list = ['District Office']
     field_list = 'Abbreviation,ID,Name,Period_Number,SchoolID,Sort_Order,Year_ID'
+    return_message = download_table(table_number, table_name, field_list, building_list)
+    return_message = return_message + '\n' + process_downloaded_table(table_name)
+    counter = insert_into_powerschool_mirror(table_name,field_list)
+    return counter
+
+def update_schedulecatalogs():
+    table_number = '109'
+    table_name = 'schedulecatalogs'
+    building_list = ['District Office']
+    field_list = 'Current,Description,ID,Name,SchoolID'
+    return_message = download_table(table_number, table_name, field_list, building_list)
+    return_message = return_message + '\n' + process_downloaded_table(table_name)
+    counter = insert_into_powerschool_mirror(table_name,field_list)
+    return counter
+
+def update_schedulecc():
+    table_number = '111'
+    table_name = 'schedulecc'
+    building_list = ['District Office']
+    field_list = 'Bitmap,BuildID,Course_Number,DateEnrolled,DateLeft,Expression,ID,LoadLock,Period,SchoolID,SectionID,SectionType,Section_Number,StudentID,StudYear,TeacherID,TermID'
+    return_message = download_table(table_number, table_name, field_list, building_list)
+    return_message = return_message + '\n' + process_downloaded_table(table_name)
+    counter = insert_into_powerschool_mirror(table_name,field_list)
+    return counter
+
+def update_schedulecoursecatalogs():
+    table_number = '107'
+    table_name = 'schedulecoursecatalogs'
+    building_list = ['District Office']
+    field_list = 'Add_to_GPA,Code,Corequisites,CourseCatalogID,Course_Name,Course_Number,CreditType,Credit_Hours,CrHrWeight,Custom,GradeScaleID,ID,MaxClassSize,Multiterm,PowerLink,PowerLinkSpan,Prerequisites,RegAvailable,RegCourseGroup,RegGradeLevels,RegTeachers,Sched_BalancePriority,Sched_BalanceTerms,Sched_BlockStart,Sched_CloseSectionAfterMax,Sched_ConcurrentFlag,Sched_ConsecutivePeriods,Sched_ConsecutiveTerms,Sched_CoursePackage,Sched_CoursePkgContents,Sched_CourseSubjectAreaCode,Sched_Demand,Sched_Department,Sched_Do_Not_Print,Sched_ExtraDayScheduleTypeCode,Sched_Facilities,Sched_Frequency,Sched_FullCatalogDescription,Sched_GlobalSubstitution1,Sched_GlobalSubstitution2,Sched_GlobalSubstitution3,Sched_LabFlag,Sched_LabFrequency,Sched_LabPeriodsPerMeeting,Sched_LengthInNumberOfTerms,Sched_LoadPriority,Sched_LoadType,Sched_LunchCourse,Sched_MaximumDaysPerCycle,Sched_MaximumEnrollment,Sched_MaximumPeriodsPerDay,Sched_MinimumDaysPerCycle,Sched_MinimumPeriodsPerDay,Sched_MinRoomCapacity,Sched_MultipleRooms,Sched_OverlapAllowed,Sched_PeriodsPerCycle,Sched_PeriodsPerMeeting,Sched_PrepCode,Sched_Rank,Sched_RepeatsAllowed,Sched_Scheduled,Sched_ScheduleTypeCode,Sched_SectionsOffered,Sched_SubstitutionAllowed,Sched_TeacherCount,Sched_TotalConflictCourses,Sched_TotalConflictStudents,Sched_UsePreEstablishedTeams,Sched_UseSectionTypes,Sched_ValidDayCombinations,Sched_ValidExtraDayCombinations,Sched_ValidStartPeriods,Sched_Year,SchoolCrseInfo_guid,SchoolGroup,SchoolID,SectionsToOffer,StatusScheduleCourseCatologs,TargetClassSize,TermsOffered,Vocational,YearID'
+    return_message = download_table(table_number, table_name, field_list, building_list)
+    return_message = return_message + '\n' + process_downloaded_table(table_name)
+    counter = insert_into_powerschool_mirror(table_name,field_list)
+    return counter
+
+def update_scheduledepartments():
+    table_number = '69'
+    table_name = 'scheduledepartments'
+    building_list = ['District Office']
+    field_list = 'Description,ID,SchoolID'
+    return_message = download_table(table_number, table_name, field_list, building_list)
+    return_message = return_message + '\n' + process_downloaded_table(table_name)
+    counter = insert_into_powerschool_mirror(table_name,field_list)
+    return counter
+
+def update_scheduleperiods():
+    table_number = '80'
+    table_name = 'scheduleperiods'
+    building_list = ['District Office']
+    field_list = 'DAbbr,BlockStart,BuildID,CorePeriod,Description,EndTime1,EndTime2,ID,PeriodID,PeriodNumber,ScheduleID,ScheduleStudies,SchoolID,Sort,StartTime1,StartTime2,UseForBuild,UseForLunches'
     return_message = download_table(table_number, table_name, field_list, building_list)
     return_message = return_message + '\n' + process_downloaded_table(table_name)
     counter = insert_into_powerschool_mirror(table_name,field_list)

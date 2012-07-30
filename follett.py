@@ -2,7 +2,7 @@
 # specify the path here
 config_file_path = r'/home/orwig/Dropbox/lincoln_ubuntubot/ubuntubot.cfg'
 
-import ConfigParser
+import configmanager
 import datetime
 import logging
 import MySQLdb
@@ -10,10 +10,9 @@ import os
 import string
 import time
 
-config = ConfigParser.ConfigParser()
-config.read([config_file_path])
+configuration_values = configmanager.readconfig()
 
-destination_directory = config.get('follett', 'destination_directory')
+destination_directory = configuration_values['follett_destination_directory']
 file_name_base = 'follett_'
 
 
@@ -56,9 +55,9 @@ class Patron:
 
 def write_files(MySQLdb, buildingCodes, Patron, datetime):
     db_host = 'localhost'
-    db_user = config.get('powerschoolmirror', 'user')
-    db_password = config.get('powerschoolmirror', 'password')
-    db_name = config.get('powerschoolmirror', 'database')
+    db_user = configuration_values['db_user']
+    db_password = configuration_values['db_passwd']
+    db_name = configuration_values['db_db']
     conn = MySQLdb.connect (host = db_host,
                         user = db_user,
                         passwd = db_password,

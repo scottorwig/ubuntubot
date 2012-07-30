@@ -1,3 +1,5 @@
+# code abandoned because we may have found another solution
+
 import configmanager
 import datetime
 import logging

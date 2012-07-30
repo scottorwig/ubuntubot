@@ -1,6 +1,6 @@
 /*
-SQLyog Community v9.20 
-MySQL - 5.1.62-0ubuntu0.11.04.1 : Database - powerschoolmirror
+SQLyog Community v10.2 
+MySQL - 5.5.24-0ubuntu0.12.04.1 : Database - powerschoolmirror
 *********************************************************************
 */
 
@@ -1029,13 +1029,18 @@ CREATE TABLE `meta_update` (
   `inserted_graduation_requirements` int(11) DEFAULT NULL,
   `inserted_log` int(11) DEFAULT NULL,
   `inserted_period` int(11) DEFAULT NULL,
+  `inserted_schedulecatalogs` int(11) DEFAULT NULL,
+  `inserted_schedulecc` int(11) DEFAULT NULL,
+  `inserted_schedulecoursecatalogs` int(11) DEFAULT NULL,
+  `inserted_scheduledepartments` int(11) DEFAULT NULL,
+  `inserted_scheduleperiods` int(11) DEFAULT NULL,
   `inserted_sections` int(11) DEFAULT NULL,
   `inserted_stored_grades` int(11) DEFAULT NULL,
   `inserted_students` int(11) DEFAULT NULL,
   `inserted_students_calculated` int(11) DEFAULT NULL,
   `inserted_teachers` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `mimetypes` */
 
@@ -1544,6 +1549,19 @@ CREATE TABLE `room` (
   `SchoolID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
+/*Table structure for table `schedulecatalogs` */
+
+DROP TABLE IF EXISTS `schedulecatalogs`;
+
+CREATE TABLE `schedulecatalogs` (
+  `Current` varchar(20) COLLATE latin1_general_ci DEFAULT NULL,
+  `Description` varchar(200) COLLATE latin1_general_ci DEFAULT NULL,
+  `ID` varchar(20) COLLATE latin1_general_ci NOT NULL,
+  `Name` varchar(100) COLLATE latin1_general_ci DEFAULT NULL,
+  `SchoolID` varchar(20) COLLATE latin1_general_ci DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
 /*Table structure for table `schedulecc` */
 
 DROP TABLE IF EXISTS `schedulecc`;
@@ -1557,7 +1575,7 @@ CREATE TABLE `schedulecc` (
   `Expression` varchar(100) COLLATE latin1_general_ci DEFAULT NULL,
   `ID` int(11) DEFAULT NULL,
   `LoadLock` tinyint(1) DEFAULT NULL,
-  `PeriodScheduleCC` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
+  `Period` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
   `SchoolID` int(11) DEFAULT NULL,
   `SectionID` int(11) DEFAULT NULL,
   `SectionType` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
