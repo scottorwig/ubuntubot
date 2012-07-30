@@ -76,30 +76,32 @@ inserted_schedulecatalogs = 0
 inserted_schedulecc = 0
 inserted_schedulecoursecatalogs = 0
 inserted_scheduledepartments = 0
+inserted_scheduleperiods = 0
 inserted_sections = 0
 inserted_stored_grades = 0
 inserted_students = 0
 inserted_teachers = 0
 
 prowl_body = 'Session started at {0}'.format(start_time)
-#inserted_students_calculated = powerschool.download_students_calculated()
+inserted_students_calculated = powerschool.download_students_calculated()
 #inserted_aggstats = powerschool.update_aggstats()
 #inserted_attendance = powerschool.update_attendance()
 #inserted_attendance_code = powerschool.update_attendance_code()
 #inserted_attendance_taken = powerschool.update_attendance_taken()
-inserted_cc = powerschool.update_cc()
-inserted_courses = powerschool.update_courses()
+#inserted_cc = powerschool.update_cc()
+#inserted_courses = powerschool.update_courses()
 #inserted_graduation_requirements = powerschool.update_graduation_requirements()
 #inserted_log = powerschool.update_log()
-inserted_period = powerschool.update_period()
-inserted_schedulecatalogs = powerschool.update_schedulecatalogs()
-inserted_schedulecc = powerschool.update_schedulecc()
-inserted_schedulecoursecatalogs = powerschool.update_schedulecoursecatalogs()
-inserted_scheduledepartments = powerschool.update_scheduledepartments()
-inserted_sections = powerschool.update_sections()
+#inserted_period = powerschool.update_period()
+#inserted_schedulecatalogs = powerschool.update_schedulecatalogs()
+#inserted_schedulecc = powerschool.update_schedulecc()
+#inserted_schedulecoursecatalogs = powerschool.update_schedulecoursecatalogs()
+#inserted_scheduledepartments = powerschool.update_scheduledepartments()
+#inserted_scheduleperiods = powerschool.update_scheduleperiods()
+#inserted_sections = powerschool.update_sections()
 #inserted_stored_grades = powerschool.update_stored_grades()
-inserted_students = powerschool.update_students()
-inserted_teachers = powerschool.update_teachers()
+#inserted_students = powerschool.update_students()
+#inserted_teachers = powerschool.update_teachers()
 
 ps1000.write_host_file()
 erc.write_erc_update_file()
@@ -120,7 +122,7 @@ conn = MySQLdb.connect (host = db_host,
                         passwd = db_password,
                         db = db_name)
 cursor = conn.cursor ()
-sql_string = "INSERT INTO meta_update (time_start, time_end, inserted_aggstats, inserted_attendance, inserted_attendance_code, inserted_attendance_taken, inserted_cc, inserted_courses, inserted_graduation_requirements, inserted_log, inserted_period, inserted_schedulecatalogs, inserted_schedulecc, inserted_schedulecoursecatalogs, inserted_scheduledepartments, inserted_sections, inserted_stored_grades, inserted_students, inserted_students_calculated, inserted_teachers) VALUES ('{0}','{1}','{2}','{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}', '{13}', '{14}', '{15}', '{16}', '{17}', '{18}', '{19}')".format(start_time, end_time, inserted_aggstats, inserted_attendance, inserted_attendance_code, inserted_attendance_taken, inserted_cc, inserted_courses, inserted_graduation_requirements, inserted_log, inserted_period, inserted_schedulecatalogs, inserted_schedulecc, inserted_schedulecoursecatalogs, inserted_scheduledepartments, inserted_sections, inserted_stored_grades, inserted_students, inserted_students_calculated, inserted_teachers)
+sql_string = "INSERT INTO meta_update (time_start, time_end, inserted_aggstats, inserted_attendance, inserted_attendance_code, inserted_attendance_taken, inserted_cc, inserted_courses, inserted_graduation_requirements, inserted_log, inserted_period, inserted_schedulecatalogs, inserted_schedulecc, inserted_schedulecoursecatalogs, inserted_scheduledepartments, inserted_scheduleperiods, inserted_sections, inserted_stored_grades, inserted_students, inserted_students_calculated, inserted_teachers) VALUES ('{0}','{1}','{2}','{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}', '{13}', '{14}', '{15}', '{16}', '{17}', '{18}', '{19}', '{20}')".format(start_time, end_time, inserted_aggstats, inserted_attendance, inserted_attendance_code, inserted_attendance_taken, inserted_cc, inserted_courses, inserted_graduation_requirements, inserted_log, inserted_period, inserted_schedulecatalogs, inserted_schedulecc, inserted_schedulecoursecatalogs, inserted_scheduledepartments, inserted_scheduleperiods, inserted_sections, inserted_stored_grades, inserted_students, inserted_students_calculated, inserted_teachers)
 print 'Executing sql_string:'
 print sql_string
 cursor.execute(sql_string)

@@ -1669,7 +1669,7 @@ CREATE TABLE `schedulecoursecatalogs` (
   `SchoolGroup` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
   `SchoolID` int(11) DEFAULT NULL,
   `SectionsToOffer` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
-  `StatusScheduleCourseCatologs` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
+  `Status` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
   `TargetClassSize` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
   `TermsOffered` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
   `Vocational` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
