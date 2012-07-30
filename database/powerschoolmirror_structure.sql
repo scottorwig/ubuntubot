@@ -1034,13 +1034,14 @@ CREATE TABLE `meta_update` (
   `inserted_schedulecoursecatalogs` int(11) DEFAULT NULL,
   `inserted_scheduledepartments` int(11) DEFAULT NULL,
   `inserted_scheduleperiods` int(11) DEFAULT NULL,
+  `inserted_schedulesectionmeeting` int(11) DEFAULT NULL,
   `inserted_sections` int(11) DEFAULT NULL,
   `inserted_stored_grades` int(11) DEFAULT NULL,
   `inserted_students` int(11) DEFAULT NULL,
   `inserted_students_calculated` int(11) DEFAULT NULL,
   `inserted_teachers` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `mimetypes` */
 
@@ -1765,9 +1766,9 @@ DROP TABLE IF EXISTS `schedulesectionmeeting`;
 
 CREATE TABLE `schedulesectionmeeting` (
   `BuildID` int(11) DEFAULT NULL,
-  `Dayschedulesectionmeeting` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
+  `Day` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
   `ID` int(11) DEFAULT NULL,
-  `Periodschedulesectionmeeting` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
+  `Period` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
   `SectionID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
@@ -2668,6 +2669,42 @@ CREATE TABLE `students_calculated` (
   `gpa_2010` decimal(5,2) DEFAULT NULL,
   `gpa_2011` decimal(5,2) DEFAULT NULL,
   `gpa_2012` decimal(5,2) DEFAULT NULL,
+  `period_1_teacher` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
+  `period_1_course_name` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
+  `period_1_section_number` varchar(20) COLLATE latin1_general_ci DEFAULT NULL,
+  `period_1_course_number` varchar(20) COLLATE latin1_general_ci DEFAULT NULL,
+  `period_1_current_grade` varchar(20) COLLATE latin1_general_ci DEFAULT NULL,
+  `period_1_room` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
+  `period_2_teacher` varchar(50) CHARACTER SET latin2 DEFAULT NULL,
+  `period_2_course_name` varchar(50) CHARACTER SET latin2 DEFAULT NULL,
+  `period_2_course_number` varchar(20) CHARACTER SET latin2 DEFAULT NULL,
+  `period_2_section_number` varchar(20) COLLATE latin1_general_ci DEFAULT NULL,
+  `period_2_current_grade` varchar(20) CHARACTER SET latin2 DEFAULT NULL,
+  `period_2_room` varchar(50) CHARACTER SET latin2 DEFAULT NULL,
+  `period_3_teacher` varchar(50) CHARACTER SET latin2 DEFAULT NULL,
+  `period_3_course_name` varchar(50) CHARACTER SET latin2 DEFAULT NULL,
+  `period_3_course_number` varchar(20) CHARACTER SET latin2 DEFAULT NULL,
+  `period_3_section_number` varchar(20) COLLATE latin1_general_ci DEFAULT NULL,
+  `period_3_current_grade` varchar(20) CHARACTER SET latin2 DEFAULT NULL,
+  `period_3_room` varchar(50) CHARACTER SET latin2 DEFAULT NULL,
+  `period_4_teacher` varchar(50) CHARACTER SET latin2 DEFAULT NULL,
+  `period_4_course_name` varchar(50) CHARACTER SET latin2 DEFAULT NULL,
+  `period_4_course_number` varchar(20) CHARACTER SET latin2 DEFAULT NULL,
+  `period_4_section_number` varchar(20) COLLATE latin1_general_ci DEFAULT NULL,
+  `period_4_current_grade` varchar(20) CHARACTER SET latin2 DEFAULT NULL,
+  `period_4_room` varchar(50) CHARACTER SET latin2 DEFAULT NULL,
+  `period_5_teacher` varchar(50) CHARACTER SET latin2 DEFAULT NULL,
+  `period_5_course_name` varchar(50) CHARACTER SET latin2 DEFAULT NULL,
+  `period_5_course_number` varchar(20) CHARACTER SET latin2 DEFAULT NULL,
+  `period_5_section_number` varchar(20) COLLATE latin1_general_ci DEFAULT NULL,
+  `period_5_current_grade` varchar(20) CHARACTER SET latin2 DEFAULT NULL,
+  `period_5_room` varchar(50) CHARACTER SET latin2 DEFAULT NULL,
+  `period_6_teacher` varchar(50) CHARACTER SET latin2 DEFAULT NULL,
+  `period_6_course_name` varchar(50) CHARACTER SET latin2 DEFAULT NULL,
+  `period_6_course_number` varchar(20) CHARACTER SET latin2 DEFAULT NULL,
+  `period_6_section_number` varchar(20) COLLATE latin1_general_ci DEFAULT NULL,
+  `period_6_current_grade` varchar(20) CHARACTER SET latin2 DEFAULT NULL,
+  `period_6_room` varchar(50) CHARACTER SET latin2 DEFAULT NULL,
   PRIMARY KEY (`student_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
