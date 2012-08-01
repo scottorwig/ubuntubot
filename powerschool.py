@@ -8,6 +8,7 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 import configmanager
+import datetime
 import logging
 import MySQLdb
 import os
@@ -39,6 +40,7 @@ config_user_password = configuration_values['powerschool_user_password']
 browser_download_directory = configuration_values['browser_download_directory']
 browser_partial_download = os.path.join(browser_download_directory,'student.export.text.crdownload')
 browser_completed_download = os.path.join(browser_download_directory,'student.export.text')
+archive_folder = configuration_values['archive_folder']
 
 whitelist = string.letters + string.digits + ' ' + '/' + '?' + '.' + '!' + '@' + '#' + '$' + '%' + '&' + '*' + '(' + ')' + '_' + '-' + '=' + '+' + ':' + ';' + '|' + '[' + ']' + '{' + '}' + '<' + '>' + '~' + '^' + '`'
 date_finder = re.compile('([0-9]{1,2}/[0-9]{1,2}/[0-9]{2,4})')
@@ -60,6 +62,16 @@ def convert_english_date_to_iso_date(englishDate):
     dayMatch = dayFinder.search(englishDate.group())
     isoString = yearMatch.group(1) + '-' + monthMatch.group(1).zfill(2) + '-' + dayMatch.group(1).zfill(2)
     return isoString
+
+def dump_table_to_archive(table_name):
+    current_time = datetime.datetime.now()
+    datetime_stamp = current_time.strftime('%Y%m%d_%H%M%S')
+    dump_file_name = 'dump_' + table_name + '_' + datetime_stamp + '.sql'
+    full_path_to_dump = os.path.join(archive_folder,dump_file_name)
+    sql_string = 'mysqldump --user=' + db_user + ' --password=' + db_password + ' ' + db_name + ' ' + table_name + ' -r ' + full_path_to_dump
+    print sql_string
+    os.system(sql_string)
+    return full_path_to_dump
 
 def download_table(table_number, table_name, field_list, building_list=['District Office'], search_criteria=''):
     report_string = '*** downloading table number {0}, {1} from {2} building(s)'.format(table_number, table_name, len(building_list))
@@ -318,6 +330,7 @@ def process_downloaded_table(table_name):
     return report_string
 
 def insert_into_powerschool_mirror(table_name, field_list, delete_and_replace=True):
+    dump_table_to_archive(table_name)
     cleaned_file_name = table_name + '.clean_data'
     cleaned_file_path = os.path.join(browser_download_directory,cleaned_file_name)
     db_connection = MySQLdb.connect (host = db_host, user = db_user, passwd = db_password, db = db_name)
@@ -504,7 +517,7 @@ def update_scheduleperiods():
     table_number = '80'
     table_name = 'scheduleperiods'
     building_list = ['District Office']
-    field_list = 'DAbbr,BlockStart,BuildID,CorePeriod,Description,EndTime1,EndTime2,ID,PeriodID,PeriodNumber,ScheduleID,ScheduleStudies,SchoolID,Sort,StartTime1,StartTime2,UseForBuild,UseForLunches'
+    field_list = 'Abbr,BlockStart,BuildID,CorePeriod,Description,EndTime1,EndTime2,ID,PeriodID,PeriodNumber,ScheduleID,ScheduleStudies,SchoolID,Sort,StartTime1,StartTime2,UseForBuild,UseForLunches'
     return_message = download_table(table_number, table_name, field_list, building_list)
     return_message = return_message + '\n' + process_downloaded_table(table_name)
     counter = insert_into_powerschool_mirror(table_name,field_list)
@@ -555,7 +568,8 @@ def update_teachers():
 
 
 if __name__ == "__main__":
-    unused_string = update_students()
-    unused_string = update_teachers()
-    unused_string = update_graduation_requirements()
-    unused_string = update_graduation_requirements_sets()
+    #unused_string = update_students()
+    #unused_string = update_teachers()
+    #unused_string = update_graduation_requirements()
+    #unused_string = update_graduation_requirements_sets()
+    dump_table_to_archive('students')

@@ -22,6 +22,7 @@ def readconfig():
     db_db = config.get('powerschoolmirror','database')
     db_user = config.get('powerschoolmirror','user')
     db_passwd = config.get('powerschoolmirror','password')
+    archive_folder = config.get('archives','archive_folder')
     
 
     config_values = {
@@ -39,6 +40,7 @@ def readconfig():
         'db_db': db_db,
         'db_user': db_user,
         'db_passwd': db_passwd,
+        'archive_folder': archive_folder,
     }
 
     return config_values

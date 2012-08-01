@@ -12,19 +12,20 @@ password:WhyWouldHeEverLookUp
 server_root:https://ps.gw.lincoln.k12.mi.us/
 pw_page:admin/pw.html
 username_password:orwigs;ALittle2Close
+browser_download_directory: /home/scott/Downloads
 
 [prowl]
 email:1e65aa24610770f6dd503c8679328df6df3992d0@api.prowlapp.com
 
 [logging]
-path:ubuntubot.log
+log_path:ubuntubot.log
 
 [vlad]
-table_directory: /home/orwig/ubuntubot/powerschool_tables
-download_directory: /home/orwig/Downloads
+table_directory: /home/scott/ubuntubot/powerschool_tables
+download_directory: /home/scott/Downloads
 
 [ps1000]
-path_to_host_file: /home/orwig/etl/HOST.dat
+path_to_host_file: /home/scott/etl/HOST.dat
 
 [follett]
-destination_directory: /home/orwig/etl
+destination_directory: /home/scott/etl
