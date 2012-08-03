@@ -23,6 +23,7 @@ def readconfig():
     db_user = config.get('powerschoolmirror','user')
     db_passwd = config.get('powerschoolmirror','password')
     archive_folder = config.get('archives','archive_folder')
+    etl_directory = config.get('etl','etl_directory')
     
 
     config_values = {
@@ -33,14 +34,15 @@ def readconfig():
         'powerschool_server_root': powerschool_server_root,
         'powerschool_pw_page': powerschool_pw_page,
         'powerschool_user_password': powerschool_user_password,
-	'browser_download_directory': browser_download_directory,
+	   'browser_download_directory': browser_download_directory,
         'path_to_host_file': path_to_host_file,
-	'prowl_address': prowl_address,
-	'log_path': log_path,
+	   'prowl_address': prowl_address,
+	   'log_path': log_path,
         'db_db': db_db,
         'db_user': db_user,
         'db_passwd': db_passwd,
         'archive_folder': archive_folder,
+        'etl_directory': etl_directory,
     }
 
     return config_values

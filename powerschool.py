@@ -1,7 +1,3 @@
-# this code requires at config file
-# specify the path here
-config_file_path = r'/home/orwig/Dropbox/lincoln_ubuntubot/ubuntubot.cfg'
-
 from selenium import selenium
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
@@ -23,6 +19,7 @@ configuration_values = configmanager.readconfig()
 powerschool_server_root = configuration_values['powerschool_server_root']
 powerschool_pw_page = configuration_values['powerschool_pw_page']
 powerschool_user_password = configuration_values['powerschool_user_password']
+etl_directory = configuration_values['etl_directory']
 
 db_host = 'localhost'
 db_user = configuration_values['db_user']
@@ -72,6 +69,49 @@ def dump_table_to_archive(table_name):
     print sql_string
     os.system(sql_string)
     return full_path_to_dump
+
+def write_homeroom_upload_file():
+    current_time = datetime.datetime.now()
+    datetime_stamp = current_time.strftime('%Y%m%d_%H%M%S')
+    update_file_name = 'homeroom_update_' + datetime_stamp + '.tab'
+    full_path_to_update_file = os.path.join(etl_directory,update_file_name)
+    missing_homeroom_file_name = 'missing_homeroom_' + datetime_stamp + '.tab'
+    full_path_to_missing_homeroom_file = os.path.join(etl_directory,missing_homeroom_file_name)
+    db_host = 'localhost'
+    db_user = configuration_values['db_user']
+    db_password = configuration_values['db_passwd']
+    db_name = configuration_values['db_db']
+    conn = MySQLdb.connect (host = db_host,
+                        user = db_user,
+                        passwd = db_password,
+                        db = db_name)
+    homeroom_update_query = """SELECT students.Student_Number, students.ID, First_Name, Last_Name, students_calculated.period_3_teacher FROM students, students_calculated WHERE students.ID=students_calculated.student_id AND students.SchoolID='500' AND Home_Room='' AND students_calculated.period_3_teacher<>'' AND Enroll_Status = '0' ORDER BY students_calculated.period_3_teacher"""
+    print homeroom_update_query
+    cursor = conn.cursor()
+    cursor.execute(homeroom_update_query)
+    result = cursor.fetchall()
+    update_writer = open(full_path_to_update_file,'w')
+    update_header = 'Student_Number\tFirst_Name\tLast_Name\tHome_Room\r\n'
+    update_writer.write(update_header)
+    for student in result:
+        line_to_write =  student[0] + '\t'
+        line_to_write += student[2] + '\t'
+        line_to_write += student[3] + '\t'
+        line_to_write += student[4]
+        print line_to_write
+        update_writer.write(line_to_write + '\r\n') 
+    update_writer.close()
+    missing_homeroom_query = """SELECT students.Student_Number, First_Name, Last_Name, students.SchoolID, students.Grade_Level FROM students, students_calculated WHERE students.ID=students_calculated.student_id AND Home_Room='' AND students_calculated.period_3_teacher='' AND Enroll_Status = '0' ORDER BY students.SchoolID, students.Last_Name, students.First_Name"""
+    cursor.execute(missing_homeroom_query)
+    result = cursor.fatchall()
+    for student in result:
+        line_to_write = ','.join(student)
+        print line_to_write
+
+
+    missing_writer = open(full_path_to_missing_homeroom_file,'w')
+    missing_writer.close()
+    return full_path_to_update_file
 
 def download_table(table_number, table_name, field_list, building_list=['District Office'], search_criteria=''):
     report_string = '*** downloading table number {0}, {1} from {2} building(s)'.format(table_number, table_name, len(building_list))
@@ -572,4 +612,5 @@ if __name__ == "__main__":
     #unused_string = update_teachers()
     #unused_string = update_graduation_requirements()
     #unused_string = update_graduation_requirements_sets()
-    dump_table_to_archive('students')
+    #dump_table_to_archive('students')
+    write_homeroom_upload_file()
