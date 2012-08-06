@@ -113,6 +113,52 @@ def write_homeroom_upload_file():
     missing_writer.close()
     return full_path_to_update_file
 
+def write_cnt_upload_file():
+    current_time = datetime.datetime.now()
+    datetime_stamp = current_time.strftime('%Y%m%d_%H%M%S')
+    update_file_name = 'cnt1_update_' + datetime_stamp + '.tab'
+    full_path_to_update_file = os.path.join(etl_directory,update_file_name)
+    db_host = 'localhost'
+    db_user = configuration_values['db_user']
+    db_password = configuration_values['db_passwd']
+    db_name = configuration_values['db_db']
+    conn = MySQLdb.connect (host = db_host,
+                        user = db_user,
+                        passwd = db_password,
+                        db = db_name)
+    cnt_update_query = """SELECT Student_Number,Last_Name, First_Name, Mother, Father FROM students WHERE cnt1_lname = '' AND (Enroll_Status='0' OR Enroll_Status='-1') ORDER BY Last_Name, First_Name"""
+    print cnt_update_query
+    cursor = conn.cursor()
+    cursor.execute(cnt_update_query)
+    result = cursor.fetchall()
+    update_writer = open(full_path_to_update_file,'w')
+    update_header = 'Student_Number\tFirst_Name\tLast_Name\tcnt1_lname\tcnt1_fname\r\n'
+    update_writer.write(update_header)
+    for student in result:
+        line_to_write =  student[0] + '\t'
+        line_to_write += student[1] + '\t'
+        line_to_write += student[2] + '\t'
+        if student[3] != '':
+            mother_full_name = student[3]
+            try:
+                mother_last_name, mother_first_name = mother_full_name.split(' ',1)
+                line_to_write += mother_first_name + '\t'
+                line_to_write += mother_last_name
+                update_writer.write(line_to_write + '\r\n')
+            except:
+                print 'could not split {0}'.format(mother_full_name)
+        elif student[4] != '':
+            father_full_name = student[3]
+            try:
+                father_last_name, father_first_name = father_full_name.split(' ',1)
+                line_to_write += father_first_name + '\t'
+                line_to_write += father_last_name
+                update_writer.write(line_to_write + '\r\n')
+            except:
+                print 'could not split {0}'.format(father_full_name)
+    update_writer.close()
+    return full_path_to_update_file
+
 def download_table(table_number, table_name, field_list, building_list=['District Office'], search_criteria=''):
     report_string = '*** downloading table number {0}, {1} from {2} building(s)'.format(table_number, table_name, len(building_list))
     print report_string
@@ -613,4 +659,4 @@ if __name__ == "__main__":
     #unused_string = update_graduation_requirements()
     #unused_string = update_graduation_requirements_sets()
     #dump_table_to_archive('students')
-    write_homeroom_upload_file()
+    write_cnt_upload_file()

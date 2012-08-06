@@ -103,6 +103,9 @@ inserted_stored_grades = powerschool.update_stored_grades()
 inserted_students = powerschool.update_students()
 inserted_teachers = powerschool.update_teachers()
 
+homeroom_update_file = powerschool.write_homeroom_upload_file()
+cnt_update_file = powerschool.write_cnt_upload_file()
+
 ps1000.write_host_file()
 erc.write_erc_update_file()
 
