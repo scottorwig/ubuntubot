@@ -1,7 +1,3 @@
-# this code requires at config file
-# specify the path here
-config_file_path = r'/home/orwig/Dropbox/lincoln_ubuntubot/ubuntubot.cfg'
-
 import configmanager
 import datetime
 import logging
@@ -22,7 +18,7 @@ building_codes = [
     ['300','Brick Media Center'], 
     ['400','Lincoln Middle School Library'], 
     ['500','Lincoln High Sch. Media Center'], 
-    ['600','Bessie Hoffman Media Center'], 
+    ['600','Bishop Media Center'], 
     ['700','Childs Elementary School']
 ]
 

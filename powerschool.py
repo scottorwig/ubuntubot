@@ -103,7 +103,7 @@ def write_homeroom_upload_file():
     update_writer.close()
     missing_homeroom_query = """SELECT students.Student_Number, First_Name, Last_Name, students.SchoolID, students.Grade_Level FROM students, students_calculated WHERE students.ID=students_calculated.student_id AND Home_Room='' AND students_calculated.period_3_teacher='' AND Enroll_Status = '0' ORDER BY students.SchoolID, students.Last_Name, students.First_Name"""
     cursor.execute(missing_homeroom_query)
-    result = cursor.fatchall()
+    result = cursor.fetchall()
     for student in result:
         line_to_write = ','.join(student)
         print line_to_write

@@ -11,7 +11,7 @@
 import configmanager
 import datetime
 import erc
-#import follett
+import follett
 import gmailer
 import logging
 import MySQLdb
@@ -83,23 +83,23 @@ inserted_students = 0
 inserted_teachers = 0
 
 prowl_body = 'Session started at {0}'.format(start_time)
-inserted_students_calculated = powerschool.download_students_calculated()
-inserted_aggstats = powerschool.update_aggstats()
+#inserted_students_calculated = powerschool.download_students_calculated()
+#inserted_aggstats = powerschool.update_aggstats()
 #inserted_attendance = powerschool.update_attendance()
 #inserted_attendance_code = powerschool.update_attendance_code()
 #inserted_attendance_taken = powerschool.update_attendance_taken()
 #inserted_cc = powerschool.update_cc()
-inserted_courses = powerschool.update_courses()
+#inserted_courses = powerschool.update_courses()
 #inserted_graduation_requirements = powerschool.update_graduation_requirements()
-inserted_log = powerschool.update_log()
-inserted_period = powerschool.update_period()
-inserted_schedulecatalogs = powerschool.update_schedulecatalogs()
-inserted_schedulecc = powerschool.update_schedulecc()
-inserted_schedulecoursecatalogs = powerschool.update_schedulecoursecatalogs()
-inserted_scheduledepartments = powerschool.update_scheduledepartments()
-inserted_scheduleperiods = powerschool.update_scheduleperiods()
-inserted_sections = powerschool.update_sections()
-inserted_stored_grades = powerschool.update_stored_grades()
+#inserted_log = powerschool.update_log()
+#inserted_period = powerschool.update_period()
+#inserted_schedulecatalogs = powerschool.update_schedulecatalogs()
+#inserted_schedulecc = powerschool.update_schedulecc()
+#inserted_schedulecoursecatalogs = powerschool.update_schedulecoursecatalogs()
+#inserted_scheduledepartments = powerschool.update_scheduledepartments()
+#inserted_scheduleperiods = powerschool.update_scheduleperiods()
+#inserted_sections = powerschool.update_sections()
+#inserted_stored_grades = powerschool.update_stored_grades()
 inserted_students = powerschool.update_students()
 inserted_teachers = powerschool.update_teachers()
 
@@ -108,6 +108,7 @@ cnt_update_file = powerschool.write_cnt_upload_file()
 
 ps1000.write_host_file()
 erc.write_erc_update_file()
+follett()
 
 end_time = datetime.datetime.now()
 elapsed_time = end_time - start_time
